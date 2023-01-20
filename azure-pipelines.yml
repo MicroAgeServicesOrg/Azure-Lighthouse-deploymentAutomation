@@ -1,0 +1,29 @@
+trigger:
+- master
+
+name: Deploy Bicep files
+
+variables:
+  vmImageName: 'ubuntu-latest'
+
+  azureServiceConnection: 'Azure DevOps Connection - Multi Tenant Deployment'
+  resourceGroupName: 'ADOlighthousetest-rg'
+  location: 'WestUS2'
+  templateFile: 'main.bicep'
+  parameterFile: 'parameters.json'
+  subscriptionid: '33f2e21c-f74c-4539-b1af-1fc329a04ccc'
+pool:
+  vmImage: $(vmImageName)
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: bash
+    scriptLocation: inlineScript
+    useGlobalConfig: false
+    inlineScript: |
+      az --version
+      az account set --subscription $(subscriptionid)
+      az group create --name $(resourceGroupName) --location $(location)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters $(parameterFile)
