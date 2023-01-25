@@ -18,7 +18,7 @@ stages:
       - job: scanWhatif
         displayName: scan and run whatif
         pool:
-          vmImage: ubuntu-latest
+          vmImage: windows-latest
 
         steps:
         - task: RunARMTTKTests@1
@@ -37,7 +37,7 @@ stages:
         - task: AzureCLI@2
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
-            scriptType: 'bash'
+            scriptType: 'ps'
             scriptLocation: 'inlineScript'
             inlineScript: |
               az --version
@@ -69,7 +69,7 @@ stages:
       - task: AzureCLI@2
         inputs:
           azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
-          scriptType: 'batch'
+          scriptType: 'bash'
           scriptLocation: 'inlineScript'
           inlineScript: |
             az --version
