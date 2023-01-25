@@ -75,4 +75,21 @@ stages:
             az --version
             az account set --subscription $(subscriptionid)
             az deployment create --location $(deploymentlocation) --template-file $(templatefile) --parameters $(parameterfile)
-      
+
+
+    - job: MHR-deployAzure
+      displayName: MHR bicep deployment
+      pool:
+        vmImage: 'ubuntu-latest'
+      dependsOn: [waitForValidation]
+    
+      steps:
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az --version
+            az account set --subscription $(subscriptionid)
+            az deployment create --location $(deploymentlocation) --template-file $(templatefile) --parameters $(parameterfile)     
