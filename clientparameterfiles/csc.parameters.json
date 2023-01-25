@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "location": {
-        "value": "westus2"
+        "value": "westcentralus"
       },
       "locationshortcode":{
-        "value": "wu2"
+        "value": "wcu"
       },
       "clientcode":{
-        "value": "testdeploy"
+        "value": "miuscsc"
       }
     }
   }
