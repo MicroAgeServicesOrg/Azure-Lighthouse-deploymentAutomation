@@ -9,9 +9,8 @@ trigger:
 variables:
   subscriptionid: '1de23ac9-6718-48d0-a988-63d2c566866f'
   deploymentlocation: 'westus2'
-
-pool:
-  vmImage: ubuntu-latest
+  templatefile: 'main.bicep'
+  parameterfile: 'main.parameters.json'
 
 stages:
   - stage: preDeploy
@@ -19,8 +18,61 @@ stages:
       - job: scanWhatif
         displayName: scan and run whatif
         pool:
-          vmImage: windows-2022
+          vmImage: ubuntu-latest
 
         steps:
-        
-        
+        - task: RunARMTTKTests@1
+          inputs:
+            templatelocation: '$(System.DefaultWorkingDirectory)\*'
+            resultLocation: '$(System.DefaultWorkingDirectory)\results'
+            allTemplatesMain: false
+            cliOutputResults: true
+            ignoreExitCode: true
+            
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'NUnit'
+            testResultsFiles: '$(System.DefaultWorkingDirectory)\results\*-armttk.xml'
+          condition: always()
+        - task: AzureCLI@2
+          inputs:
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            scriptType: 'bash'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              az --version
+              az account set --subscription $(subscriptionid)
+              az deployment sub what-if --location $(deploymentlocation) --template-file $(templatefile) --parameters $(parameterfile)
+
+  - stage: deployBicep
+    jobs:
+    
+    - job: waitForValidation
+      timeoutInMinutes: 4320 # task times out in 72hrs
+      displayName: Wait for external validation
+      pool: server
+      steps:
+      - task: ManualValidation@0
+        timeoutInMinutes: 1440 #task times out in 24hrs
+        inputs:
+          notifyUsers: 'dmejak@microageservices.com'
+          instructions: 'Please validate the build $(Build.BuildId) configuration and resume'
+          onTimeout: 'resume'
+  
+    - job: deployAzure
+      displayName: deploy bicep to Azure
+      pool:
+        vmImage: 'ubuntu-latest'
+      dependsOn: [waitForValidation]
+    
+      steps:
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+          scriptType: 'batch'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az --version
+            az account set --subscription $(subscriptionid)
+            az deployment create --location $(deploymentlocation) --template-file $(templatefile) --parameters $(parameterfile)
+      
