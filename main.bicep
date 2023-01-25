@@ -13,8 +13,16 @@ param locationshortcode string
 @description('3 letter client code')
 param clientcode string
 
-// Parameters for loganalytics.bicep
 
 
 
+//Modules
 
+module logworkspace 'modules/loganalytics.bicep' = {
+  name: 'lhworkspacedeploy'
+  params: {
+    location: location
+    locationshortcode: locationshortcode
+    clientcode: clientcode
+  }
+}
