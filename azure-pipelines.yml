@@ -7,7 +7,7 @@ trigger:
 - none
 
 variables:
-  subscriptionid: 'c2d9ff11-8e55-47f8-a8f2-8b9b4a7d18e8'
+  subscriptionid: '1de23ac9-6718-48d0-a988-63d2c566866f'
   deploymentlocation: 'westus2'
   templatefile: 'main.bicep'
   parameterfile: 'main.parameters.json'
