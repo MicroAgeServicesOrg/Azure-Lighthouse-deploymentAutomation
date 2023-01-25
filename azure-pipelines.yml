@@ -1,0 +1,25 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- none
+
+pool:
+  vmImage: ubuntu-latest
+
+jobs:
+  - job: Deploy
+    steps:
+      - task: AzureResourceManagerTemplateDeployment@3
+        displayName: 'Deploy Bicep Files'
+        inputs:
+          deploymentScope: 'Subscription'
+          azureResourceManagerConnection: 'Azure DevOps Connection - Multi Tenant Deployment'
+          subscriptionId: '1de23ac9-6718-48d0-a988-63d2c566866f'
+          location: 'West US 2'
+          templateLocation: 'Linked artifact'
+          csmFile: 'main.bicep'
+          csmParametersFile: 'main.parameters.json'
+          deploymentMode: 'Validation'
