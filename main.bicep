@@ -18,7 +18,7 @@ param locationshortcode string
 param clientcode string
 
 //Variables
-var uniqueRGname = '${clientcode}-${locationshortcode}-log-RG'
+var uniqueRGname = '${clientcode}-${locationshortcode}-log-rg'
 
 //Resource Groups
 resource logworkspaceRG 'Microsoft.Resources/resourceGroups@2022-09-01' = {
