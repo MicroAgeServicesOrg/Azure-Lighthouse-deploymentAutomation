@@ -1,20 +1,20 @@
-@minLength(3)
-@maxLength(11)
-param storagePrefix string
+/*
+Bicep Main file - This file calls all modules within the module folder
+Do not edit parameters here. Use the parameters.json file
+*/
 
-param storageSKU string = 'Standard_LRS'
-param location string = resourceGroup().location
+//Global Parameters
+@description('Deployment location/region')
+param location string
 
-var uniqueStorageName = '${storagePrefix}${uniqueString(resourceGroup().id)}'
+@description('3 letter Azure region code as defined by Azure Build Standards')
+param locationshortcode string
 
-resource stg 'Microsoft.Storage/storageAccounts@2019-04-01' = {
-  name: uniqueStorageName
-  location: location
-  sku: {
-    name: storageSKU
-  }
-  kind: 'StorageV2'
-  properties: {
-    supportsHttpsTrafficOnly: true
-  }
-}
+@description('3 letter client code')
+param clientcode string
+
+// Parameters for loganalytics.bicep
+
+
+
+
