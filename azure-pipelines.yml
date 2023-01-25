@@ -10,7 +10,8 @@ variables:
   subscriptionid: '1de23ac9-6718-48d0-a988-63d2c566866f'
   deploymentlocation: 'westus2'
   templatefile: 'main.bicep'
-  parameterfile: 'main.parameters.json'
+  mhrparameterfile: 'clientparameterfiles\mhr.parameters.json'
+  cscparameterfile: 'clientparameterfiles\csc.parameters.json'
 
 stages:
   - stage: preDeploy
@@ -59,8 +60,8 @@ stages:
           instructions: 'Please validate the build $(Build.BuildId) configuration and resume'
           onTimeout: 'resume'
   
-    - job: deployAzure
-      displayName: deploy bicep to Azure
+    - job: deployAzure-MHR
+      displayName: mhr bicep deployment
       pool:
         vmImage: 'ubuntu-latest'
       dependsOn: [waitForValidation]
@@ -74,11 +75,10 @@ stages:
           inlineScript: |
             az --version
             az account set --subscription $(subscriptionid)
-            az deployment create --location $(deploymentlocation) --template-file $(templatefile) --parameters $(parameterfile)
+            az deployment create --location $(deploymentlocation) --template-file $(templatefile) --parameters $(mhrparameterfile)
 
-
-    - job: MHR-deployAzure
-      displayName: MHR bicep deployment
+    - job: deployAzure-CSC
+      displayName: csc bicep deployment
       pool:
         vmImage: 'ubuntu-latest'
       dependsOn: [waitForValidation]
@@ -92,4 +92,4 @@ stages:
           inlineScript: |
             az --version
             az account set --subscription $(subscriptionid)
-            az deployment create --location $(deploymentlocation) --template-file $(templatefile) --parameters $(parameterfile)     
+            az deployment create --location $(deploymentlocation) --template-file $(templatefile) --parameters $(cscparameterfile)
