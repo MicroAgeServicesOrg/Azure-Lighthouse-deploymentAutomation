@@ -3,9 +3,18 @@
 This project contains all internal automation resources and code for lighthouse management, deployments, and more.
 
 
+
+
+![Diagram](AzMSP%20Flow.drawio.svg)
+
+
+
+
+
 ## Support
 
 For support, email dmejak@microage.com
+
 
 
 ## Authors
@@ -13,11 +22,6 @@ For support, email dmejak@microage.com
 - [@David Mejak](https://www.github.com/mejdm5)
 - [@Cory Smith]
 - [@Tyler Sherrod]
-
-
-## Roadmap
-
-- Baseline deployments for all managed categories.
 
 
 
