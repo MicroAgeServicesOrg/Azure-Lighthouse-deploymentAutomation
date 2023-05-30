@@ -12,6 +12,8 @@ param logAnalyticsWorkspaceId string
 
 param logAnalyticsWorkspaceName string
 
+param dashboardName string
+
 //Resources...soon to go into Modules
 
 resource siteRecovery 'Microsoft.RecoveryServices/vaults@2022-02-01' = {
@@ -75,6 +77,18 @@ resource siteRecovery 'Microsoft.RecoveryServices/vaults@2022-02-01' = {
      ]
     }
   }
+}
+
+//Modules
+
+module asrDashboard 'br:masvcbicep.azurecr.io/bicep/modules/azuresiterecovery/dashboard:05-30-2023' = {
+  name: 'ASRDashboard'
+  params: {
+    location: resourceGroup().location
+    dashboardName: dashboardName
+    logAnalyticsName: logAnalyticsWorkspaceName
+  }
+
 }
 
 output siteRecoveryId string = siteRecovery.id
