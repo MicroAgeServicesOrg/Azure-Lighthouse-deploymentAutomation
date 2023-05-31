@@ -1,0 +1,32 @@
+name: manage-azure-policy-deploy_diag_for_rsv_custom
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policies/Configure_Log_Analytics_workspace_and_automation_account_to_centralize_logs_and_monitoring_8e3e61b3-0b32-22d5-4edf-55f87fdb5955/**'
+#      - .github/workflows/manage-azure-policy-25fdebd5.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          azurePolicy/deploy_diag_for_rsv_custom/**
