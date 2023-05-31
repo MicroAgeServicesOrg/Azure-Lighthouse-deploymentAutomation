@@ -170,7 +170,7 @@
                           "enabled": "true"
                         },
                         {
-                          "category": "AzureSiteRecoveryEvents,
+                          "category": "AzureSiteRecoveryEvents",
                           "enabled": "true"
                         },
                         {
