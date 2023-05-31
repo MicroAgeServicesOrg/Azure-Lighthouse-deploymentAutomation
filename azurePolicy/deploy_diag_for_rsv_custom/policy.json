@@ -1,18 +1,15 @@
 {
-  "Name": "c717fb0c-d118-4c43-ab3d-ece30ac81fb3",
-  "ResourceId": "/providers/Microsoft.Authorization/policyDefinitions/c717fb0c-d118-4c43-ab3d-ece30ac81fb3",
-  "ResourceName": "c717fb0c-d118-4c43-ab3d-ece30ac81fb3",
-  "ResourceType": "Microsoft.Authorization/policyDefinitions",
-  "SubscriptionId": null,
-  "Properties": {
-    "Description": "Deploy Diagnostic Settings for Recovery Services Vault to stream to Log Analytics workspace for Resource specific categories. If any of the Resource specific categories are not enabled, a new diagnostic setting is created.",
-    "DisplayName": "Deploy Diagnostic Settings for Recovery Services Vault to Log Analytics workspace for resource specific categories.",
-    "Metadata": {
+  "properties": {
+    "displayName": "Deploy Diagnostic Settings for Recovery Services Vault to Log Analytics workspace for resource specific categories.",
+    "policyType": "BuiltIn",
+    "description": "Deploy Diagnostic Settings for Recovery Services Vault to stream to Log Analytics workspace for Resource specific categories. If any of the Resource specific categories are not enabled, a new diagnostic setting is created.",
+    "mode": "Indexed",
+    "metadata": {
       "version": "1.0.2",
       "category": "Backup"
     },
-    "Mode": "Indexed",
-    "Parameters": {
+    "version": "1.0.2",
+    "parameters": {
       "profileName": {
         "type": "String",
         "metadata": {
@@ -47,7 +44,7 @@
         "defaultValue": ""
       }
     },
-    "PolicyRule": {
+    "policyRule": {
       "if": {
         "allof": [
           {
@@ -186,8 +183,8 @@
           }
         }
       }
-    },
-    "PolicyType": 2
+    }
   },
-  "PolicyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c717fb0c-d118-4c43-ab3d-ece30ac81fb3"
+  "id": "/providers/Microsoft.Authorization/policyDefinitions/c717fb0c-d118-4c43-ab3d-ece30ac81fb3",
+  "name": "c717fb0c-d118-4c43-ab3d-ece30ac81fb3"
 }
