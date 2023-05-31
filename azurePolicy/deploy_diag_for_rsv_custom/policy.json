@@ -1,14 +1,11 @@
 {
   "properties": {
     "displayName": "Deploy Diagnostic Settings for Recovery Services Vault to Log Analytics workspace for resource specific categories.",
-    "policyType": "BuiltIn",
     "description": "Deploy Diagnostic Settings for Recovery Services Vault to stream to Log Analytics workspace for Resource specific categories. If any of the Resource specific categories are not enabled, a new diagnostic setting is created.",
     "mode": "Indexed",
     "metadata": {
-      "version": "1.0.2",
-      "category": "Backup"
+      "category": "AzMSP_Baseline"
     },
-    "version": "1.0.2",
     "parameters": {
       "profileName": {
         "type": "String",
@@ -184,7 +181,5 @@
         }
       }
     }
-  },
-  "id": "/providers/Microsoft.Authorization/policyDefinitions/c717fb0c-d118-4c43-ab3d-ece30ac81fb3",
-  "name": "c717fb0c-d118-4c43-ab3d-ece30ac81fb3"
+  }
 }
