@@ -73,8 +73,21 @@
                   "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
                   "where": {
                     "allof": [
-                      "@{field=Microsoft.Insights/diagnosticSettings/logs[*].Category; in=System.Object[]}",
-                      "@{field=Microsoft.Insights/diagnosticSettings/logs[*].Enabled; equals=True}"
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].Category",
+                        "in": [
+                          "CoreAzureBackup",
+                          "AddonAzureBackupJobs",
+                          "AddonAzureBackupAlerts",
+                          "AddonAzureBackupPolicy",
+                          "AddonAzureBackupStorage",
+                          "AddonAzureBackupProtectedInstance"
+                        ]
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].Enabled",
+                        "equals": "True"
+                      }
                     ]
                   }
                 },
@@ -121,8 +134,33 @@
                     "properties": {
                       "workspaceId": "[parameters('logAnalytics')]",
                       "logAnalyticsDestinationType": "Dedicated",
-                      "metrics": "",
-                      "logs": "     "
+                      "metrics": [],
+                      "logs": [
+                        {
+                          "category": "CoreAzureBackup",
+                          "enabled": "true"
+                        },
+                        {
+                          "category": "AddonAzureBackupAlerts",
+                          "enabled": "true"
+                        },
+                        {
+                          "category": "AddonAzureBackupJobs",
+                          "enabled": "true"
+                        },
+                        {
+                          "category": "AddonAzureBackupPolicy",
+                          "enabled": "true"
+                        },
+                        {
+                          "category": "AddonAzureBackupProtectedInstance",
+                          "enabled": "true"
+                        },
+                        {
+                          "category": "AddonAzureBackupStorage",
+                          "enabled": "true"
+                        }
+                      ]
                     }
                   }
                 ],
