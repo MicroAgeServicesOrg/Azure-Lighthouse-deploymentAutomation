@@ -1,10 +1,14 @@
 {
   "properties": {
-    "displayName": "Deploy Diagnostic Settings for Recovery Services Vault to Log Analytics workspace for resource specific categories.",
-    "description": "Deploy Diagnostic Settings for Recovery Services Vault to stream to Log Analytics workspace for Resource specific categories. If any of the Resource specific categories are not enabled, a new diagnostic setting is created.",
+    "displayName": "testPolicy",
+    "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
-      "category": "AzMSP_Baseline"
+      "category": "AzMSP_Baseline",
+      "createdBy": "eed0e961-530d-488b-a2c8-16bb04c45d95",
+      "createdOn": "2023-05-31T20:57:07.3396995Z",
+      "updatedBy": null,
+      "updatedOn": null
     },
     "parameters": {
       "profileName": {
@@ -181,5 +185,16 @@
         }
       }
     }
+  },
+  "id": "/subscriptions/c2d9ff11-8e55-47f8-a8f2-8b9b4a7d18e8/providers/Microsoft.Authorization/policyDefinitions/32f83dbb-3687-4119-a81e-841d6eba5b9c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "32f83dbb-3687-4119-a81e-841d6eba5b9c",
+  "systemData": {
+    "createdBy": "dmejak@microageservices.com",
+    "createdByType": "User",
+    "createdAt": "2023-05-31T20:57:07.277851Z",
+    "lastModifiedBy": "dmejak@microageservices.com",
+    "lastModifiedByType": "User",
+    "lastModifiedAt": "2023-05-31T20:57:07.277851Z"
   }
 }
