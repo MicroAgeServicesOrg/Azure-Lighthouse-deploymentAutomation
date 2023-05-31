@@ -1,6 +1,6 @@
 {
   "properties": {
-    "displayName": "testPolicy",
+    "displayName": "deploy diagnostics for RSV - custom",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
@@ -220,5 +220,8 @@
         }
       }
     }
-  }
+  },
+  "id": "/subscriptions/c2d9ff11-8e55-47f8-a8f2-8b9b4a7d18e8/providers/Microsoft.Authorization/policyDefinitions/49fe8b72-cd4e-4e07-93ae-d0a143079ac8",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "49fe8b72-cd4e-4e07-93ae-d0a143079ac8"
 }
