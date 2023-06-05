@@ -14,7 +14,7 @@
         "type": "string",
         "metadata": {
           "displayName": "clientPrefix (datadog_ARM)",
-          "description": "Required. typical 3 digit client code for naming purposes"
+          "description": "Required. typical 3 digit client code for resource naming purposes"
         },
         "allowedValues": []
       },
