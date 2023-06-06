@@ -31,7 +31,7 @@ $subscriptions = Import-Csv $subscriptionFilePath
 # If you have a set of subs that never should have deployments
 # But is available to the service principal
 
-#create blueprint in each subscription
+#create blueprint in each subscription listed in csv
 if ((!$subscriptionId) -and ($subscriptions)) {
 
     Write-Output "Subscriptions sepecified in CSV file. Deploying to selected subscriptions" -Verbose
@@ -66,12 +66,32 @@ if ((!$subscriptionId) -and ($subscriptions)) {
     }
 }
 
+
+# using specified subscription during deployment "1 sub deployment"
 else {
-    # using specified subscription
 
     Write-Output "Subscription specified at pipeline. Targeting $subscriptionId" -Verbose
     Set-AzContext -SubscriptionId $subscriptionId
 
     Import-AzBlueprintWithArtifact -Name $blueprintName -InputPath $blueprintPath -SubscriptionId $subscriptionId
-}
 
+    if ($publishBlueprint -eq "true") {
+        $blueprintObject = Get-AzBlueprint -Name $blueprintName
+        
+        if ($blueprintVersion -eq "Increment") {
+            if ($BlueprintObject.versions[$BlueprintObject.versions.count - 1] -eq 0) {
+                $BlueprintVersion = 1
+            } else {
+                $BlueprintVersion = ([int]$BlueprintObject.versions[$BlueprintObject.versions.count - 1]) + 1
+            }
+        }
+
+    }
+
+    if ($blueprintChangeNote) {
+        Publish-AzBlueprint -Blueprint $BluePrintObject -Version $BlueprintVersion -ChangeNote $BlueprintChangeNote
+    } else {
+        Publish-AzBlueprint -Blueprint $BluePrintObject -Version $BlueprintVersion
+    }
+
+}
