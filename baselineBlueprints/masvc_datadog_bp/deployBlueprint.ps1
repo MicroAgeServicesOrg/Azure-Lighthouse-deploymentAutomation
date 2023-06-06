@@ -21,7 +21,7 @@ $blueprintPath = "."
 
 
 #Define path to file containing Subscription IDs
-$subscriptionFilePath = ".\deploytest.csv"
+$subscriptionFilePath = ".\subscriptionDeployList.csv"
 
 #Read Subscription IDs from CSV file and store in an array
 $subscriptions = Import-Csv $subscriptionFilePath
