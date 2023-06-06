@@ -1,0 +1,19 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- none
+
+pool:
+  vmImage: windows-latest
+
+steps:
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+    ScriptType: 'FilePath'
+    ScriptPath: '$(System.DefaultWorkingDirectory)/_MicroAgeServicesOrg_Azure-Lighthouse-deploymentAutomation/baselineBlueprints/masvc_datadog_bp/deployBlueprint.ps1'
+    ScriptArguments: '-blueprintName "" -publishBlueprint $true -blueprintVersion "Increment"'
+    azurePowerShellVersion: 'LatestVersion'
