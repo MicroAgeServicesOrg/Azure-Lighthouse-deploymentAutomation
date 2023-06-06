@@ -11,6 +11,14 @@ pool:
 
 steps:
 - task: AzurePowerShell@5
+  displayName: 'Install Az.Blueprint Powershell module'
+  inputs:
+    azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+    ScriptType: 'InlineScript'
+    Inline: 'Install-Module Az.Blueprint -Scope CurrentUser -Force'
+    azurePowerShellVersion: 'LatestVersion'
+- task: AzurePowerShell@5
+  displayName: 'Run blueprint create & publish script'
   inputs:
     azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
     ScriptType: 'FilePath'
