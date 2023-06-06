@@ -14,6 +14,6 @@ steps:
   inputs:
     azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
     ScriptType: 'FilePath'
-    ScriptPath: '_MicroAgeServicesOrg_Azure-Lighthouse-deploymentAutomation/baselineBlueprints/masvc_datadog_bp/deployBlueprint.ps1'
+    ScriptPath: 'baselineBlueprints/masvc_datadog_bp/deployBlueprint.ps1'
     ScriptArguments: '-blueprintName "masvc_datadogBP_devops" -publishBlueprint $true -blueprintVersion "Increment"'
     azurePowerShellVersion: 'LatestVersion'
