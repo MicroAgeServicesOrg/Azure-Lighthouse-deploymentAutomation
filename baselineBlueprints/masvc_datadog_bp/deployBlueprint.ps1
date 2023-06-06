@@ -17,7 +17,7 @@ param (
 )
 
 #Define path to the blueprint artifacts (files)
-$blueprintPath = "."
+$blueprintPath = ".\baselineBlueprints\masvc_datadog_bp"
 
 
 #Define path to file containing Subscription IDs
