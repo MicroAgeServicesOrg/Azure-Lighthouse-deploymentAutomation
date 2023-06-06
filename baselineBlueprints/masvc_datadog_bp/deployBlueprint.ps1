@@ -42,7 +42,7 @@ if ((!$subscriptionId) -and ($subscriptions)) {
 
         #create Blueprint in subscription
         write-output "Creating Blueprint"
-        Import-AzBlueprintWithArtifact -Name $blueprintName -InputPath $blueprintPath -SubscriptionId $subscriptionId
+        Import-AzBlueprintWithArtifact -Name $blueprintName -InputPath $blueprintPath -SubscriptionId $subscriptionId -Force
 
         if ($publishBlueprint -eq "true") {
             $blueprintObject = Get-AzBlueprint -Name $blueprintName
@@ -73,7 +73,7 @@ else {
     Write-Output "Subscription specified at pipeline. Targeting $subscriptionId" -Verbose
     Set-AzContext -SubscriptionId $subscriptionId
 
-    Import-AzBlueprintWithArtifact -Name $blueprintName -InputPath $blueprintPath -SubscriptionId $subscriptionId
+    Import-AzBlueprintWithArtifact -Name $blueprintName -InputPath $blueprintPath -SubscriptionId $subscriptionId -Force
 
     if ($publishBlueprint -eq "true") {
         $blueprintObject = Get-AzBlueprint -Name $blueprintName
