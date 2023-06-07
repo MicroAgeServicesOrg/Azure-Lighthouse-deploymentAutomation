@@ -23,5 +23,5 @@ steps:
     azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
     ScriptType: 'FilePath'
     ScriptPath: '$(System.DefaultWorkingDirectory)/baselineBlueprints/masvc_datadog_bp/deployBlueprint.ps1'
-    ScriptArguments: '-blueprintName "masvc_datadogBP_devops" -publishBlueprint $true -blueprintVersion "2"'
+    ScriptArguments: '-blueprintName "masvc_datadogBP_devops" -publishBlueprint $true -blueprintVersion "1"'
     azurePowerShellVersion: 'LatestVersion'
