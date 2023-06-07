@@ -21,12 +21,20 @@ $ErrorActionPreference = "Stop"
 #Define path to the blueprint artifacts (files)
 $blueprintPath = ".\baselineBlueprints\masvc_datadog_bp"
 
+###localTesting - Leave disabled
+#$blueprintPath = "."
+
 
 #Define path to file containing Subscription IDs
 $subscriptionFilePath = ".\subscriptionDeployList.csv"
 
+###localTesting - Leave disabled
+#$subscriptionFilePath = "..\..\subscriptionDeployList.csv"
+
+
 #Read Subscription IDs from CSV file and store in an array
 $subscriptions = Import-Csv $subscriptionFilePath
+
 
 
 
@@ -42,6 +50,20 @@ if ((!$subscriptionId) -and ($subscriptions)) {
         $subscriptionId = $subscription.subscriptionID
         Set-AzContext -SubscriptionId $subscriptionId
 
+        Get-AzBlueprint -Name $blueprintName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+        if ($notPresent) {
+            write-output "this blueprint is not present, continuing with deployment"
+            $blueprintCurrentVersion = ""
+        }
+        else {
+            $blueprintCurrentVersion =  Get-AzBlueprint -Name $blueprintName | Select-Object -ExpandProperty Versions
+        }
+
+       if ($blueprintCurrentVersion -ne "" -and $blueprintCurrentVersion -eq $blueprintVersion) {
+         Write-Output "Skipping BP as versions are a match"
+       }
+       
+       else {
         #create Blueprint in subscription
         write-output "Creating Blueprint"
         try {
@@ -51,6 +73,9 @@ if ((!$subscriptionId) -and ($subscriptions)) {
             Write-Output "Error importing blueprint. Did you update the version?"
             continue
         }
+    }
+
+    #Publishing blueprint
 
         if ($publishBlueprint -eq "true") {
             $blueprintObject = Get-AzBlueprint -Name $blueprintName
