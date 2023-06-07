@@ -16,6 +16,8 @@ param (
     [string]$blueprintChangeNote
 )
 
+$ErrorActionPreference = "Stop"
+
 #Define path to the blueprint artifacts (files)
 $blueprintPath = ".\baselineBlueprints\masvc_datadog_bp"
 
@@ -64,9 +66,21 @@ if ((!$subscriptionId) -and ($subscriptions)) {
         }
 
         if ($blueprintChangeNote) {
-            Publish-AzBlueprint -Blueprint $BluePrintObject -Version $BlueprintVersion -ChangeNote $BlueprintChangeNote
+            try {
+                Publish-AzBlueprint -Blueprint $BluePrintObject -Version $BlueprintVersion -ChangeNote $BlueprintChangeNote
+            }
+            catch {
+                Write-Output "Blueprint already at specified version. Skipping publish"
+            }
+
         } else {
-            Publish-AzBlueprint -Blueprint $BluePrintObject -Version $BlueprintVersion
+            try {
+                Publish-AzBlueprint -Blueprint $BluePrintObject -Version $BlueprintVersion 
+            }
+            catch {
+                Write-Output "Blueprint already at specified version. Skipping publish"
+            }
+
         }
 
     }
