@@ -4,7 +4,9 @@
 # https://aka.ms/yaml
 
 trigger:
-- none
+  paths:
+    include:
+      - subscriptionDeployList.csv
 
 pool:
   vmImage: windows-latest
