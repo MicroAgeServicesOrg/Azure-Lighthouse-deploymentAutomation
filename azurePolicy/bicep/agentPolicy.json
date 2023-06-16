@@ -1,0 +1,55 @@
+{
+    "properties": {
+      "displayName": "Datadog Agent",
+      "policyType": "Custom",
+      "mode": "All",
+      "description": "The datadog Agent should be enabled on all VMs!",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Custom"
+      },
+      "parameters": {
+        "publisher": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Desired extension publisher",
+                "description": "Specify the publisher of the desired extension"
+            },
+            "defaultValue": "Datadog.Agent"
+        },
+        "type": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Desired extension type",
+                "description": "Specify the type of the desired extension"
+            },
+            "defaultValue": "DatadogWindowsAgent"
+        }
+      },
+      "policyRule": {
+        "if": {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+        },
+        "then": {
+            "effect": "auditIfNotExists",
+            "details": {
+                "type": "Microsoft.Compute/virtualMachines/extensions",
+                "existenceCondition": {
+                    "allOf": [
+                        {
+                            "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                            "equals": "[parameters('publisher')]"
+                        },
+                        {
+                            "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                            "equals": "[parameters('type')]"
+                        }
+                    ]
+                }
+            }
+        }
+      }
+    }
+  }
+  
