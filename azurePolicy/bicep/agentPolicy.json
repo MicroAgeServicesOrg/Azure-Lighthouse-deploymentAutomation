@@ -6,7 +6,7 @@
       "description": "The datadog Agent should be enabled on all VMs!",
       "metadata": {
         "version": "1.0.0",
-        "category": "Custom"
+        "category": "AzMSP_Baseline"
       },
       "parameters": {
         "publisher": {
