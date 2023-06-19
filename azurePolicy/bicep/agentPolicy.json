@@ -24,6 +24,14 @@
                 "description": "Specify the type of the desired extension"
             },
             "defaultValue": "DatadogWindowsAgent"
+        },
+        "provisioningState": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Desired extension state",
+                "description": "Specify the provisioning state of the desired extension"
+            },
+            "defaultValue": "Succeeded"
         }
       },
       "policyRule": {
@@ -44,6 +52,10 @@
                         {
                             "field": "Microsoft.Compute/virtualMachines/extensions/type",
                             "equals": "[parameters('type')]"
+                        },
+                        {
+                            "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
+                            "equals": "[parameters('provisioningState')]"
                         }
                     ]
                 }
