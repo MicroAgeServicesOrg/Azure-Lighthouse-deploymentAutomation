@@ -1,6 +1,6 @@
 {
     "properties": {
-      "displayName": "Datadog Agent",
+      "displayName": "Require Datadog Agent on all VMs - AzMSP_Baseline",
       "policyType": "Custom",
       "mode": "All",
       "description": "The datadog Agent should be enabled on all VMs!",

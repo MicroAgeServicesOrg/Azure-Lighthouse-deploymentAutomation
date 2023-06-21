@@ -1,15 +1,12 @@
 {
     "properties": {
-     "displayName": "Centralized Log Analytics and Monitoring",
+     "displayName": "Log Analytics and Monitoring - custom",
      "policyType": "Custom",
      "mode": "All",
      "description": "Deploy resource group containing Log Analytics workspace and linked automation account to centralize logs and monitoring. The automation account is aprerequisite for solutions like Updates and Change Tracking.",
      "metadata": {
-      "category": "AzMSP_Baseline",
-      "createdBy": "eed0e961-530d-488b-a2c8-16bb04c45d95",
-      "createdOn": "2023-03-30T20:48:58.867617Z",
-      "updatedBy": null,
-      "updatedOn": null
+        "version": "1.0.0",
+      "category": "AzMSP_Baseline"
      },
      "parameters": {
       "rgName": {
@@ -20,13 +17,12 @@
        },
        "defaultValue": "masvc-monitoringresources-rg"
       },
-      "workspaceName": {
+      "clientCode": {
        "type": "String",
        "metadata": {
-        "displayName": "workspaceName",
-        "description": "Provide name for log analytics workspace"
-       },
-       "defaultValue": "CentralWorkspace"
+        "displayName": "clientCode",
+        "description": "Provide client code for workspace naming convention"
+       }
       },
       "workspaceRegion": {
        "type": "String",
@@ -101,7 +97,7 @@
        "effect": "[parameters('effect')]",
        "details": {
         "type": "Microsoft.OperationalInsights/workspaces",
-        "name": "[parameters('workspaceName')]",
+        "name": "[concat(parameters('clientCode'), '-centralWorkspace')]",
         "ResourceGroupName": "[parameters('rgName')]",
         "existenceScope": "resourcegroup",
         "deploymentScope": "Subscription",
@@ -117,7 +113,7 @@
             "value": "[parameters('rgName')]"
            },
            "workspaceName": {
-            "value": "[parameters('workspaceName')]"
+            "value": "[concat(parameters('clientCode'), '-centralWorkspace')]"
            },
            "workspaceRegion": {
             "value": "[parameters('workspaceRegion')]"
@@ -237,8 +233,5 @@
        }
       }
      }
-    },
-    "id": "/subscriptions/c2d9ff11-8e55-47f8-a8f2-8b9b4a7d18e8/providers/Microsoft.Authorization/policyDefinitions/2d366cce-6397-4cde-bff0-92afd8cdee91",
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "2d366cce-6397-4cde-bff0-92afd8cdee91"
+    }
    }
