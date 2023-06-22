@@ -2,16 +2,12 @@
 targetScope = 'subscription'
 
 //Parameters
-param clientCode string
-
 param policies array = [
   {
     // 1
     name: 'loganalytics_policy.json'
     policyDefinition : json(loadTextContent('./Policy.json'))
-    parameters: {
-      clientCode: clientCode
-    }
+    parameters: {}
     identity: false
   }
 ]
