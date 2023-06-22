@@ -57,7 +57,7 @@ else {
         $subscriptionId = $subscription.subscriptionID
         Set-AzContext -SubscriptionId $subscriptionId
 
-        New-AzSubscriptionDeployment -Name "devops_deployDDAzPolicy" -Location "WestUS2" -TemplateFile ./policyDeploy.bicep 
+        New-AzSubscriptionDeployment -Name "devops_deployDDAzPolicy" -Location "WestUS2" -TemplateFile $bicepFile
     }
 
 }

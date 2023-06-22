@@ -1,6 +1,8 @@
 //Setting the target scope (Subscription Based Deployment)
 targetScope = 'subscription'
 
+
+
 //Parameters
 param policies array = [
   {
