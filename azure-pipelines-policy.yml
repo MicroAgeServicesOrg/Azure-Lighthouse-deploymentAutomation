@@ -4,16 +4,35 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+  paths:
+    include:
+      - subscriptionDeployList.csv
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: AzurePowerShell@5
+  displayName: 'Deploy DD Agent check policy'
+  inputs:
+    azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+    ScriptType: 'FilePath'
+    ScriptPath: '$(System.DefaultWorkingDirectory)/azMSP_baselinePolicy/datadog_agent_compliance_custom/policyDeploy.ps1'
+    ScriptArguments:
+    azurePowerShellVersion: 'LatestVersion'
+- task: AzurePowerShell@5
+  displayName: 'Deploy Log Analytics for Central Monitoring'
+  inputs:
+    azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+    ScriptType: 'FilePath'
+    ScriptPath: '$(System.DefaultWorkingDirectory)/azMSP_baselinePolicy/configure_log_analytics_custom/policyDeploy.ps1'
+    ScriptArguments:
+    azurePowerShellVersion: 'LatestVersion'
+- task: AzurePowerShell@5
+  displayName: 'Diagnostics for Recovery Services Vaults'
+  inputs:
+    azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+    ScriptType: 'FilePath'
+    ScriptPath: '$(System.DefaultWorkingDirectory)/azMSP_baselinePolicy/deploy_diag_for_rsv_custom/policyDeploy.ps1'
+    ScriptArguments:
+    azurePowerShellVersion: 'LatestVersion'
