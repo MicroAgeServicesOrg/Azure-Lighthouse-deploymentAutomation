@@ -3,6 +3,7 @@
     "displayName": "Diagnostics for Recovery Services Vaults - azMSPcustom",
     "policyType": "Custom",
     "mode": "Indexed",
+    "description": "Deploy diagnostic settings for all recovery services vaults within the managed tenant.",
     "metadata": {
       "version": "1.0.0",
       "category": "AzMSP_Baseline"
