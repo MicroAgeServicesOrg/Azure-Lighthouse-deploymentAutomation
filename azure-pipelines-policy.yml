@@ -13,7 +13,7 @@ pool:
 
 steps:
 - task: AzurePowerShell@5
-  displayName: 'Deploy DD Agent check policy'
+  displayName: 'Deploy all policies specified in Repo to Subscriptions listed in CSV'
   inputs:
     azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
     ScriptType: 'FilePath'
