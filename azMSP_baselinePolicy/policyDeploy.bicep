@@ -13,7 +13,7 @@ param policies array = [
   {
     // 1
     name: 'ddAgent_policy.json'
-    policyDefinition : json(loadTextContent('./datadog_agent_compliance_custom/agentPolicy.json'))
+    policyDefinition : json(loadTextContent('./datadog_agent_compliance_custom/policy.json'))
     parameters: {}
     identity: false
   }
