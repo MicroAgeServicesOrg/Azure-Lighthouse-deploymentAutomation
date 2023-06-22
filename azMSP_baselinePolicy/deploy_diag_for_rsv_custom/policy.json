@@ -102,10 +102,6 @@
                 "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
                 "notEquals": ""
               }
-              //{
-               // "field": "Microsoft.Insights/diagnosticSettings/logAnalyticsDestinationType",
-                //"equals": "Dedicated"
-              //}
             ]
           },
           "roleDefinitionIds": [
@@ -138,7 +134,6 @@
                     "dependsOn": [],
                     "properties": {
                       "workspaceId": "[parameters('logAnalytics')]",
-                      //"logAnalyticsDestinationType": "Dedicated",
                       "metrics": [],
                       "logs": [
                         {
