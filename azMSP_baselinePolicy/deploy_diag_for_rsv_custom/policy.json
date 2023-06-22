@@ -1,14 +1,11 @@
 {
   "properties": {
-    "displayName": "deploy diagnostics for RSV - custom",
+    "displayName": "Diagnostics for Recovery Services Vaults - azMSPcustom",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
-      "category": "AzMSP_Baseline",
-      "createdBy": "eed0e961-530d-488b-a2c8-16bb04c45d95",
-      "createdOn": "2023-05-31T20:57:07.3396995Z",
-      "updatedBy": null,
-      "updatedOn": null
+      "version": "1.0.0",
+      "category": "AzMSP_Baseline"
     },
     "parameters": {
       "profileName": {
@@ -215,8 +212,5 @@
         }
       }
     }
-  },
-  "id": "/subscriptions/c2d9ff11-8e55-47f8-a8f2-8b9b4a7d18e8/providers/Microsoft.Authorization/policyDefinitions/49fe8b72-cd4e-4e07-93ae-d0a143079ac8",
-  "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "49fe8b72-cd4e-4e07-93ae-d0a143079ac8"
+  }
 }

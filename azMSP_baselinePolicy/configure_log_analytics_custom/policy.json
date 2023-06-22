@@ -1,6 +1,6 @@
 {
     "properties": {
-     "displayName": "Log Analytics and Monitoring - custom",
+     "displayName": "Deploy Log Analytics for Central Monitoring - azMSPcustom",
      "policyType": "Custom",
      "mode": "All",
      "description": "Deploy resource group containing Log Analytics workspace and linked automation account to centralize logs and monitoring. The automation account is aprerequisite for solutions like Updates and Change Tracking.",
