@@ -94,7 +94,7 @@
                     ]
                   }
                 },
-                "Equals": 6
+                "Equals": 13
               },
               {
                 "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
