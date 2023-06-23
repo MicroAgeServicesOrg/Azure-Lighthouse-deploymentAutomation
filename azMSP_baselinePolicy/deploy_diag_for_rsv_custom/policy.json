@@ -99,6 +99,10 @@
               {
                 "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
                 "notEquals": ""
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logAnalyticsDestinationType",
+                "equals": "AzureDiagnostics"
               }
             ]
           },
@@ -132,31 +136,32 @@
                     "dependsOn": [],
                     "properties": {
                       "workspaceId": "[parameters('logAnalytics')]",
+                      "logAnalyticsDestinationType": "AzureDiagnostics",
                       "metrics": [],
                       "logs": [
                         {
                           "category": "CoreAzureBackup",
-                          "enabled": "false"
+                          "enabled": "true"
                         },
                         {
                           "category": "AddonAzureBackupAlerts",
-                          "enabled": "false"
+                          "enabled": "true"
                         },
                         {
                           "category": "AddonAzureBackupJobs",
-                          "enabled": "false"
+                          "enabled": "true"
                         },
                         {
                           "category": "AddonAzureBackupPolicy",
-                          "enabled": "false"
+                          "enabled": "true"
                         },
                         {
                           "category": "AddonAzureBackupProtectedInstance",
-                          "enabled": "false"
+                          "enabled": "true"
                         },
                         {
                           "category": "AddonAzureBackupStorage",
-                          "enabled": "false"
+                          "enabled": "true"
                         },
                         {
                           "category": "AzureSiteRecoveryJobs",
