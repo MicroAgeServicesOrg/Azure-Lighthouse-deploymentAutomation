@@ -102,7 +102,7 @@
               },
               {
                 "field": "Microsoft.Insights/diagnosticSettings/logAnalyticsDestinationType",
-                "equals": "AzureDiagnostics"
+                "equals": "Dedicated"
               }
             ]
           },
@@ -136,7 +136,7 @@
                     "dependsOn": [],
                     "properties": {
                       "workspaceId": "[parameters('logAnalytics')]",
-                      "logAnalyticsDestinationType": "AzureDiagnostics",
+                      "logAnalyticsDestinationType": "Dedicated",
                       "metrics": [],
                       "logs": [
                         {
