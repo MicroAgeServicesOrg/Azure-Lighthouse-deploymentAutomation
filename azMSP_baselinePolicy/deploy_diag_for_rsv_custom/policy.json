@@ -5,7 +5,7 @@
     "mode": "Indexed",
     "description": "Deploy diagnostic settings for all recovery services vaults within the managed tenant.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "AzMSP_Baseline"
     },
     "parameters": {
@@ -137,7 +137,12 @@
                     "properties": {
                       "workspaceId": "[parameters('logAnalytics')]",
                       "logAnalyticsDestinationType": "Dedicated",
-                      "metrics": [],
+                      "metrics": [
+                        {
+                          "category": "AllMetrics",
+                          "enabled": true
+                        }
+                      ],
                       "logs": [
                         {
                           "category": "CoreAzureBackup",
