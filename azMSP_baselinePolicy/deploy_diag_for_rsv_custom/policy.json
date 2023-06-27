@@ -5,7 +5,7 @@
     "mode": "Indexed",
     "description": "Deploy diagnostic settings for all recovery services vaults within the managed tenant.",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.1.5",
       "category": "AzMSP_Baseline"
     },
     "parameters": {
@@ -102,7 +102,7 @@
               },
               {
                 "field": "Microsoft.Insights/diagnosticSettings/logAnalyticsDestinationType",
-                "equals": "Dedicated"
+                "equals": "AzureDiagnostics"
               }
             ]
           },
@@ -136,7 +136,7 @@
                     "dependsOn": [],
                     "properties": {
                       "workspaceId": "[parameters('logAnalytics')]",
-                      "logAnalyticsDestinationType": "Dedicated",
+                      "logAnalyticsDestinationType": "AzureDiagnostics",
                       "metrics": [
                         {
                           "category": "AllMetrics",
