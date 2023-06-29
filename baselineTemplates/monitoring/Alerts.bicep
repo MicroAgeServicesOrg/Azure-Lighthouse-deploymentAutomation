@@ -30,17 +30,22 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
     scopes: [
       workspaceResourceId
     ]
-    targetResourceTypes: [
-      'Microsoft.OperationalInsights/workspaces'
-    ]
     windowSize: 'P1D'
     criteria: {
       allOf: [
         {
-          query: 'AddonAzureBackupJobs\n| where JobOperation == "Backup" \n| where JobStatus == "Failed"\n| extend FailedJobDetails = strcat("Backup Item: ", BackupItemFriendlyName, ", Management Type: ", BackupManagementType, ", Time Generated: ", TimeGenerated)\n| summarize Count = count(), FailedJobs = make_list(FailedJobDetails) by JobStatus\n\n'
+          query: 'AddonAzureBackupJobs\n| where JobOperation == "Backup" \n| where JobStatus == "Failed"\n| extend FailedJobDetails = strcat("Backup Item: ", BackupItemFriendlyName, ", Management Type: ", BackupManagementType, ", Time Generated: ", TimeGenerated)\n| summarize Count = count(), FailedJobs = make_list(FailedJobDetails) by JobStatus\n'
           timeAggregation: 'Total'
           metricMeasureColumn: 'Count'
-          dimensions: []
+          dimensions: [
+            {
+              name: 'JobStatus'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+          ]
           operator: 'GreaterThan'
           threshold: 1
           failingPeriods: {
@@ -64,26 +69,23 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
 //adds ASR Critical health rule
 
 resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = {
-  name: 'Azure Site Recovery \'Critical\' Health'
+  name: 'Azure Site Recovery "Critical" Health'
   location: location
   properties: {
-    displayName: 'Azure Site Recovery \'Critical\' Health'
+    displayName: 'Azure Site Recovery "Critical" Health'
     severity: 1
     enabled: true
-    evaluationFrequency: 'P1D'
+    evaluationFrequency: 'PT30M'
     scopes: [
       workspaceResourceId
     ]
-    targetResourceTypes: [
-      'Microsoft.OperationalInsights/workspaces'
-    ]
-    windowSize: 'P1D'
+    windowSize: 'PT30M'
     criteria: {
       allOf: [
         {
-          query: 'AzureDiagnostics\\r\\n\\| where replicationProviderName_s == \\"InMageRcm\\"\\r\\n\\| where replicationHealth_s == \\"Critical\\"\\r\\n\\| where isnotempty(name_s) and isnotnull(name_s)\\r\\n\\| summarize hint.strategy=partitioned arg_max(TimeGenerated, *)\\r\\nby name_s\\r\\n\\| summarize count()'
+          query: 'AzureDiagnostics  \r\n| extend ReplicationAgent = column_ifexists("replicationProviderName_s", "")\r\n| extend ReplicationHealth = column_ifexists("replicationHealth_s", "")\r\n| extend Name = column_ifexists("name_s", "")\r\n| where ReplicationAgent == "InMageRcm"   \r\n| where ReplicationHealth == "Critical"  \r\n| where isnotempty(Name) and isnotnull(Name)   \r\n| summarize hint.strategy=partitioned arg_max(TimeGenerated, *) by Name   \r\n| summarize count()\r\n'
           timeAggregation: 'Total'
-          metricMeasureColumn: 'Count'
+          metricMeasureColumn: 'count_'
           dimensions: []
           operator: 'GreaterThan'
           threshold: 1
@@ -113,20 +115,17 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
     displayName: 'Azure Site Recovery \'RPO\' Exceeds 30 Minutes'
     severity: 2
     enabled: true
-    evaluationFrequency: 'P1D'
+    evaluationFrequency: 'PT30M'
     scopes: [
       workspaceResourceId
     ]
-    targetResourceTypes: [
-      'Microsoft.OperationalInsights/workspaces'
-    ]
-    windowSize: 'P1D'
+    windowSize: 'PT30M'
     criteria: {
       allOf: [
         {
-          query: 'AzureDiagnostics\\r\\n\\| where replicationProviderName_s == \\"InMageRcm\\"\\r\\n\\| where rpoInSeconds_d > 1800\\r\\n\\| summarize count()'
+          query: 'AzureDiagnostics\n| extend ReplicationAgent = column_ifexists("replicationProviderName_s", "")\n| extend RPOTime = column_ifexists("rpoInSeconds_d", 0)\n| where ReplicationAgent == "InMageRcm"\n| where RPOTime > 1800\n| summarize count()'
           timeAggregation: 'Total'
-          metricMeasureColumn: 'Count'
+          metricMeasureColumn: 'count_'
           dimensions: []
           operator: 'GreaterThan'
           threshold: 1
