@@ -5,7 +5,7 @@ param workspaceResourceId string
 //adds the action grouup resouce before the alert rule itself
 resource actionGroup 'Microsoft.Insights/actionGroups@2022-06-01' = {
   name: 'masvc-emails'
-  location: location
+  location: 'global'
   properties: {
     groupShortName: 'masvc-emails'
     enabled: true
