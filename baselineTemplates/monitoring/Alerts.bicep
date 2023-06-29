@@ -1,6 +1,11 @@
 param location string = 'eastus2'
-param workspaceResourceId string
+param clientCode string
 
+
+//gets existing workspace via client code entered manually and inputs this into scope
+resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+  name:'${clientCode}-centralWorkspace'
+}
 
 //adds the action group resouce before the alert rules itself
 resource actionGroup 'Microsoft.Insights/actionGroups@2022-06-01' = {
@@ -28,7 +33,7 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
     enabled: true
     evaluationFrequency: 'P1D'
     scopes: [
-      workspaceResourceId
+      existingWorkspace.id
     ]
     windowSize: 'P1D'
     criteria: {
@@ -77,7 +82,7 @@ resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-prev
     enabled: true
     evaluationFrequency: 'PT30M'
     scopes: [
-      workspaceResourceId
+      existingWorkspace.id
     ]
     windowSize: 'PT30M'
     criteria: {
@@ -117,7 +122,7 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
     enabled: true
     evaluationFrequency: 'PT30M'
     scopes: [
-      workspaceResourceId
+      existingWorkspace.id
     ]
     windowSize: 'PT30M'
     criteria: {
