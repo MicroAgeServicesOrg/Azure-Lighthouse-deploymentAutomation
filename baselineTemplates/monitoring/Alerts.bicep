@@ -2,7 +2,7 @@ param location string = 'eastus2'
 param workspaceResourceId string
 
 
-//adds the action grouup resouce before the alert rule itself
+//adds the action group resouce before the alert rules itself
 resource actionGroup 'Microsoft.Insights/actionGroups@2022-06-01' = {
   name: 'masvc-emails'
   location: 'global'
