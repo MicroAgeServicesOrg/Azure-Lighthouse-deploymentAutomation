@@ -1,6 +1,7 @@
 param location string = 'eastus2'
 param clientCode string
 
+var queries = json(fileContent('alerts.json'))
 
 //gets existing workspace via client code entered manually and inputs this into scope
 resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
@@ -45,7 +46,7 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
     criteria: {
       allOf: [
         {
-          query: 'AddonAzureBackupJobs\n| where JobOperation == "Backup" \n| where JobStatus == "Failed"\n| extend FailedJobDetails = strcat("Backup Item: ", BackupItemFriendlyName, ", Management Type: ", BackupManagementType, ", Time Generated: ", TimeGenerated)\n| summarize Count = count(), FailedJobs = make_list(FailedJobDetails) by JobStatus\n'
+          query: queries.backupJobFailedQuery
           timeAggregation: 'Total'
           metricMeasureColumn: 'Count'
           dimensions: [
@@ -97,7 +98,7 @@ resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-prev
     criteria: {
       allOf: [
         {
-          query: 'AzureDiagnostics  \r\n| extend ReplicationAgent = column_ifexists("replicationProviderName_s", "")\r\n| extend ReplicationHealth = column_ifexists("replicationHealth_s", "")\r\n| extend Name = column_ifexists("name_s", "")\r\n| where ReplicationAgent == "InMageRcm"   \r\n| where ReplicationHealth == "Critical"  \r\n| where isnotempty(Name) and isnotnull(Name)   \r\n| summarize hint.strategy=partitioned arg_max(TimeGenerated, *) by Name   \r\n| summarize count()\r\n'
+          query: queries.asrCriticalHealthQuery
           timeAggregation: 'Total'
           metricMeasureColumn: 'count_'
           dimensions: []
@@ -141,7 +142,7 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
     criteria: {
       allOf: [
         {
-          query: 'AzureDiagnostics\n| extend ReplicationAgent = column_ifexists("replicationProviderName_s", "")\n| extend RPOTime = column_ifexists("rpoInSeconds_d", 0)\n| where ReplicationAgent == "InMageRcm"\n| where RPOTime > 1800\n| summarize count()'
+          query: queries.asrRPOExceeds30Query
           timeAggregation: 'Total'
           metricMeasureColumn: 'count_'
           dimensions: []

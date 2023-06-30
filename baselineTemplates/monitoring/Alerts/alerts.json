@@ -1,0 +1,6 @@
+{
+    "backupJobFailedQuery": "AddonAzureBackupJobs\n| where JobOperation == \"Backup\" \n| where JobStatus == \"Failed\"\n| extend FailedJobDetails = strcat(\"Backup Item: \", BackupItemFriendlyName, \", Management Type: \", BackupManagementType, \", Time Generated: \", TimeGenerated)\n| summarize Count = count(), FailedJobs = make_list(FailedJobDetails) by JobStatus\n",
+    "asrCriticalHealthQuery": "AzureDiagnostics  \r\n| extend ReplicationAgent = column_ifexists(\"replicationProviderName_s\", \"\")\r\n| extend ReplicationHealth = column_ifexists(\"replicationHealth_s\", \"\")\r\n| extend Name = column_ifexists(\"name_s\", \"\")\r\n| where ReplicationAgent == \"InMageRcm\"   \r\n| where ReplicationHealth == \"Critical\"  \r\n| where isnotempty(Name) and isnotnull(Name)   \r\n| summarize hint.strategy=partitioned arg_max(TimeGenerated, *) by Name   \r\n| summarize count()\r\n",
+    "asrRPOExceeds30Query": "AzureDiagnostics\n| extend ReplicationAgent = column_ifexists(\"replicationProviderName_s\", \"\")\n| extend RPOTime = column_ifexists(\"rpoInSeconds_d\", 0)\n| where ReplicationAgent == \"InMageRcm\"\n| where RPOTime > 1800\n| summarize count()"
+  }
+  
