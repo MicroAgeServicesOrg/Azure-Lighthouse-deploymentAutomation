@@ -1,7 +1,7 @@
 param location string = 'eastus2'
 param clientCode string
+param queries object = json(loadTextContent('alerts.json'))
 
-var queries = json(fileContent('alerts.json'))
 
 //gets existing workspace via client code entered manually and inputs this into scope
 resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
