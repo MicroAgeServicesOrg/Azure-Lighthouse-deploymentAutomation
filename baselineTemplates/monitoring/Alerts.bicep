@@ -11,6 +11,9 @@ resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01'
 resource actionGroup 'Microsoft.Insights/actionGroups@2022-06-01' = {
   name: 'masvc-emails'
   location: 'global'
+  tags:{
+    environment: 'AzMSP'
+  }
   properties: {
     groupShortName: 'masvc-emails'
     enabled: true
@@ -27,6 +30,9 @@ resource actionGroup 'Microsoft.Insights/actionGroups@2022-06-01' = {
 resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = {
   name: 'Azure Backup Job Failed'
   location: location
+  tags:{
+    environment: 'AzMSP'
+  }
   properties: {
     displayName: 'Azure Backup Job Failed'
     severity: 2
@@ -76,6 +82,9 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
 resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = {
   name: 'Azure Site Recovery "Critical" Health'
   location: location
+  tags:{
+    environment: 'AzMSP'
+  }
   properties: {
     displayName: 'Azure Site Recovery "Critical" Health'
     severity: 1
@@ -102,6 +111,7 @@ resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-prev
       ]
     }
     autoMitigate: false
+    muteActionsDuration: 'P1D'
     actions: {
       actionGroups: [
         actionGroup.id
@@ -116,6 +126,9 @@ resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-prev
 resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = {
   name: 'Azure Site Recovery \'RPO\' Exceeds 30 Minutes'
   location: location
+  tags:{
+    environment: 'AzMSP'
+  }
   properties: {
     displayName: 'Azure Site Recovery \'RPO\' Exceeds 30 Minutes'
     severity: 2
@@ -142,6 +155,9 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
       ]
     }
     autoMitigate: false
+    ruleResolveConfiguration:{
+      autoResolved: true
+    }
     actions: {
       actionGroups: [
         actionGroup.id
