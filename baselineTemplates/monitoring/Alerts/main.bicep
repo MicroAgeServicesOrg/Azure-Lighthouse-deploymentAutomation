@@ -171,7 +171,7 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
 
 //adds free space metric rule
 
-resource metricFreeSpaceRule 'microsoft.insights/metricAlerts@2018-03-01' = {
+resource metricVMFreeSpaceRule 'microsoft.insights/metricAlerts@2018-03-01' = {
   name: 'Azure Virtual Machine is Almost Out of Hard Drive Space'
   location: location
   tags: {
@@ -193,6 +193,50 @@ resource metricFreeSpaceRule 'microsoft.insights/metricAlerts@2018-03-01' = {
           name: 'Metric1'
           metricNamespace: 'Microsoft.OperationalInsights/workspaces'
           metricName: 'Average_% Used Space'
+          operator: 'GreaterThan'
+          timeAggregation: 'Average'
+          skipMetricValidation: false
+          criterionType: 'StaticThresholdCriterion'
+        }
+      ]
+      'odata.type': 'Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria'
+    }
+    autoMitigate: true
+    targetResourceType: 'Microsoft.OperationalInsights/workspaces'
+    targetResourceRegion: 'eastus2'
+    actions: [
+      {
+        actionGroupId: actionGroup.id
+        webHookProperties: {}
+      }
+    ]
+  }
+}
+
+//adds memory utilization rule
+
+resource metricVMUtilizationRule 'microsoft.insights/metricAlerts@2018-03-01' = {
+  name: 'Azure Virtual Machine High Memory Utilization'
+  location: 'global'
+  tags: {
+    environment: 'AzMSP'
+  }
+  properties: {
+    description: 'This alert rule fires when a VM uses over 80% memory for over 15 minutes'
+    severity: 2
+    enabled: true
+    scopes: [
+      existingWorkspace.id
+    ]
+    evaluationFrequency: 'PT5M'
+    windowSize: 'PT15M'
+    criteria: {
+      allOf: [
+        {
+          threshold: 80
+          name: 'Metric1'
+          metricNamespace: 'Microsoft.OperationalInsights/workspaces'
+          metricName: 'Average_% Used Memory'
           operator: 'GreaterThan'
           timeAggregation: 'Average'
           skipMetricValidation: false
