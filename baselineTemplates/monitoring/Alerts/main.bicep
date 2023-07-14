@@ -173,7 +173,7 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
 
 resource metricVMFreeSpaceRule 'microsoft.insights/metricAlerts@2018-03-01' = {
   name: 'Azure Virtual Machine is Almost Out of Hard Drive Space'
-  location: location
+  location: 'global'
   tags: {
     environment: 'AzMSP'
   }
