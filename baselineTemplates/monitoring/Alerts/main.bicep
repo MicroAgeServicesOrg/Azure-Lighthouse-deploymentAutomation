@@ -256,3 +256,60 @@ resource metricVMUtilizationRule 'microsoft.insights/metricAlerts@2018-03-01' = 
     ]
   }
 }
+
+//adds heartbeat metric rule
+
+resource metricVMOffileRule'microsoft.insights/metricAlerts@2018-03-01' = {
+  name: 'Azure VM Is Offline'
+  location: 'global'
+  properties: {
+    description: 'This alert fires if a VM in Azure goes offline for longer than 5 minutes'
+    severity: 0
+    enabled: true
+    scopes: [
+      existingWorkspace.id
+    ]
+    evaluationFrequency: 'PT1M'
+    windowSize: 'PT1M'
+    criteria: {
+      allOf: [
+        {
+          threshold: 0
+          name: 'Metric1'
+          metricNamespace: 'Microsoft.OperationalInsights/workspaces'
+          metricName: 'Heartbeat'
+          dimensions: [
+            {
+              name: 'Computer'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+            {
+              name: 'OSType'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+          ]
+          operator: 'LessThanOrEqual'
+          timeAggregation: 'Total'
+          skipMetricValidation: false
+          criterionType: 'StaticThresholdCriterion'
+        }
+      ]
+      'odata.type': 'Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria'
+    }
+    autoMitigate: true
+    targetResourceType: 'Microsoft.OperationalInsights/workspaces'
+    targetResourceRegion: 'eastus2'
+    actions: [
+      {
+        actionGroupId: actionGroup.id
+        webHookProperties: {}
+      }
+    ]
+  }
+}
