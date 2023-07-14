@@ -313,3 +313,56 @@ resource metricVMOffileRule'microsoft.insights/metricAlerts@2018-03-01' = {
     ]
   }
 }
+
+//adds cpu percentage rule
+
+resource metricVMCpuRule 'microsoft.insights/metricAlerts@2018-03-01' = {
+  name: 'Azure VM CPU Percentage Over 75 Percent'
+  location: 'global'
+  tags: {
+    environment: 'AzMSP'
+  }
+  properties: {
+    description: 'Azure VM CPU percentage is over 75%'
+    severity: 2
+    enabled: true
+    scopes: [
+      existingWorkspace.id
+    ]
+    evaluationFrequency: 'PT1M'
+    windowSize: 'PT5M'
+    criteria: {
+      allOf: [
+        {
+          threshold: 75
+          name: 'Metric1'
+          metricNamespace: 'Microsoft.OperationalInsights/workspaces'
+          metricName: 'Average_% Processor Time'
+          dimensions: [
+            {
+              name: 'Computer'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+          ]
+          operator: 'GreaterThan'
+          timeAggregation: 'Average'
+          skipMetricValidation: false
+          criterionType: 'StaticThresholdCriterion'
+        }
+      ]
+      'odata.type': 'Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria'
+    }
+    autoMitigate: true
+    targetResourceType: 'Microsoft.OperationalInsights/workspaces'
+    targetResourceRegion: 'eastus2'
+    actions: [
+      {
+        actionGroupId: actionGroup.id
+        webHookProperties: {}
+      }
+    ]
+  }
+}
