@@ -168,3 +168,47 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
     }
   }
 }
+
+//adds free space metric rule
+
+resource metricFreeSpaceRule 'microsoft.insights/metricAlerts@2018-03-01' = {
+  name: 'Azure Virtual Machine is Almost Out of Hard Drive Space'
+  location: location
+  tags: {
+    environment: 'AzMSP'
+  }
+  properties: {
+    description: 'This Alert is triggered when used space exceeds 95%'
+    severity: 2
+    enabled: true
+    scopes: [
+      existingWorkspace.id
+    ]
+    evaluationFrequency: 'PT15M'
+    windowSize: 'PT15M'
+    criteria: {
+      allOf: [
+        {
+          threshold: 90
+          name: 'Metric1'
+          metricNamespace: 'Microsoft.OperationalInsights/workspaces'
+          metricName: 'Average_% Used Space'
+          operator: 'GreaterThan'
+          timeAggregation: 'Average'
+          skipMetricValidation: false
+          criterionType: 'StaticThresholdCriterion'
+        }
+      ]
+      'odata.type': 'Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria'
+    }
+    autoMitigate: true
+    targetResourceType: 'Microsoft.OperationalInsights/workspaces'
+    targetResourceRegion: 'eastus2'
+    actions: [
+      {
+        actionGroupId: actionGroup.id
+        webHookProperties: {}
+      }
+    ]
+  }
+}
