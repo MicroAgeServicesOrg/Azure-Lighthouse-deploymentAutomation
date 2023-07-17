@@ -1,4 +1,4 @@
-param dataCollectionRules_AllData_name string = 'allData'
+param dataCollectionRuleName string = 'allData'
 param clientCode string
 
 //gets existing workspace via client code entered manually and inputs this into scope
@@ -6,8 +6,8 @@ resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01'
   name:'${clientCode}-centralWorkspace'
 }
 
-resource dataCollectionRules_AllData_name_resource 'Microsoft.Insights/dataCollectionRules@2022-06-01' = {
-  name: dataCollectionRules_AllData_name
+resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' = {
+  name: dataCollectionRuleName
   location: 'eastus2'
   tags: {
     environment: 'AzMSP'
@@ -142,3 +142,5 @@ resource dataCollectionRules_AllData_name_resource 'Microsoft.Insights/dataColle
     ]
   }
 }
+
+output resourceId string = dataCollectionRule.id
