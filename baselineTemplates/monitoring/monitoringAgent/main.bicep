@@ -8,7 +8,7 @@ resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01'
 
 resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' = {
   name: dataCollectionRuleName
-  location: 'eastus2'
+  location: 'global'
   tags: {
     environment: 'AzMSP'
   }
