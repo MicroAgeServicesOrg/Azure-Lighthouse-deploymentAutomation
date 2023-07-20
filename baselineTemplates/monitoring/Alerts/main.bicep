@@ -283,60 +283,60 @@ resource VMMemUtilizationRule 'microsoft.insights/scheduledqueryrules@2023-03-15
 
 //adds heartbeat metric rule
 
-resource metricVMOffileRule'microsoft.insights/metricAlerts@2018-03-01' = {
-  name: 'Azure VM Is Offline'
-  location: 'global'
-  properties: {
-    description: 'This alert fires if a VM in Azure goes offline for longer than 5 minutes'
-    severity: 0
-    enabled: true
-    scopes: [
-      existingWorkspace.id
-    ]
-    evaluationFrequency: 'PT1M'
-    windowSize: 'PT1M'
-    criteria: {
-      allOf: [
-        {
-          threshold: 0
-          name: 'Metric1'
-          metricNamespace: 'Microsoft.OperationalInsights/workspaces'
-          metricName: 'Heartbeat'
-          dimensions: [
-            {
-              name: 'Computer'
-              operator: 'Include'
-              values: [
-                '*'
-              ]
-            }
-            {
-              name: 'OSType'
-              operator: 'Include'
-              values: [
-                '*'
-              ]
-            }
-          ]
-          operator: 'LessThanOrEqual'
-          timeAggregation: 'Total'
-          skipMetricValidation: false
-          criterionType: 'StaticThresholdCriterion'
-        }
-      ]
-      'odata.type': 'Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria'
+resource VMOffileRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
+    name: 'Azure VM Is Offline'
+    location: location
+    tags: {
+      environment: 'AzMSP'
     }
-    autoMitigate: true
-    targetResourceType: 'Microsoft.OperationalInsights/workspaces'
-    targetResourceRegion: 'eastus2'
-    actions: [
-      {
-        actionGroupId: actionGroup.id
-        webHookProperties: {}
+    properties: {
+      displayName: 'Azure VM Is Offline'
+      description: 'Alerts when a VM has been off longer than 15 mins'
+      severity: 0
+      enabled: true
+      evaluationFrequency: 'PT15M'
+      scopes: [
+        existingWorkspace.id
+      ]
+      targetResourceTypes: [
+        'Microsoft.OperationalInsights/workspaces'
+      ]
+      windowSize: 'PT15M'
+      overrideQueryTimeRange: 'P2D'
+      criteria: {
+        allOf: [
+          {
+            query: queries.VMOfflineQuery
+            timeAggregation: 'Average'
+            metricMeasureColumn: 'HeartbeatCount'
+            dimensions: [
+              {
+                name: 'Computer'
+                operator: 'Include'
+                values: [
+                  '*'
+                ]
+              }
+            ]
+            operator: 'LessThanOrEqual'
+            threshold: 1
+            failingPeriods: {
+              numberOfEvaluationPeriods: 1
+              minFailingPeriodsToAlert: 1
+            }
+          }
+        ]
       }
-    ]
+      autoMitigate: true
+      actions: {
+        actionGroups: [
+          actionGroup.id
+        ]
+        customProperties: {}
+        actionProperties: {}
+      }
+    }
   }
-}
 
 //adds cpu percentage rule
 
