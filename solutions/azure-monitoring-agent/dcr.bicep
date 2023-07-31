@@ -1,4 +1,4 @@
-param dataCollectionRuleName string = 'allData'
+param dataCollectionRuleName string = 'azPolicyTestDCR'
 param clientCode string
 
 //gets existing workspace via client code entered manually and inputs this into scope
@@ -8,7 +8,7 @@ resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01'
 
 resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' = {
   name: dataCollectionRuleName
-  location: 'global'
+  location: 'eastus2'
   tags: {
     environment: 'AzMSP'
   }
