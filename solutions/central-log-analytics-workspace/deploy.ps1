@@ -40,9 +40,10 @@ if ((!$subscriptionId) -and ($subscriptions)) {
     foreach ($subscription in $subscriptions) {
         
         $subscriptionId = $subscription.subscriptionID
+        $clientCode = $subscription.clientCode
         Set-AzContext -SubscriptionId $subscriptionId
 
-        New-AzSubscriptionDeployment -Name $deploymentName -TemplateFile $bicepFile
+        New-AzSubscriptionDeployment -Name $deploymentName -TemplateFile $bicepFile -clientCode $clientCode
     }
 }
 
