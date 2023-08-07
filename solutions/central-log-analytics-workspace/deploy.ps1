@@ -43,7 +43,7 @@ if ((!$subscriptionId) -and ($subscriptions)) {
         $clientCode = $subscription.clientCode
         Set-AzContext -SubscriptionId $subscriptionId
 
-        New-AzSubscriptionDeployment -Name $deploymentName -TemplateFile $bicepFile -clientCode $clientCode
+        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode
     }
 }
 
