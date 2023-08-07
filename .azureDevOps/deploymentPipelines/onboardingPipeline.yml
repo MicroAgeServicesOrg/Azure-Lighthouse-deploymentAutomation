@@ -9,4 +9,16 @@ trigger:
 pool:
   vmImage: windows-latest
 
-steps:
+stages:
+  - stage: logAnalytics
+    displayName: Deploy Log Analytics Workspace
+    jobs:
+      - job: logAnalyticsBicep
+        displayName: Deploy logAnalytics Bicep Template
+        steps:
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            ScriptType: 'FilePath'
+            ScriptPath: '$(System.DefaultWorkingDirectory)/modules/operational-insights/workspaces/deploy.ps1'
+            azurePowerShellVersion: 'LatestVersion'
