@@ -1,22 +1,12 @@
 //Setting the target scope (Subscription Based Deployment)
 targetScope = 'subscription'
 
+
+
 //Parameters
-param monitoringRG string = 'masvc-monitoringresources-rg' //this RG MUST Exist before this deployment is run. 
+param policyInitiativeName string
 
-param clientCode string = 'masvc'
-
-param policyInitiativeName string = 'Azure Monitoring Agent - AzMSP_Baseline'
-
-
-//DCR Module
-module dataCollectionRule 'dcr.bicep' = {
-  name: 'datacollectionDeploy'
-  scope: resourceGroup(monitoringRG)
-  params: {
-    clientCode: clientCode
-  }
-}
+param dcrResourceID string
 
 
 
@@ -35,7 +25,7 @@ resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-
       policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c'
       parameters: {
         dcrResourceId: {
-          value: dataCollectionRule.outputs.resourceId
+          value: dcrResourceID
         }
         resourceType:{
           value: 'Microsoft.Insights/dataCollectionRules'
