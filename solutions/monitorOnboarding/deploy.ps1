@@ -4,8 +4,12 @@ param (
     [string]$subscriptionId,
 
     [Parameter(Mandatory=$false)]
-    [string]$deploymentName = 'loganalytics.bicep'
+    [string]$deploymentName = 'loganalytics.bicep',
+
+    [PArameter(Mandatory=$true)]
+    [bool]$testDeploy
 )
+
 
 
 $ErrorActionPreference = "Stop"
@@ -34,7 +38,6 @@ $subscriptions = Import-Csv $subscriptionFilePath
 # But is available to the service principal
 
 #run deployment in each subscription
-if ((!$subscriptionId) -and ($subscriptions)) {
 
     Write-Output "Subscriptions sepecified in CSV file. Deploying to selected subscriptions" -Verbose
     foreach ($subscription in $subscriptions) {
@@ -43,26 +46,13 @@ if ((!$subscriptionId) -and ($subscriptions)) {
         $clientCode = $subscription.clientCode
         Set-AzContext -SubscriptionId $subscriptionId
 
-        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode
-    }
-}
-
-
-
-
-# using specified subscription during deployment "1 sub deployment"
-else {
-
-    Write-Output "Subscription specified at pipeline. Targeting $subscriptionId" -Verbose
-    Set-AzContext -SubscriptionId $subscriptionId
-
-    Write-Output "Subscriptions sepecified in CSV file. Deploying to selected subscriptions" -Verbose
-    foreach ($subscription in $subscriptions) {
+        if ($testDeploy) {
+            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -WhatIf -Verbose
+        }
         
-        $subscriptionId = $subscription.subscriptionID
-        Set-AzContext -SubscriptionId $subscriptionId
+        else {
+            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode
+        }
 
-        New-AzSubscriptionDeployment -Name "devops_azPolicyDefinition_deploy" -Location "WestUS2" -TemplateFile $bicepFile
     }
 
-}
