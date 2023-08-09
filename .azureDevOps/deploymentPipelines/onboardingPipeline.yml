@@ -20,6 +20,6 @@ stages:
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: 'FilePath'
-            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/central-log-analytics-workspace/deploy.ps1'
+            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
             ScriptArguments: '-testDeploy $true'
             azurePowerShellVersion: 'LatestVersion'
