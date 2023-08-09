@@ -15,7 +15,7 @@ param (
 $ErrorActionPreference = "Stop"
 
 #Define path to the bicep artifacts (files)
-$bicepFile = ".\solutions\central-log-analytics-workspace\main.bicep"
+$bicepFile = ".\solutions\monitorOnboarding\main.bicep"
 
 ###localTesting - Leave disabled
 #$blueprintPath = "."
