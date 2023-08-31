@@ -46,5 +46,5 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
-            ScriptArguments: '-testDeoloy $false'
+            ScriptArguments: '-testDeploy $false'
             azurePowerShellVersion: 'LatestVersion'
