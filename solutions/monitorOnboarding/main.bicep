@@ -51,6 +51,7 @@ module monitoringPolicy '../../modules/operational-insights/monitoring/monitorin
 
 module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' = {
   name: 'deployAlerts'
+  scope: monitoringRG
   params:{
     clientCode: clientCode
     location: location
