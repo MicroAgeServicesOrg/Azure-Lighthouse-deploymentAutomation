@@ -49,4 +49,12 @@ module monitoringPolicy '../../modules/operational-insights/monitoring/monitorin
   }
 }
 
+module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' = {
+  name: 'deployAlerts'
+  params:{
+    clientCode: clientCode
+    location: location
+  }
+}
+
 
