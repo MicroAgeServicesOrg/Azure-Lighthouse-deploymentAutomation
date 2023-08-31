@@ -25,6 +25,7 @@ stages:
             azurePowerShellVersion: 'LatestVersion'
       - job: waitForValidation
         displayName: Wait for External Validation
+        pool: server
         timeoutInMinutes: 4320 #job times out in 3 days
         steps:
           - task: ManualValidation@0
