@@ -23,3 +23,26 @@ stages:
             ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
             ScriptArguments: '-testDeploy $true'
             azurePowerShellVersion: 'LatestVersion'
+      - job: waitForValidation
+        displayName: Wait for External Validation
+        timeoutInMinutes: 4320 #job times out in 3 days
+        steps:
+          - task: ManualValidation@0
+            timeoutInMinutes: 1440 #Task times out in 1 day
+            inputs:
+              notifyUsers: |
+                dmejak@microage.com
+              instructions: 'please validate the build configuration and resume'
+              onTimeout: reject
+  - stage: Deploy
+    displayName: Deploy templates to tenants
+    jobs:
+      - job: deployment
+        displayName: deploy bicep templates
+        steps:
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            ScriptType: FilePath
+            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
+            azurePowerShellVersion: 'LatestVersion'
