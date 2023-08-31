@@ -381,7 +381,7 @@ resource metricVMCpuRule 'microsoft.insights/metricAlerts@2018-03-01' = {
     }
     autoMitigate: true
     targetResourceType: 'Microsoft.OperationalInsights/workspaces'
-    targetResourceRegion: 'eastus2'
+    targetResourceRegion: location
     actions: [
       {
         actionGroupId: actionGroup.id
