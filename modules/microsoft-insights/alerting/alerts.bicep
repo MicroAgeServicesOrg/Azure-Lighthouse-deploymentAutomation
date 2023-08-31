@@ -1,4 +1,4 @@
-param location string = 'eastus2'
+param location string
 param clientCode string
 param queries object = json(loadTextContent('./alerts.json'))
 
