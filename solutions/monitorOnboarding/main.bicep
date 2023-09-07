@@ -59,3 +59,4 @@ module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' =
 }
 
 
+
