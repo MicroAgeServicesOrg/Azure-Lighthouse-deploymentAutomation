@@ -42,6 +42,7 @@ resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-
 
 resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
   name: policyInitiativeName
+  location: 'global'
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
