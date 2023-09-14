@@ -13,7 +13,7 @@ resource actionGroup 'Microsoft.Insights/actionGroups@2022-06-01' = {
   name: 'masvc-connectwise'
   location: 'global'
   tags:{
-    environment: 'AzMSP'
+    environment: 'MicroAge AzMSP'
   }
   properties: {
     groupShortName: 'masvc-cw'
@@ -34,7 +34,7 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
   name: 'Azure Backup Job Failed'
   location: location
   tags:{
-    environment: 'AzMSP'
+    environment: 'MicroAge AzMSP'
   }
   properties: {
     displayName: 'Azure Backup Job Failed'
@@ -86,7 +86,7 @@ resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-prev
   name: 'Azure Site Recovery "Critical" Health'
   location: location
   tags:{
-    environment: 'AzMSP'
+    environment: 'MicroAge AzMSP'
   }
   properties: {
     displayName: 'Azure Site Recovery "Critical" Health'
@@ -130,7 +130,7 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
   name: 'Azure Site Recovery \'RPO\' Exceeds 30 Minutes'
   location: location
   tags:{
-    environment: 'AzMSP'
+    environment: 'MicroAge AzMSP'
   }
   properties: {
     displayName: 'Azure Site Recovery \'RPO\' Exceeds 30 Minutes'
@@ -177,7 +177,7 @@ resource VMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-prev
     name: 'Azure Virtual Machine Running Out of Disk Space'
     location: location
     tags: {
-      environment: 'AzMSP'
+      environment: 'MicroAge AzMSP'
     }
     properties: {
       displayName: 'Azure Virtual Machine Running Out of Disk Space'
@@ -233,7 +233,7 @@ resource VMMemUtilizationRule 'microsoft.insights/scheduledqueryrules@2023-03-15
     name: 'Azure Virtual Machine High Memory Utilization'
     location: location
     tags: {
-      environment: 'AzMSP'
+      environment: 'MicroAge AzMSP'
     }
     properties: {
       displayName: 'Azure Virtual Machine High Memory Utilization'
@@ -289,7 +289,7 @@ resource VMOffileRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview
     name: 'Azure VM Is Offline'
     location: location
     tags: {
-      environment: 'AzMSP'
+      environment: 'MicroAge AzMSP'
     }
     properties: {
       displayName: 'Azure VM Is Offline'
@@ -346,7 +346,7 @@ resource metricVMCpuRule 'microsoft.insights/metricAlerts@2018-03-01' = {
   name: 'Azure VM CPU Percentage Over 75 Percent'
   location: 'global'
   tags: {
-    environment: 'AzMSP'
+    environment: 'MicroAge AzMSP'
   }
   properties: {
     description: 'Azure VM CPU percentage is over 75%'
