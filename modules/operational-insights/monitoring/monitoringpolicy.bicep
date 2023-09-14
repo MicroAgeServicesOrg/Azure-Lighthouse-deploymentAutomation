@@ -57,17 +57,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   }
 }
 
-resource dcrRemediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
-  name: 'dcrRemediationTask'
-  properties: {
-    policyAssignmentId: policyAssignment.id
-    policyDefinitionReferenceId: policyInitiative.properties.policyDefinitions[0].policyDefinitionId
-}
-}
-resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
-  name: 'monitoringAgentRemediationTask'
-  properties: {
-    policyAssignmentId: policyAssignment.id
-    policyDefinitionReferenceId: policyInitiative.properties.policyDefinitions[1].policyDefinitionId
-}
-}
+output policyDefinitionID string = policyInitiative.id
+
+output policyAssignmentID string = policyAssignment.id
+
