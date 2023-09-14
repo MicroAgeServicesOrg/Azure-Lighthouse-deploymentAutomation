@@ -37,5 +37,6 @@ resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   properties: {
     policyAssignmentId: policyAssignment.id
     policyDefinitionReferenceId: policyDefinition.id
+    resourceDiscoveryMode: 'ReEvaluateCompliance'
 }
 }
