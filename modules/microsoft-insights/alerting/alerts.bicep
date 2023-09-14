@@ -10,18 +10,20 @@ resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01'
 
 //adds the action group resouce before the alert rules itself
 resource actionGroup 'Microsoft.Insights/actionGroups@2022-06-01' = {
-  name: 'masvc-emails'
+  name: 'masvc-connectwise'
   location: 'global'
   tags:{
     environment: 'AzMSP'
   }
   properties: {
-    groupShortName: 'masvc-emails'
+    groupShortName: 'masvc-cw'
     enabled: true
-    emailReceivers: [
+    webhookReceivers: [
       {
-        name: 'to-support'
-        emailAddress: 'masalerts@microage.com'
+        name: 'masvc-cwlogicapp'
+        serviceUri: 'https://prod-83.eastus.logic.azure.com:443/workflows/c199cd5f60f042d9b9692f5e77e181bf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hjJlQPSFduj8GeVmJfFpyZjdo9X8e4RjpbGm4Cx4Ra4'
+        useAadAuth: false
+        useCommonAlertSchema: true
       }
     ]
   }
