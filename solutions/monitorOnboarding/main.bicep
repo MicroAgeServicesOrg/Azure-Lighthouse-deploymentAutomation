@@ -10,9 +10,6 @@ param dataCollectionRuleName string = 'masvcMonitoringDCR'
 //monitoringPolicyParams
 param policyInitiativeName string = 'Azure Monitoring Agent - AzMSP_Baseline'
 
-//taggingPolicyParams
-param customTagPolicyName string = 'Azure Resource Tagging - AzMSP_Baseline'
-
 
 
 resource monitoringRG 'Microsoft.Resources/resourceGroups@2022-09-01' = {
@@ -61,5 +58,15 @@ module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' =
   }
 }
 
-
+module remediationTasks '../../modules/operational-insights/monitoring/monitoringpolicy_remediation.bicep' = {
+  name: 'remediationTasks'
+  scope: monitoringRG
+  params: {
+    policyAssignmentId: monitoringPolicy.outputs.policyAssignmentID
+    policyDefinitions: [
+      monitoringPolicy
+    ]
+    remediatePolicyId:monitoringPolicy.outputs.policyDefinitionID
+  }
+}
 
