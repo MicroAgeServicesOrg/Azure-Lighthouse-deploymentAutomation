@@ -10,6 +10,9 @@ param dataCollectionRuleName string = 'masvcMonitoringDCR'
 //monitoringPolicyParams
 param policyInitiativeName string = 'Azure Monitoring Agent - AzMSP_Baseline'
 
+//taggingPolicyParams
+param customTagPolicyName string = 'Azure Resource Tagging - AzMSP_Baseline'
+
 
 
 resource monitoringRG 'Microsoft.Resources/resourceGroups@2022-09-01' = {
