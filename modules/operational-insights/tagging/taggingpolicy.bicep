@@ -7,7 +7,7 @@ param customTagPolicyName string
 param policy object = json(loadTextContent('./customTagPolicy.json'))
 
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
-  name: 'ResourceTagging'
+  name: 'ResourceTaggingDefinition'
   properties:{
     displayName: policy.properties.displayName
     policyType: policy.properties.policyType
