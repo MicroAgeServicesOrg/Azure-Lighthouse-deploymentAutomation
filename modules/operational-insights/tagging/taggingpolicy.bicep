@@ -9,11 +9,11 @@ param policy object = json(loadTextContent('./customTagPolicy.json'))
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: 'ResourceTagging'
   properties:{
-    displayName: policy.policyDefinition.properties.displayName
-    policyType: policy.policyDefinition.properties.policyType
-    description: policy.policyDefinition.properties.description
-    metadata: policy.policyDefinition.properties.metadata
-    policyRule: policy.policyDefinition.properties.policyRule
+    displayName: policy.properties.displayName
+    policyType: policy.properties.policyType
+    description: policy.properties.description
+    metadata: policy.properties.metadata
+    policyRule: policy.policyRule
   }
 }
 
