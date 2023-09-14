@@ -67,15 +67,6 @@ module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' =
   }
 }
 
-module remediationTasks '../../modules/operational-insights/monitoring/monitoringpolicy_remediation.bicep' = {
-  name: 'remediationTasks'
-  scope: monitoringRG
-  params: {
-    policyAssignmentId: monitoringPolicy.outputs.policyAssignmentID
-    policyDefinitions: [
-      monitoringPolicy
-    ]
-    remediatePolicyId:monitoringPolicy.outputs.policyDefinitionID
-  }
-}
+
+
 
