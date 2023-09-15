@@ -35,7 +35,7 @@ resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-
     }
     {
       policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/ca817e41-e85a-4783-bc7f-dc532d36235e'
-      policyDefinitionReferenceId: '/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c'
+      policyDefinitionReferenceId: '/providers/Microsoft.Authorization/policyDefinitions/ca817e41-e85a-4783-bc7f-dc532d36235e'
       parameters: {}
     }
   ]
