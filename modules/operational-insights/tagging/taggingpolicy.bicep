@@ -37,7 +37,7 @@ resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   name: 'ResourceTaggingRemediationTask'
   properties: {
     policyAssignmentId: policyAssignment.id
-    resourceDiscoveryMode: 'ReEvaluateCompliance'
+    resourceDiscoveryMode: 'ExistingNonCompliant'
     parallelDeployments: 10
     failureThreshold: {
       percentage: 1
