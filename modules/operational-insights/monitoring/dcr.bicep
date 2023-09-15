@@ -11,7 +11,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
   name: dataCollectionRuleName
   location: location
   tags: {
-    environment: 'AzMSP'
+    environment: 'MicroAge AzMSP'
   }
   properties: {
     dataSources: {
