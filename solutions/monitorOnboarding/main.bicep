@@ -53,6 +53,7 @@ module customTagPolicy '../../modules/operational-insights/tagging/taggingpolicy
 module monitoringPolicy '../../modules/operational-insights/monitoring/monitoringpolicy.bicep' = {
   name: 'deployMonitoringPolicy'
   params: {
+    location: location
     policyInitiativeName: policyInitiativeName
     dcrResourceID: dataCollectionRule.outputs.resourceId
     
