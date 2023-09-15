@@ -2,8 +2,6 @@
 targetScope = 'subscription'
 param location string
 
-
-
 //Parameters
 param policyInitiativeName string
 
@@ -11,7 +9,25 @@ param dcrResourceID string
 
 
 
-//Policy resource
+
+//declaring objects from json file for policy
+param policy object = json(loadTextContent('./dcrPolicy.json'))
+
+//building custom DCR Policy
+resource dcrPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+  name: 'customDCRPolicyDefinition'
+  properties:{
+    displayName: policy.properties.displayName
+    policyType: policy.properties.policyType
+    description: policy.properties.description
+    metadata: policy.properties.metadata
+    policyRule: policy.policyRule
+  }
+}
+
+
+
+//Policy initative resource
 resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-01' = {
   name: policyInitiativeName
   properties: {
@@ -23,14 +39,17 @@ resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-
     }
     policyDefinitions: [
     {
-      policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c'
-      policyDefinitionReferenceId: '/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c'
+      policyDefinitionId: dcrPolicyDefinition.id
+      policyDefinitionReferenceId: dcrPolicyDefinition.id
       parameters: {
         dcrResourceId: {
           value: dcrResourceID
         }
         resourceType:{
           value: 'Microsoft.Insights/dataCollectionRules'
+        }
+        scopeToSupportedImages:{
+          value: 'false'
         }
       }
     }
