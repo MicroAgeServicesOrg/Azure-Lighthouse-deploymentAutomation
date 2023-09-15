@@ -84,7 +84,7 @@ resource dcrRemediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = 
   scope: policyAssignment
   properties: {
     policyAssignmentId: policyAssignment.id
-    policyDefinitionReferenceId: '/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c'
+    policyDefinitionReferenceId: dcrPolicyDefinition.id
 }
 }
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
