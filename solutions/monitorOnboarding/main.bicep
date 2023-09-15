@@ -46,6 +46,7 @@ module customTagPolicy '../../modules/operational-insights/tagging/taggingpolicy
   name: 'deployTagPolicy'
   params: {
     customTagPolicyName: customTagPolicyName
+    location: location
   }
 }
 

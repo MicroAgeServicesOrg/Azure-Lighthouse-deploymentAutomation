@@ -1,5 +1,6 @@
 //Setting the target scope (Subscription Based Deployment)
 targetScope = 'subscription'
+param location string
 
 param customTagPolicyName string
 
@@ -19,7 +20,7 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
 
 resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
   name: customTagPolicyName
-  location: 'westus2'
+  location: location
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
@@ -27,14 +28,13 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
     }
   }
   properties: {
-    enforcementMode: 'Default'
     policyDefinitionId: policyDefinition.id
+    displayName: 'masvcTaggingPolicy'
   }
 }
 
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   name: 'ResourceTaggingRemediationTask'
-  scope: policyDefinition
   properties: {
     policyAssignmentId: policyAssignment.id
     resourceDiscoveryMode: 'ReEvaluateCompliance'
