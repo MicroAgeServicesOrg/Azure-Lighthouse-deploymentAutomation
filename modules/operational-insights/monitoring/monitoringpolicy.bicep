@@ -33,7 +33,7 @@ resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-
   name: policyInitiativeName
   properties: {
     policyType: 'Custom'
-    description: 'deploys azure monitoring agent to windows and linux VMs.'
+    description: 'deploys azure monitoring agent and DCR to windows VMs.'
     displayName: policyInitiativeName
     metadata: {
       category: 'AzMSP_Baseline'
@@ -78,6 +78,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
     }
   }
   properties: {
+    displayName: 'AzMSP Monitoring Initiative assignment'
     enforcementMode: 'Default'
     policyDefinitionId: policyInitiative.id
 
@@ -91,6 +92,10 @@ resource dcrRemediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = 
     policyAssignmentId: policyAssignment.id
     policyDefinitionReferenceId: dcrPolicyDefinition.id
 }
+dependsOn: [
+  policyInitiative
+]
+
 }
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   name: 'monitoringAgentRemediationTask'
