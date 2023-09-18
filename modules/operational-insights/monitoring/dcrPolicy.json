@@ -32,7 +32,7 @@
             true,
             false
         ],
-        "defaultValue": true
+        "defaultValue": false
         },
         "listOfWindowsImageIdToInclude": {
           "type": "Array",
