@@ -57,7 +57,11 @@ resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-
     {
       policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/ca817e41-e85a-4783-bc7f-dc532d36235e'
       policyDefinitionReferenceId: '/providers/Microsoft.Authorization/policyDefinitions/ca817e41-e85a-4783-bc7f-dc532d36235e'
-      parameters: {}
+      parameters: {
+        scopeToSupportedImages:{
+          value: bool('false')
+        }
+      }
     }
   ]
   }
