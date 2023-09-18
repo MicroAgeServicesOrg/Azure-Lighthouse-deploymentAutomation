@@ -50,7 +50,7 @@ resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-
           value: 'Microsoft.Insights/dataCollectionRules'
         }
         scopeToSupportedImages:{
-          value: 'false'
+          value: bool('false')
         }
       }
     }
