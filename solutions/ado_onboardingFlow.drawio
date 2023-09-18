@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-08-09T21:07:55.891Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/116.0" etag="aY131FNRBHjlfJFKSvf7" version="21.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2023-09-18T19:21:54.951Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/117.0" etag="8jx-pfG4sG-eguVTxFEH" version="21.7.5" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1434" dy="774" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1168" dy="1035" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -21,8 +21,8 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="WIyWlLk6GJQsqaUBKTNV-6" value="Client Code, Name, ID Added to Azure Table" style="rhombus;whiteSpace=wrap;html=1;shadow=0;fontFamily=Helvetica;fontSize=12;align=center;strokeWidth=1;spacing=6;spacingTop=-4;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="110" y="180" width="160" height="120" as="geometry" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-6" value="&lt;div&gt;Client Code, Name, ID Added to Onboarding CSV&lt;/div&gt;&lt;div&gt;(Later Azure Table)&lt;br&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;shadow=0;fontFamily=Helvetica;fontSize=12;align=center;strokeWidth=1;spacing=6;spacingTop=-4;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="76.66" y="160" width="226.67" height="160" as="geometry" />
         </mxCell>
         <mxCell id="lm7munRaRqm2RwD2WOAv-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-7" target="lm7munRaRqm2RwD2WOAv-0" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -35,40 +35,109 @@
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-7" value="Add Client Code, Name, ID to Table" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;fillColor=#f8cecc;strokeColor=#b85450;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="370" y="220" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="1gtj6v0jHGoqMLlhBnEK-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=block;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="lm7munRaRqm2RwD2WOAv-0">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="190" y="540" as="targetPoint" />
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="lm7munRaRqm2RwD2WOAv-0" target="1gtj6v0jHGoqMLlhBnEK-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-36" value="Pass" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="66nPMZnh3Mtra_5M6dn7-35">
+          <mxGeometry x="-0.1944" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="lm7munRaRqm2RwD2WOAv-0" value="&lt;div&gt;ADO Stage 1: &lt;br&gt;&lt;/div&gt;&lt;div&gt;DeployLogAnalytics&lt;br&gt;&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="lm7munRaRqm2RwD2WOAv-0" value="&lt;div&gt;Step 1: &lt;br&gt;&lt;/div&gt;&lt;div&gt;Create MonitoringRG&lt;br&gt;&lt;/div&gt;&lt;div&gt;(Automated)&lt;br&gt;&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="125" y="370" width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="1gtj6v0jHGoqMLlhBnEK-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=block;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="1gtj6v0jHGoqMLlhBnEK-1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="190" y="690" as="targetPoint" />
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-13" value="Pass" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=-0.027;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="1gtj6v0jHGoqMLlhBnEK-1" target="1gtj6v0jHGoqMLlhBnEK-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="1gtj6v0jHGoqMLlhBnEK-1" target="66nPMZnh3Mtra_5M6dn7-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-31" value="Fail" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="66nPMZnh3Mtra_5M6dn7-26">
+          <mxGeometry x="-0.7974" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="1gtj6v0jHGoqMLlhBnEK-1" value="&lt;div&gt;ADO Stage 2: &lt;br&gt;&lt;/div&gt;&lt;div&gt;Create DCR&lt;br&gt;&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="125" y="545" width="130" height="80" as="geometry" />
+        <mxCell id="1gtj6v0jHGoqMLlhBnEK-1" value="Step 2: Deploy Monitoring Log Analytics" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="125" y="510" width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="1gtj6v0jHGoqMLlhBnEK-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=block;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="1gtj6v0jHGoqMLlhBnEK-2">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="190" y="860" as="targetPoint" />
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="1gtj6v0jHGoqMLlhBnEK-2" target="1gtj6v0jHGoqMLlhBnEK-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-22" value="Pass" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="66nPMZnh3Mtra_5M6dn7-19">
+          <mxGeometry x="0.1143" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="1gtj6v0jHGoqMLlhBnEK-2" value="&lt;div&gt;ADO Stage 3: &lt;br&gt;&lt;/div&gt;&lt;div&gt;Deploy+Assign AMA Policy&lt;br&gt;&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="125" y="700" width="130" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="1gtj6v0jHGoqMLlhBnEK-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="1gtj6v0jHGoqMLlhBnEK-5">
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="1gtj6v0jHGoqMLlhBnEK-2" target="66nPMZnh3Mtra_5M6dn7-20">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="360" y="910" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="315" y="720" />
+              <mxPoint x="315" y="720" />
+            </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="1gtj6v0jHGoqMLlhBnEK-5" value="&lt;div&gt;ADO Stage 4: &lt;br&gt;&lt;/div&gt;&lt;div&gt;Deploy Action Groups + &lt;br&gt;&lt;/div&gt;&lt;div&gt;Alert Rules &lt;br&gt;&lt;/div&gt;&lt;div&gt;Bicep&lt;br&gt;&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="125" y="870" width="130" height="80" as="geometry" />
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-30" value="Fail" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="66nPMZnh3Mtra_5M6dn7-27">
+          <mxGeometry x="-0.4439" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="1gtj6v0jHGoqMLlhBnEK-7" value="Sends alerts to connectwise logic app via webhook" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="360" y="890" width="120" height="40" as="geometry" />
+        <mxCell id="1gtj6v0jHGoqMLlhBnEK-2" value="Step 3: Deploy DataCollection Rule(s)" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="125" y="680" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="1gtj6v0jHGoqMLlhBnEK-5" target="66nPMZnh3Mtra_5M6dn7-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-34" value="Pass" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="66nPMZnh3Mtra_5M6dn7-24">
+          <mxGeometry x="-0.2778" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="1gtj6v0jHGoqMLlhBnEK-5" target="66nPMZnh3Mtra_5M6dn7-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-32" value="Fail" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="66nPMZnh3Mtra_5M6dn7-28">
+          <mxGeometry x="-0.7526" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1gtj6v0jHGoqMLlhBnEK-5" value="Step 4: Create Tagging Policy" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="125" y="840" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="66nPMZnh3Mtra_5M6dn7-3" target="66nPMZnh3Mtra_5M6dn7-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-33" value="Fail" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="66nPMZnh3Mtra_5M6dn7-29">
+          <mxGeometry x="-0.8032" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="66nPMZnh3Mtra_5M6dn7-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="1110" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="190" y="1110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-40" value="Pass" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="66nPMZnh3Mtra_5M6dn7-39">
+          <mxGeometry x="-0.8522" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-3" value="Step 5: Create Monitoring Policy and child items (see bicep)" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="125" y="980" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-20" value="ADO sends email to team, Manual intervention required" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="475" y="680" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="66nPMZnh3Mtra_5M6dn7-38" target="66nPMZnh3Mtra_5M6dn7-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-38" value="Team manually verifies policy compliance, agent deployment, and data collection." style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="490" y="1050" width="120" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="66nPMZnh3Mtra_5M6dn7-41" value="AzMSP Alerting and Monitoring onboarding Complete!" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="680" y="1057.5" width="120" height="95" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
