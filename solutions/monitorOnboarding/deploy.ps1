@@ -32,7 +32,6 @@ $subscriptionFilePath = ".\subscriptionDeployList_testing.csv"
 $subscriptions = Import-Csv $subscriptionFilePath
 
 
-Update-Module -Name Az -Confirm:$false
 
 # If you have a set of subs that never should have deployments
 # But is available to the service principal
@@ -51,7 +50,7 @@ Update-Module -Name Az -Confirm:$false
         }
         
         else {
-            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -DenySettingsMode "DenyDelete"
+            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode
         }
 
     }
