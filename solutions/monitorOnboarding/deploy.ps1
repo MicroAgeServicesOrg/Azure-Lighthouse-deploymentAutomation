@@ -51,7 +51,7 @@ $subscriptions = Import-Csv $subscriptionFilePath
         }
         
         else {
-            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode
+            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -DenySettingsMode "DenyDelete"
         }
 
     }
