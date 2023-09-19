@@ -60,6 +60,7 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
               ]
             }
           ]
+          resourceIdColumn: 'ResourceId'
           operator: 'GreaterThan'
           threshold: 1
           failingPeriods: {
@@ -81,8 +82,7 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
 }
 
 //adds ASR Critical health rule
-
-resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = {
+ resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = {
   name: 'Azure Site Recovery "Critical" Health'
   location: location
   tags:{
@@ -174,173 +174,170 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
 //adds free space metric rule
 
 resource VMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
-    name: 'Azure Virtual Machine Running Out of Disk Space'
-    location: location
-    tags: {
-      environment: 'MicroAge AzMSP'
-    }
-    properties: {
-      displayName: 'Azure Virtual Machine Running Out of Disk Space'
-      description: 'Alerts when disk space is below 10 percent.'
-      severity: 2
-      enabled: true
-      evaluationFrequency: 'PT15M'
-      scopes: [
-        existingWorkspace.id
-      ]
-      targetResourceTypes: [
-        'Microsoft.OperationalInsights/workspaces'
-      ]
-      windowSize: 'PT15M'
-      overrideQueryTimeRange: 'P2D'
-      criteria: {
-        allOf: [
-          {
-            query: queries.VMFreeSpaceQuery
-            timeAggregation: 'Average'
-            metricMeasureColumn: 'CounterValue'
-            dimensions: [
-              {
-                name: 'Computer'
-                operator: 'Include'
-                values: [
-                  '*'
-                ]
-              }
-            ]
-            operator: 'LessThanOrEqual'
-            threshold: 10
-            failingPeriods: {
-              numberOfEvaluationPeriods: 1
-              minFailingPeriodsToAlert: 1
+  name: 'Azure Virtual Machine Running Out of Disk Space'
+  location: location
+  tags: {
+    environment: 'MicroAge AzMSP'
+  }
+  properties: {
+    displayName: 'Azure Virtual Machine Running Out of Disk Space'
+    description: 'Alerts when disk space is below 10 percent.'
+    severity: 2
+    enabled: true
+    evaluationFrequency: 'PT15M'
+    scopes: [
+      existingWorkspace.id
+    ]
+    targetResourceTypes: [
+      'Microsoft.OperationalInsights/workspaces'
+    ]
+    windowSize: 'PT15M'
+    overrideQueryTimeRange: 'P2D'
+    criteria: {
+      allOf: [
+        {
+          query: queries.VMFreeSpaceQuery
+          metricMeasureColumn: 'CounterValue'
+          dimensions: [
+            {
+              name: 'Computer'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
             }
+          ]
+          resourceIdColumn: '_ResourceId'
+          operator: 'LessThanOrEqual'
+          threshold: 10
+          failingPeriods: {
+            numberOfEvaluationPeriods: 1
+            minFailingPeriodsToAlert: 1
           }
-        ]
-      }
-      autoMitigate: true
-      actions: {
-        actionGroups: [
-          actionGroup.id
-        ]
-        customProperties: {}
-        actionProperties: {}
-      }
+        }
+      ]
+    }
+    autoMitigate: true
+    actions: {
+      actionGroups: [
+        actionGroup.id
+      ]
+      customProperties: {}
     }
   }
-//adds memory utilization rule
+}
 
+
+  //creates memory utilization rule
 resource VMMemUtilizationRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
-    name: 'Azure Virtual Machine High Memory Utilization'
-    location: location
-    tags: {
-      environment: 'MicroAge AzMSP'
-    }
-    properties: {
-      displayName: 'Azure Virtual Machine High Memory Utilization'
-      description: 'This alert triggers when a machine is over 85 percent utilization for longer than 5 minutes'
-      severity: 2
-      enabled: true
-      evaluationFrequency: 'PT5M'
-      scopes: [
-        existingWorkspace.id
-      ]
-      targetResourceTypes: [
-        'Microsoft.OperationalInsights/workspaces'
-      ]
-      windowSize: 'PT15M'
-      criteria: {
-        allOf: [
-          {
-            query: queries.VMMemUtilizationQuery
-            timeAggregation: 'Average'
-            metricMeasureColumn: 'MemoryUtilization'
-            dimensions: [
-              {
-                name: 'Computer'
-                operator: 'Include'
-                values: [
-                  '*'
-                ]
-              }
-            ]
-            operator: 'GreaterThan'
-            threshold: 85
-            failingPeriods: {
-              numberOfEvaluationPeriods: 1
-              minFailingPeriodsToAlert: 1
+  name: 'Azure Virtual Machine High Memory Utilization'
+  location: location
+  tags: {
+    environment: 'MicroAge AzMSP'
+  }
+  properties: {
+    description: 'This alert triggers when a machine is over 85 percent utilization for longer than 5 minutes'
+    severity: 2
+    enabled: true
+    evaluationFrequency: 'PT5M'
+    scopes: [
+      existingWorkspace.id
+    ]
+    targetResourceTypes: [
+      'Microsoft.OperationalInsights/workspaces'
+    ]
+    windowSize: 'PT15M'
+    criteria: {
+      allOf: [
+        {
+          query: queries.VMMemUtilizationQuery
+          timeAggregation: 'Average'
+          metricMeasureColumn: 'MemoryUtilization'
+          dimensions: [
+            {
+              name: 'Computer'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
             }
+          ]
+          resourceIdColumn: '_ResourceId'
+          operator: 'GreaterThan'
+          threshold: 85
+          failingPeriods: {
+            numberOfEvaluationPeriods: 1
+            minFailingPeriodsToAlert: 1
           }
-        ]
-      }
-      autoMitigate: true
-      actions: {
-        actionGroups: [
-          actionGroup.id
-        ]
-        customProperties: {}
-        actionProperties: {}
-      }
+        }
+      ]
+    }
+    autoMitigate: true
+    actions: {
+      actionGroups: [
+        actionGroup.id
+      ]
+      customProperties: {}
     }
   }
+}
 
 //adds heartbeat metric rule
 
 resource VMOffileRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
-    name: 'Azure VM Is Offline'
-    location: location
-    tags: {
-      environment: 'MicroAge AzMSP'
-    }
-    properties: {
-      displayName: 'Azure VM Is Offline'
-      description: 'Alerts when a VM has been off longer than 15 mins'
-      severity: 0
-      enabled: true
-      evaluationFrequency: 'PT15M'
-      scopes: [
-        existingWorkspace.id
-      ]
-      targetResourceTypes: [
-        'Microsoft.OperationalInsights/workspaces'
-      ]
-      windowSize: 'PT15M'
-      overrideQueryTimeRange: 'P2D'
-      criteria: {
-        allOf: [
-          {
-            query: queries.VMOfflineQuery
-            timeAggregation: 'Average'
-            metricMeasureColumn: 'HeartbeatCount'
-            dimensions: [
-              {
-                name: 'Computer'
-                operator: 'Include'
-                values: [
-                  '*'
-                ]
-              }
-            ]
-            operator: 'LessThanOrEqual'
-            threshold: 1
-            failingPeriods: {
-              numberOfEvaluationPeriods: 1
-              minFailingPeriodsToAlert: 1
+  name: 'Azure VM Is Offline'
+  location: location
+  tags: {
+    environment: 'MicroAge AzMSP'
+  }
+  properties: {
+    description: 'Alerts when a VM has been off longer than 15 mins'
+    severity: 0
+    enabled: true
+    evaluationFrequency: 'PT15M'
+    scopes: [
+      existingWorkspace.id
+    ]
+    targetResourceTypes: [
+      'Microsoft.OperationalInsights/workspaces'
+    ]
+    windowSize: 'PT15M'
+    overrideQueryTimeRange: 'P2D'
+    criteria: {
+      allOf: [
+        {
+          query: queries.VMOfflineQuery
+          timeAggregation: 'Average'
+          metricMeasureColumn: 'HeartbeatCount'
+          dimensions: [
+            {
+              name: 'Computer'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
             }
+          ]
+          operator: 'LessThanOrEqual'
+          threshold: 1
+          failingPeriods: {
+            numberOfEvaluationPeriods: 1
+            minFailingPeriodsToAlert: 1
           }
-        ]
-      }
-      autoMitigate: true
-      actions: {
-        actionGroups: [
-          actionGroup.id
-        ]
-        customProperties: {}
-        actionProperties: {}
-      }
+        }
+      ]
+    }
+    autoMitigate: true
+    actions: {
+      actionGroups: [
+        actionGroup.id
+      ]
+      customProperties: {}
     }
   }
+}
 
-//adds cpu percentage rule
+  //creates cpu percentage rule
 
 resource metricVMCpuRule 'microsoft.insights/metricAlerts@2018-03-01' = {
   name: 'Azure VM CPU Percentage Over 75 Percent'
