@@ -13,17 +13,6 @@ stages:
   - stage: preDeploy
     displayName: test deployment for errors
     jobs:
-      - job: updateAzModule
-        displayName: Update Az Modules to Latest
-        steps:
-        - task: AzurePowerShell@5
-          inputs:
-            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
-            ScriptType: InlineScript
-            Inline: |
-              'Install-Module -Name Az -Force -Confirm:$false -Scope CurrentUser -AllowClobber'
-              'Import-Module -Name Az -Force -Confirm:false '
-            azurePowerShellVersion: LatestVersion
       - job: deploymentWhatIf
         displayName: whatIf Run
         steps:
