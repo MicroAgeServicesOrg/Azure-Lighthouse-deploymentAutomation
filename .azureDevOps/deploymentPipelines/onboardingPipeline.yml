@@ -20,9 +20,10 @@ stages:
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: InlineScript
-            Inline: 'Install-Module -Name Az -Force -Confirm:$false -Scope CurrentUser -AllowClobber'
+            Inline: |
+              'Install-Module -Name Az -Force -Confirm:$false -Scope CurrentUser -AllowClobber'
+              'Import-Module -Name Az -Force -Confirm:false '
             azurePowerShellVersion: LatestVersion
-            pwsh: true
       - job: deploymentWhatIf
         displayName: whatIf Run
         steps:
