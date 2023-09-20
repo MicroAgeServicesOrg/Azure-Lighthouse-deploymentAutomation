@@ -13,6 +13,13 @@ stages:
   - stage: preDeploy
     displayName: test deployment for errors
     jobs:
+      - job: updateAzModule
+        displayName: Update Az Modules to Latest
+        steps:
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'Update-Module -Name Az -Force -Confirm:$false'
       - job: deploymentWhatIf
         displayName: whatIf Run
         steps:
