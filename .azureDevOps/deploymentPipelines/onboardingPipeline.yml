@@ -16,10 +16,13 @@ stages:
       - job: updateAzModule
         displayName: Update Az Modules to Latest
         steps:
-        - task: PowerShell@2
+        - task: AzurePowerShell@5
           inputs:
-            targetType: 'inline'
-            script: 'Update-Module -Name Az -Force -Confirm:$false -Scope CurrentUser'
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            ScriptType: InlineScript
+            Inline: 'Update-Module -Name Az -Force -Confirm:$false -Scope CurrentUser'
+            azurePowerShellVersion: LatestVersion
+            pwsh: true
       - job: deploymentWhatIf
         displayName: whatIf Run
         steps:
