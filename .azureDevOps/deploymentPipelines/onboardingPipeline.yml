@@ -19,7 +19,7 @@ stages:
         - task: PowerShell@2
           inputs:
             targetType: 'inline'
-            script: 'Update-Module -Name Az -Force -Confirm:$false'
+            script: 'Update-Module -Name Az -Force -Confirm:$false -Scope CurrentUser'
       - job: deploymentWhatIf
         displayName: whatIf Run
         steps:
