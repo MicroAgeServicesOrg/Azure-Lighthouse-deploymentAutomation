@@ -197,6 +197,7 @@ resource VMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-prev
       allOf: [
         {
           query: queries.VMFreeSpaceQuery
+          timeAggregation: 'Average'
           metricMeasureColumn: 'CounterValue'
           dimensions: [
             {
