@@ -91,6 +91,7 @@ resource dcrRemediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = 
   properties: {
     policyAssignmentId: policyAssignment.id
     policyDefinitionReferenceId: dcrPolicyDefinition.id
+    resourceDiscoveryMode: 'ExistingNonCompliant'
 }
 dependsOn: [
   policyInitiative
