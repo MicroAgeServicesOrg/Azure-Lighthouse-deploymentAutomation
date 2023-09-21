@@ -353,8 +353,8 @@ resource metricVMCpuRule 'microsoft.insights/metricAlerts@2018-03-01' = {
     scopes: [
       existingWorkspace.id
     ]
-    evaluationFrequency: 'PT5M'
-    windowSize: 'PT15M'
+    evaluationFrequency: 'PT1M'
+    windowSize: 'PT5M'
     criteria: {
       allOf: [
         {
