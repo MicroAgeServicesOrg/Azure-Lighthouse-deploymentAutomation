@@ -1,0 +1,125 @@
+{
+    "properties": {
+        "displayName": "Deploy Recovery Services Vault to VM regions",
+        "policyType": "Custom",
+        "mode": "All",
+        "description": "Deploy a Recovery Services Vault to every region that a VM exists in.",
+        "metadata": {
+          "category": "Compute"
+        },
+        "parameters": {
+            "recoveryServicesVaultName": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Recovery Services Vault Name",
+                "description": "Name of the Recovery Services Vault to deploy."
+              }
+            },
+            "vmNamePrefix": {
+                "type": "String",
+                "metadata": {
+                  "displayName": "VM Name Prefix",
+                  "description": "Prefix of the VM names to include in the policy."
+                }
+              },
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "auditIfNotExists",
+            "AuditIfNotExists",
+            "deployIfNotExists",
+            "DeployIfNotExists",
+            "disabled",
+            "Disabled"
+          ],
+          "defaultValue": "DeployIfNotExists"
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Compute/virtualMachines"
+            },
+            {
+              "field": "name",
+              "like": "[concat(parameters('vmNamePrefix'), '*')]"
+            }
+          ]
+        },
+        "then": {
+          "effect": "deployIfNotExists",
+          "details": {
+            "type": "Microsoft.Resources/deployments",
+            "name": "deployRecoveryServicesVault",
+            "existenceCondition": {
+              "allOf": [
+                {
+                  "field": "Microsoft.Resources/deployments.properties.provisioningState",
+                  "equals": "Succeeded"
+                }
+              ]
+            },
+            "roleDefinitionIds": [
+              "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            ],
+            "deployment": {
+              "properties": {
+                "mode": "Incremental",
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "resources": [
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "name": "[concat('deployRecoveryServicesVault-', field('Microsoft.Compute/virtualMachines', 'name'))]",
+                      "apiVersion": "2020-06-01",
+                      "location": "[field('Microsoft.Compute/virtualMachines', 'location')]",
+                      "properties": {
+                        "mode": "Incremental",
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "resources": [
+                            {
+                              "type": "Microsoft.RecoveryServices/vaults",
+                              "name": "[parameters('recoveryServicesVaultName')]",
+                              "apiVersion": "2019-06-27",
+                              "location": "[field('Microsoft.Compute/virtualMachines', 'location')]",
+                              "sku": {
+                                "name": "[parameters('skuName')]"
+                              },
+                              "properties": {}
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "parameters": {
+                    "recoveryServicesVaultName": {
+                        "value": "myRecoveryServicesVault"
+                      },
+                      "skuName": {
+                        "value": "Standard"
+                      },
+                      "vmNamePrefix": {
+                        "value": "myVmPrefix"
+                      }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "id": "/providers/Microsoft.Authorization/policyDefinitions/98d0b9f8-fd90-49c9-88e2-d3baf3b0dd86",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "98d0b9f8-fd90-49c9-88e2-d3baf3b0dd86"
+  }
