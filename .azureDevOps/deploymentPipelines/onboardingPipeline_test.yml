@@ -1,8 +1,7 @@
 trigger:
 - none
 
-pool:
-  vmImage: masvc_vmsagentspool1
+pool: 'masvc_vmsagentspool1'
 
 stages:
   - stage: preDeploy
@@ -15,7 +14,7 @@ stages:
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: 'FilePath'
-            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
+            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy_stackTesting.ps1'
             ScriptArguments: '-testDeploy $true -verbose'
             azurePowerShellVersion: 'LatestVersion'
   - stage: Deploy
@@ -28,6 +27,6 @@ stages:
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
-            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
+            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy_stackTesting.ps1'
             ScriptArguments: '-testDeploy $false -verbose' 
             azurePowerShellVersion: 'LatestVersion'
