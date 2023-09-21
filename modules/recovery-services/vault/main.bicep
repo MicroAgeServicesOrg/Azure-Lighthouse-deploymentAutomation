@@ -8,7 +8,7 @@ param location string
 param clientCode string
 
 @description('Required. Name of the Azure Recovery Service Vault.')
-param vaultName string = '${clientCode}-${location}'
+param vaultName string = '${clientCode}-${location}-vmRSV'
 
 
 @description('Optional. Enables system assigned managed identity on the resource.')
@@ -30,7 +30,7 @@ var identity = identityType != 'None' ? {
 
 
 resource rsv 'Microsoft.RecoveryServices/vaults@2023-01-01' = {
-  name: name
+  name: vaultName
   location: location
   identity: identity
   sku: {
