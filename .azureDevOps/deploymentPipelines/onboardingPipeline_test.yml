@@ -1,7 +1,7 @@
 trigger:
 - none
 
-pool: 'masvc_vmsagentspool1'
+pool: 'masvc_adoRunners'
 
 stages:
   - stage: preDeploy
