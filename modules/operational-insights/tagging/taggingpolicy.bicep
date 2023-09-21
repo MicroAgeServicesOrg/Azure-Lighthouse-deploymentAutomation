@@ -29,7 +29,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   }
   properties: {
     policyDefinitionId: policyDefinition.id
-    displayName: 'Azure Resource Tagging Assignment'
+    displayName: 'AzMSP Resource Tagging Assignment'
   }
 }
 
