@@ -89,6 +89,14 @@ resource dcrRemediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = 
   name: 'dcrRemediationTask'
   scope: policyAssignment
   properties: {
+    parallelDeployments: 10
+    failureThreshold: {
+      percentage: 1
+    }
+    filters: {
+      locations: []
+    }
+    resourceCount: 500
     policyAssignmentId: policyAssignment.id
     policyDefinitionReferenceId: dcrPolicyDefinition.id
     resourceDiscoveryMode: 'ExistingNonCompliant'
