@@ -91,7 +91,7 @@ resource dcrRemediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = 
   properties: {
     parallelDeployments: 10
     failureThreshold: {
-      percentage: 1
+      percentage: 0
     }
     filters: {
       locations: []
@@ -112,7 +112,7 @@ resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   properties: {
     parallelDeployments: 10
     failureThreshold: {
-      percentage: 1
+      percentage: 0
     }
     filters: {
       locations: []

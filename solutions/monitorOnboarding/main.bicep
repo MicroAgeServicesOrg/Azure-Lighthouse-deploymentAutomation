@@ -40,6 +40,9 @@ module dataCollectionRule '../../modules/operational-insights/monitoring/dcr.bic
     dataCollectionRuleName: dataCollectionRuleName
 
   }
+  dependsOn: [
+    deployLogAnalytics
+  ]
 }
 
 module customTagPolicy '../../modules/operational-insights/tagging/taggingpolicy.bicep' = {
