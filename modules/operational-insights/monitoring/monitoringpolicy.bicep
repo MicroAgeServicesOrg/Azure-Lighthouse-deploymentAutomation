@@ -102,6 +102,14 @@ resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   name: 'monitoringAgentRemediationTask'
   scope: policyAssignment
   properties: {
+    parallelDeployments: 10
+    failureThreshold: {
+      percentage: 1
+    }
+    filters: {
+      locations: []
+    }
+    resourceCount: 500
     policyAssignmentId: policyAssignment.id
     policyDefinitionReferenceId: '/providers/Microsoft.Authorization/policyDefinitions/ca817e41-e85a-4783-bc7f-dc532d36235e'
     resourceDiscoveryMode: 'ExistingNonCompliant'
