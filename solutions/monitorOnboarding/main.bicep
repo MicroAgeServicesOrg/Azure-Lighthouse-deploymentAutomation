@@ -61,6 +61,9 @@ module monitoringPolicy '../../modules/operational-insights/monitoring/monitorin
     dcrResourceID: dataCollectionRule.outputs.resourceId
     
   }
+  dependsOn: [
+    deployLogAnalytics
+  ]
 }
 
 module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' = {
@@ -70,6 +73,9 @@ module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' =
     clientCode: clientCode
     location: location
   }
+  dependsOn: [
+    deployLogAnalytics
+  ]
 }
 
 
