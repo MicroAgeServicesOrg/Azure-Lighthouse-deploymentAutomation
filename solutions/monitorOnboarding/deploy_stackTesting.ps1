@@ -77,7 +77,7 @@ $subscriptions = Import-Csv $subscriptionFilePath
         else {
             TurnOnVMs
             Start-Sleep -Seconds 30
-            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -DenySettingsMode "none" -templateParameterObject @{clientCode = $clientCode} -Verbose
+            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -templateParameterObject @{clientCode = $clientCode} -Verbose -Force -Confirm:$false
         }
 
     }
