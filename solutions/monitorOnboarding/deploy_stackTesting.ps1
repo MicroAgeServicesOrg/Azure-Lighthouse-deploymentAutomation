@@ -4,7 +4,7 @@ param (
     [string]$subscriptionId,
 
     [Parameter(Mandatory=$false)]
-    [string]$deploymentName = 'loganalytics.bicep',
+    [string]$deploymentName = 'masvc_monitorOnboardingDeploymentStack',
 
     [PArameter(Mandatory=$true)]
     [bool]$testDeploy
@@ -50,7 +50,7 @@ $subscriptions = Import-Csv $subscriptionFilePath
         }
         
         else {
-            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -DenySettingsMode "DenyDelete"
+            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -DenySettingsMode "DenyDelete" -templateParameterObject @{clientCode = $clientCode} -Verbose
         }
 
     }
