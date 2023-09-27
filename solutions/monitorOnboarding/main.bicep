@@ -20,11 +20,6 @@ resource monitoringRG 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   location: location
 }
 
-resource testRG 'Microsoft.Resources/resourceGroups@2023-07-01' = {
-  name: 'test-rg'
-  location: location
-}
-
 
 
 module deployLogAnalytics '../../modules/operational-insights/workspaces/loganalytics.bicep' = {
