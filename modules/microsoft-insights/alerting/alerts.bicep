@@ -174,13 +174,13 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
 //adds free space metric rule
 
 resource VMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
-  name: 'Azure Virtual Machine Running Out of Disk Space'
+  name: 'Windows Virtual Machine Running Out of Disk Space'
   location: location
   tags: {
     environment: 'MicroAge AzMSP'
   }
   properties: {
-    displayName: 'Azure Virtual Machine Running Out of Disk Space'
+    displayName: 'Windows Virtual Machine Running Out of Disk Space'
     description: 'Alerts when disk space is below 10 percent.'
     severity: 2
     enabled: true
