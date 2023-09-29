@@ -73,16 +73,22 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   name: policyInitiativeName
   location: location
   identity: {
-    type: 'UserAssigned'
-    userAssignedIdentities: {
-      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-lighthouseuami-RG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/microagelighthouseuami' :{}
-    }
+    type: 'SystemAssigned'
   }
   properties: {
     displayName: 'AzMSP Monitoring Initiative assignment'
     enforcementMode: 'Default'
     policyDefinitionId: policyInitiative.id
 
+  }
+}
+
+resource ContributorAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+  name: guid(subscription().id, 'azMSPMonitoringPolicy', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
+    principalType: 'ServicePrincipal'
+    principalId: policyAssignment.identity.principalId
   }
 }
 
