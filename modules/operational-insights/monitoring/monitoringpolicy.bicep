@@ -28,6 +28,7 @@ resource dcrPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-
 
 
 
+
 //Policy initative resource
 resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-01' = {
   name: policyInitiativeName
