@@ -88,6 +88,7 @@ resource ContributorAssignment 'Microsoft.Authorization/roleAssignments@2020-04-
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
     principalType: 'ServicePrincipal'
+    delegatedManagedIdentityResourceId: subscriptionResourceId('/providers/Microsoft.Authorization/policyAssignments', '${policyAssignment.name}')
     principalId: policyAssignment.identity.principalId
   }
 }
