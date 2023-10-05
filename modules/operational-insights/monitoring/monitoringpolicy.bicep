@@ -27,8 +27,6 @@ resource dcrPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-
 }
 
 
-
-
 //Policy initative resource
 resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-01' = {
   name: policyInitiativeName
@@ -73,7 +71,10 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   name: policyInitiativeName
   location: location
   identity: {
-    type: 'SystemAssigned'
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-monitoringresources-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
+    }
   }
   properties: {
     displayName: 'AzMSP Monitoring Initiative assignment'
@@ -83,15 +84,6 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   }
 }
 
-resource ContributorAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(subscription().id, 'azMSPMonitoringPolicy', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
-  properties: {
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
-    principalType: 'ServicePrincipal'
-    delegatedManagedIdentityResourceId: subscriptionResourceId('/providers/Microsoft.Authorization/policyAssignments', '${policyAssignment.name}')
-    principalId: policyAssignment.identity.principalId
-  }
-}
 
 resource dcrRemediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   name: 'dcrRemediationTask'

@@ -20,6 +20,38 @@ resource monitoringRG 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   location: location
 }
 
+module policyUAMI '../../modules/managed-identity/user-assigned-identity/main.bicep' = {
+  name: 'deployUAMI'
+  scope: monitoringRG
+  params: {
+    location: location
+    name: 'masvcpolicyuami'
+  }
+
+}
+
+module policyUAMIAssign '../../modules/managed-identity/user-assigned-identity/main.bicep' = {
+  name: 'deployUAMIAssign'
+  scope: monitoringRG
+  params: {
+    location: location
+    name: 'masvcpolicyuami'
+    roleAssignments: [
+      {
+        principalType: 'ServicePrincipal'
+        roleDefinitionIdOrName: 'Contributor'
+        delegatedManagedIdentityResourceId: policyUAMI.outputs.resourceId
+        principalIds: [
+          policyUAMI.outputs.principalId
+        ]
+      }
+    ]
+  }
+  dependsOn: [
+    policyUAMI
+  ]
+
+}
 
 
 module deployLogAnalytics '../../modules/operational-insights/workspaces/loganalytics.bicep' = {
@@ -51,6 +83,9 @@ module customTagPolicy '../../modules/operational-insights/tagging/taggingpolicy
     customTagPolicyName: customTagPolicyName
     location: location
   }
+  dependsOn: [
+    policyUAMIAssign
+  ]
 }
 
 module monitoringPolicy '../../modules/operational-insights/monitoring/monitoringpolicy.bicep' = {
@@ -63,6 +98,7 @@ module monitoringPolicy '../../modules/operational-insights/monitoring/monitorin
   }
   dependsOn: [
     deployLogAnalytics
+    policyUAMIAssign
   ]
 }
 
