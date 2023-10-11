@@ -21,7 +21,7 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: 'FilePath'
             ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
-            ScriptArguments: '-deploymentName "masvc_monitorOnboardingDeploymentStack_whatIf" -testDeploy $true -verbose'
+            ScriptArguments: -deploymentName "masvc_monitorOnboardingDeploymentStack_whatIf" -testDeploy $true -verbose
             azurePowerShellVersion: 'LatestVersion'
   - stage: Deploy
     displayName: Deploy templates to tenants
@@ -34,5 +34,5 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
-            ScriptArguments: '-deploymentName "masvc_monitorOnboardingDeploymentStack" -testDeploy $false -verbose'
+            ScriptArguments: -deploymentName "masvc_monitorOnboardingDeploymentStack" -testDeploy $false -verbose
             azurePowerShellVersion: 'LatestVersion'
