@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$false)]
-    [string]$deploymentName = 'loganalytics.bicep',
+    [string]$deploymentName,
 
     [PArameter(Mandatory=$true)]
     [bool]$testDeploy
