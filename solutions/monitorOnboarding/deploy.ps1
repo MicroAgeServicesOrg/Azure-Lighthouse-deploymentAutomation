@@ -1,9 +1,6 @@
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$false)]
-    [string]$subscriptionId,
-
-    [Parameter(Mandatory=$false)]
     [string]$deploymentName = 'loganalytics.bicep',
 
     [PArameter(Mandatory=$true)]
@@ -47,7 +44,7 @@ $bicepFile = ".\solutions\monitorOnboarding\main.bicep"
 
 
 #Define path to file containing Subscription IDs
-$subscriptionFilePath = ".\subscriptionDeployList_testing.csv"
+$subscriptionFilePath = ".\subscriptionDeployList.csv"
 
 ###localTesting - Leave disabled
 #$subscriptionFilePath = "..\..\subscriptionDeployList.csv"
@@ -58,10 +55,8 @@ $subscriptions = Import-Csv $subscriptionFilePath
 
 
 
-# If you have a set of subs that never should have deployments
-# But is available to the service principal
-
 #run deployment in each subscription
+#converted to Bicep stack deployment on 10/11/2023
 
     Write-Output "Subscriptions sepecified in CSV file. Deploying to selected subscriptions" -Verbose
     foreach ($subscription in $subscriptions) {
@@ -77,7 +72,8 @@ $subscriptions = Import-Csv $subscriptionFilePath
         else {
             TurnOnVMs 
             Start-Sleep -Seconds 30
-            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode
+            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -DenySettingsMode "None" -templateParameterObject @{clientCode = $clientCode} -Verbose -Force
+
         }
 
     }
