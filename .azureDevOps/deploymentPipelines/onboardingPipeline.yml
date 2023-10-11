@@ -6,8 +6,7 @@
 trigger:
 - none
 
-pool:
-  vmImage: windows-latest
+pool: 'masvc_adoRunners'
 
 stages:
   - stage: preDeploy
