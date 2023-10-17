@@ -73,7 +73,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
-      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-monitoringresources-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
+      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
     }
   }
   properties: {

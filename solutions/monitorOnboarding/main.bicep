@@ -14,46 +14,13 @@ param customTagPolicyName string = 'Azure Resource Tagging - AzMSP_Baseline'
 
 
 
-
+// Deploy the base resource group for all resources within this deployment. 
 resource monitoringRG 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: 'masvc-monitoringresources-rg'
   location: location
 }
 
-module policyUAMI '../../modules/managed-identity/user-assigned-identity/main.bicep' = {
-  name: 'deployUAMI'
-  scope: monitoringRG
-  params: {
-    location: location
-    name: 'masvcpolicyuami'
-  }
-
-}
-
-module policyUAMIAssign '../../modules/managed-identity/user-assigned-identity/main.bicep' = {
-  name: 'deployUAMIAssign'
-  scope: monitoringRG
-  params: {
-    location: location
-    name: 'masvcpolicyuami'
-    roleAssignments: [
-      {
-        principalType: 'ServicePrincipal'
-        roleDefinitionIdOrName: 'Contributor'
-        delegatedManagedIdentityResourceId: policyUAMI.outputs.resourceId
-        principalIds: [
-          policyUAMI.outputs.principalId
-        ]
-      }
-    ]
-  }
-  dependsOn: [
-    policyUAMI
-  ]
-
-}
-
-
+//deploy the log analytics workspace used for monitoring services. 
 module deployLogAnalytics '../../modules/operational-insights/workspaces/loganalytics.bicep' = {
   name: 'deployLogAnalytics'
   scope: monitoringRG
@@ -62,7 +29,7 @@ module deployLogAnalytics '../../modules/operational-insights/workspaces/loganal
     clientcode: clientCode
 }
 }
-
+//deploy the data collection rule for the monitoring agent.
 module dataCollectionRule '../../modules/operational-insights/monitoring/dcr.bicep' = {
   name: 'deployDCR'
   scope: monitoringRG
@@ -76,16 +43,13 @@ module dataCollectionRule '../../modules/operational-insights/monitoring/dcr.bic
     deployLogAnalytics
   ]
 }
-
+//deploy the custom tagging policy as defined for this deployment.
 module customTagPolicy '../../modules/operational-insights/tagging/taggingpolicy.bicep' = {
   name: 'deployTagPolicy'
   params: {
     customTagPolicyName: customTagPolicyName
     location: location
   }
-  dependsOn: [
-    policyUAMIAssign
-  ]
 }
 
 module monitoringPolicy '../../modules/operational-insights/monitoring/monitoringpolicy.bicep' = {
@@ -98,7 +62,6 @@ module monitoringPolicy '../../modules/operational-insights/monitoring/monitorin
   }
   dependsOn: [
     deployLogAnalytics
-    policyUAMIAssign
   ]
 }
 

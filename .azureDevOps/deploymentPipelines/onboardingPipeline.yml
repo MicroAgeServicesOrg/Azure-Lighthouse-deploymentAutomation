@@ -9,24 +9,21 @@ trigger:
 pool: 'masvc_adoRunners'
 
 stages:
-  - stage: preDeploy
-    displayName: test deployment for errors
+  - stage: Deploy
+    displayName: Deploy templates to tenants
     jobs:
-      - job: deploymentWhatIf
-        displayName: whatIf Run
+      - job: uamiStack
+        displayName: deploy bicep templates for MicroAge User Assigned Managed Identities Stack
         steps:
         - task: AzurePowerShell@5
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
-            ScriptType: 'FilePath'
-            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
-            ScriptArguments: -deploymentName "masvc_monitorOnboardingDeploymentStack_whatIf" -testDeploy $true -verbose
+            ScriptType: FilePath
+            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/onboardingManagedIdentities/deploy.ps1'
+            ScriptArguments: -deploymentName "masvc_onboardingManagedIdentitiesDeploymentStack"
             azurePowerShellVersion: 'LatestVersion'
-  - stage: Deploy
-    displayName: Deploy templates to tenants
-    jobs:
-      - job: deployment
-        displayName: deploy bicep templates
+      - job: monitoringStack
+        displayName: deploy bicep templates for Monitoring and Policy Stack
         steps:
         - task: AzurePowerShell@5
           inputs:
