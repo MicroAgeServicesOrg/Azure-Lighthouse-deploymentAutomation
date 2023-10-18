@@ -20,7 +20,7 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/onboardingManagedIdentities/deploy.ps1'
-            ScriptArguments: -deploymentName "masvc_onboardingManagedIdentitiesDeploymentStack"
+            ScriptArguments: -deploymentName "masvc_onboardingManagedIdentitiesDeploymentStack" -testDeploy $false -verbose
             azurePowerShellVersion: 'LatestVersion'
       - job: monitoringStack
         displayName: deploy bicep templates for Monitoring and Policy Stack
