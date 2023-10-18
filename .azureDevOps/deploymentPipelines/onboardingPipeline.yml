@@ -23,6 +23,7 @@ stages:
             ScriptArguments: -deploymentName "masvc_onboardingManagedIdentitiesDeploymentStack" -testDeploy $false -verbose
             azurePowerShellVersion: 'LatestVersion'
       - job: monitoringStack
+        dependsOn: uamiStack
         displayName: deploy bicep templates for Monitoring and Policy Stack
         steps:
         - task: AzurePowerShell@5
