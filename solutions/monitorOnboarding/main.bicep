@@ -8,9 +8,18 @@ param clientCode string
 param dataCollectionRuleName string = 'masvcMonitoringDCR'
 
 //monitoringPolicyParams
-param policyInitiativeName string = 'Azure Monitoring Agent - AzMSP_Baseline'
+param policyInitiativeName string = 'AzMSP_Baseline - Azure Monitoring'
 
-param customTagPolicyName string = 'Azure Resource Tagging - AzMSP_Baseline'
+
+//param to define the custom policy definition for the DCR policy.
+param dcrPolicy object = json(loadTextContent('../../customPolicyDefinitions/dcrPolicy.json'))
+
+//param to define the custom policy definition for the MMA policy.
+param amaPolicy object = json(loadTextContent('../../customPolicyDefinitions/amaWindowsPolicy.json'))
+
+//param for user assigned identity for policy assignment.
+param userAssignedIdentityId string = '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami'
+
 
 
 
@@ -43,28 +52,79 @@ module dataCollectionRule '../../modules/operational-insights/monitoring/dcr.bic
     deployLogAnalytics
   ]
 }
-//deploy the custom tagging policy as defined for this deployment.
-module customTagPolicy '../../modules/operational-insights/tagging/taggingpolicy.bicep' = {
-  name: 'deployTagPolicy'
+
+//CARML Module for the DCR Policy. This policy is custom, hence we need to create it first. It will be added to the initiative below. 
+module customDCRPolicyDefinitionCARML '../../modules/carml/policy-definition/subscription/main.bicep' = {
+  name: 'createCustomPolicyForDCR'
   params: {
-    customTagPolicyName: customTagPolicyName
     location: location
+    name: 'masvcDCRPolicyDefinition'
+    displayName: dcrPolicy.properties.displayName
+    description: dcrPolicy.properties.description
+    metadata: dcrPolicy.properties.metadata
+    parameters: dcrPolicy.properties.parameters
+    policyRule: dcrPolicy.properties.policyRule
   }
 }
 
-module monitoringPolicy '../../modules/operational-insights/monitoring/monitoringpolicy.bicep' = {
-  name: 'deployMonitoringPolicy'
+//CARML Module for the AMA Policy. This policy is custom, hence we need to create it first. It will be added to the initiative below. 
+module customAMAPolicyDefinitionCARML '../../modules/carml/policy-definition/subscription/main.bicep' = {
+  name: 'createCustomPolicyForAMA'
   params: {
     location: location
-    policyInitiativeName: policyInitiativeName
-    dcrResourceID: dataCollectionRule.outputs.resourceId
+    name: 'masvcAMAPolicyDefinition'
+    displayName: amaPolicy.properties.displayName
+    description: amaPolicy.properties.description
+    metadata: amaPolicy.properties.metadata
+    parameters: amaPolicy.properties.parameters
+    policyRule: amaPolicy.properties.policyRule
+  }
+}
+
+
+
+//CARML Module for the PolicyDefinition (Initiative). This joins microsoft default policies with the custom policy above and deploys them. 
+module monitoringPolicyInitiativeCARML '../../modules/carml/policy-set-definition/subscription/main.bicep' = {
+  name: 'deployMonitoringInitiativeCARML'
+  params: {
+    name: policyInitiativeName
+    location: location
+    policyDefinitions: [
+      {
+        policyDefinitionId: customDCRPolicyDefinitionCARML.outputs.resourceId
+        policyDefinitionReferenceId: customDCRPolicyDefinitionCARML.outputs.resourceId
+        parameters: {
+          dcrResourceId: {
+            value:dataCollectionRule.outputs.resourceId
+          }
+          resourceType: {
+            value: 'Microsoft.Insights/dataCollectionRules'
+          }
+          scopeToSupportedImages: {
+            value: bool('false')
+          }
+        }
+      }
+      {
+        policyDefinitionId: customAMAPolicyDefinitionCARML.outputs.resourceId
+        policyDefinitionReferenceId: customAMAPolicyDefinitionCARML.outputs.resourceId
+        parameters: {
+          scopeToSupportedImages:{
+            value: bool('false')
+          }
+        }
+      }
+    ]
     
   }
   dependsOn: [
-    deployLogAnalytics
+    customAMAPolicyDefinitionCARML
+    customDCRPolicyDefinitionCARML
   ]
 }
 
+
+//deploy custom alerts from the alerts folder. 
 module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' = {
   name: 'deployAlerts'
   scope: monitoringRG
@@ -74,7 +134,47 @@ module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' =
   }
   dependsOn: [
     deployLogAnalytics
+    dataCollectionRule
   ]
 }
 
+//policy Assignment for AMA
+module policyAssignmentMonitoringInit '../../modules/carml/policy-assignment/subscription/main.bicep' = {
+  name: '${uniqueString(deployment().name)}-policyAssignmentAMA'
+  params: {
+    name: 'policyAssignmentAMA'
+    location: location
+    enforcementMode: 'Default'
+    policyDefinitionId: monitoringPolicyInitiativeCARML.outputs.resourceId
+    identity: 'UserAssigned'
+    userAssignedIdentityId: userAssignedIdentityId
+  }
 
+}
+
+//deploy the remediaton task for the AMA policy.
+module remediationTaskAMA '../../modules/carml/policy-insights/remediation/subscription/main.bicep' = {
+  name: '${uniqueString(deployment().name)}-remediationTaskAMA'
+  params: {
+    name: 'remediationTaskAMA'
+    location: location
+    policyAssignmentId: policyAssignmentMonitoringInit.outputs.resourceId
+    policyDefinitionReferenceId: customAMAPolicyDefinitionCARML.outputs.resourceId
+    resourceDiscoveryMode: 'ExistingNonCompliant'
+    failureThresholdPercentage: '0.5'
+  }
+}
+
+
+//deploy the remediaton task for the DCR policy.
+module remediationTaskDCR '../../modules/carml/policy-insights/remediation/subscription/main.bicep' = {
+  name: '${uniqueString(deployment().name)}-remediationTaskDCR'
+  params: {
+    name: 'remediationTaskDCR'
+    location: location
+    policyAssignmentId: policyAssignmentMonitoringInit.outputs.resourceId
+    policyDefinitionReferenceId: customDCRPolicyDefinitionCARML.outputs.resourceId
+    resourceDiscoveryMode: 'ExistingNonCompliant'
+    failureThresholdPercentage: '0.5'
+  }
+}
