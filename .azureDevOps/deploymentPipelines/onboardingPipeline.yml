@@ -20,7 +20,7 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/onboardingManagedIdentities/deploy.ps1'
-            ScriptArguments: -deploymentName "masvc_onboardingManagedIdentitiesDeploymentStack" -testDeploy $false -verbose
+            ScriptArguments: -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -testDeploy $false -verbose
             azurePowerShellVersion: 'LatestVersion'
       - job: monitoringStack
         dependsOn: uamiStack
@@ -31,5 +31,5 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/monitorOnboarding/deploy.ps1'
-            ScriptArguments: -deploymentName "masvc_monitorOnboardingDeploymentStack" -testDeploy $false -verbose
+            ScriptArguments: -deploymentName "masvcAzMSP_MonitoringDeploymentStack" -testDeploy $false -verbose
             azurePowerShellVersion: 'LatestVersion'
