@@ -160,7 +160,7 @@ module remediationTaskAMA '../../modules/carml/policy-insights/remediation/subsc
     location: location
     policyAssignmentId: policyAssignmentMonitoringInit.outputs.resourceId
     policyDefinitionReferenceId: customAMAPolicyDefinitionCARML.outputs.resourceId
-    resourceDiscoveryMode: 'ExistingNonCompliant'
+    resourceDiscoveryMode: 'ReEvaluateCompliance'
     failureThresholdPercentage: '0.5'
   }
 }
@@ -174,7 +174,7 @@ module remediationTaskDCR '../../modules/carml/policy-insights/remediation/subsc
     location: location
     policyAssignmentId: policyAssignmentMonitoringInit.outputs.resourceId
     policyDefinitionReferenceId: customDCRPolicyDefinitionCARML.outputs.resourceId
-    resourceDiscoveryMode: 'ExistingNonCompliant'
+    resourceDiscoveryMode: 'ReEvaluateCompliance'
     failureThresholdPercentage: '0.5'
   }
 }
