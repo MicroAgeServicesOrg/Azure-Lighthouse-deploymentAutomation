@@ -15,7 +15,7 @@ resource masvcUAMIRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 }
 
 
-module policyUAMIDeployment 'br:masvcbicepcentralmodules.azurecr.io/bicep/modules/managed-identity.user-assigned-identity:0.4.0' = {
+module policyUAMIDeployment '../../modules/carml/managed-identity/user-assigned-identity/main.bicep' = {
   name: 'policyUAMIDeployment'
   scope: masvcUAMIRG
   params: {
