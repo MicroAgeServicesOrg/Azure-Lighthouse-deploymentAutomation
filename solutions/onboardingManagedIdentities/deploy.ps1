@@ -3,7 +3,7 @@ param (
     [Parameter(Mandatory=$true)]
     [string]$deploymentName,
 
-    [PArameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [bool]$testDeploy
 )
 
@@ -37,7 +37,7 @@ function TurnOnVMs {
 $ErrorActionPreference = "Stop"
 
 #Define path to the bicep artifacts (files)
-$bicepFile = ".\solutions\monitorOnboarding\main.bicep"
+$bicepFile = ".\solutions\onboardingManagedIdentities\main.bicep"
 
 ###localTesting - Leave disabled
 #$blueprintPath = "."
@@ -70,9 +70,7 @@ $subscriptions = Import-Csv $subscriptionFilePath
         }
         
         else {
-            TurnOnVMs 
-            Start-Sleep -Seconds 30
-            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -DenySettingsMode "None" -templateParameterObject @{clientCode = $clientCode} -Verbose -Force
+            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -DenySettingsMode "None" -Verbose -Force
 
         }
 

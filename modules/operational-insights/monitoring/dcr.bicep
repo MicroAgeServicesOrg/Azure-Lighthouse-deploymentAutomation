@@ -125,8 +125,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
     destinations: {
       logAnalytics: [
         {
+          name: existingWorkspace.name
           workspaceResourceId: existingWorkspace.id
-          name: 'la-751148506'
         }
       ]
     }
@@ -137,7 +137,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           'Microsoft-Event'
         ]
         destinations: [
-          'la-751148506'
+          existingWorkspace.name
         ]
       }
     ]

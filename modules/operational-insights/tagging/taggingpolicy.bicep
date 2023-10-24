@@ -24,7 +24,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
-      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-lighthouseuami-RG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/microagelighthouseuami' :{}
+      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
     }
   }
   properties: {
@@ -32,6 +32,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
     displayName: 'AzMSP Resource Tagging Assignment'
   }
 }
+
 
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   name: 'ResourceTaggingRemediationTask'
