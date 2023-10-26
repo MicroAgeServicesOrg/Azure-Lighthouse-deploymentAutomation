@@ -3,6 +3,8 @@ metadata name = 'Recovery Services Vaults'
 metadata description = 'This module deploys a Recovery Services Vault.'
 
 
+param policy object = json(loadTextContent('./customVaultPolicy.json'))
+
 //@description('Optional. Location for all resources.')
 //param location string
 //@description('Optional. Client Identifier.')
@@ -17,8 +19,11 @@ metadata description = 'This module deploys a Recovery Services Vault.'
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2020-09-01' = {
   name: 'TESTBackupVaultDef' // Unique name for the policy definition
   properties: {
-    displayName: 'Example Policy Definition'
-    policyRule: json(loadTextContent('./customVaultPolicy.json'))
+    displayName: policy.properties.displayName
+    policyType: policy.properties.policyType
+    description: policy.properties.description
+    metadata: policy.properties.metadata
+    policyRule: policy.policyRule
   }
 }
 
