@@ -9,22 +9,6 @@
       "category": "Backup"
     },
     "parameters": {
-      "exclusionTagName": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Exclusion Tag Name",
-          "description": "Name of the tag to use for excluding VMs from the scope of this policy. This should be used along with the Exclusion Tag Value parameter. Learn more at https://aka.ms/AppCentricVMBackupPolicy."
-        },
-        "defaultValue": ""
-      },
-      "exclusionTagValue": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Exclusion Tag Values",
-          "description": "Value of the tag to use for excluding VMs from the scope of this policy (in case of multiple values, use a comma-separated list). This should be used along with the Exclusion Tag Name parameter. Learn more at https://aka.ms/AppCentricVMBackupPolicy."
-        },
-        "defaultValue": []
-      },
       "effect": {
         "type": "String",
         "metadata": {
@@ -48,12 +32,6 @@
           {
             "field": "type",
             "equals": "Microsoft.Compute/virtualMachines"
-          },
-          {
-            "not": {
-              "field": "[concat('tags[', parameters('exclusionTagName'), ']')]",
-              "in": "[parameters('exclusionTagValue')]"
-            }
           },
           {
             "field": "id",
