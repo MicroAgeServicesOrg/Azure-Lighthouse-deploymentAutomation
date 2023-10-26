@@ -23,7 +23,7 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
     policyType: policy.properties.policyType
     description: policy.properties.description
     metadata: policy.properties.metadata
-    policyRule: policy.policyRule
+    policyRule: policy.properties.policyRule
   }
 }
 
