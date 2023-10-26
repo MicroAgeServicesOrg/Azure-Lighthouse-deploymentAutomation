@@ -5,7 +5,7 @@
     "mode": "Indexed",
     "description": "Enforce backup for all virtual machines by deploying a recovery services vault in the same location as the virtual machine. You can optionally exclude virtual machines containing a specified tag to control the scope of assignment. See https://aka.ms/AzureVMAppCentricBackupExcludeTag.",
     "metadata": {
-      "version": "9.1.0",
+      "version": "1.2.0",
       "category": "AzMSP_Baseline"
     },
     "parameters": {
@@ -438,6 +438,18 @@
                     "metadata": {
                       "description": "Location for VM and Backup vault"
                     }
+                  },
+                  "vmRgName": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Name of Resource Group for VM"
+                    }
+                  },
+                  "clientCode": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Client Code for vault name"
+                    }
                   }
                 },
                 "variables": {
@@ -446,7 +458,7 @@
                   "v2VmType": "Microsoft.Compute/virtualMachines",
                   "v2VmContainer": "iaasvmcontainer;iaasvmcontainerv2;",
                   "v2Vm": "vm;iaasvmcontainerv2;",
-                  "vaultName": "[take(concat('test','-centralVault'),50)]"
+                  "vaultName": "[take(concat(parameters('clientCode'),'-centralVault'),50)]"
                 },
                 "resources": [
                   {
@@ -460,7 +472,7 @@
                     }
                   },
                   {
-                    "name": "[concat(variables('vaultName'), '/', variables('backupFabric'), '/', variables('v2VmContainer'), parameters('vmName'), '/', variables('v2Vm'), parameters('vmName'))]",
+                    "name": "[concat(variables('vaultName'), '/', variables('backupFabric'), '/', variables('v2VmContainer'), concat(parameters('vmRgName'),';',parameters('vmName')), '/', variables('v2Vm'), concat(parameters('vmRgName'),';',parameters('vmName')))]",
                     "apiVersion": "2016-12-01",
                     "location": "[parameters('location')]",
                     "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
@@ -470,7 +482,7 @@
                     "properties": {
                       "protectedItemType": "[variables('v2VmType')]",
                       "policyId": "[resourceId('Microsoft.RecoveryServices/vaults/backupPolicies', variables('vaultName'),variables('backupPolicy'))]",
-                      "sourceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourcegroups/', '/providers/Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+                      "sourceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('vmRgName'), '/providers/Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
                     }
                   }
                 ],
@@ -487,8 +499,14 @@
                 },
                 "location": {
                   "value": "[field('location')]"
-                }
+                },
+                "vmRgName": {
+                  "value": "[field('resourceGroup')]"
+                },
+                "clientCode": {
+                  "value": "[field('clientCode')]"
               }
+            }
             }
           }
         }
