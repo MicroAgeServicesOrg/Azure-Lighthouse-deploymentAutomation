@@ -1,7 +1,7 @@
 targetScope = 'subscription'
-metadata name = 'Recovery Services Vaults'
-metadata description = 'This module deploys a Recovery Services Vault.'
+param location string
 
+param customVaultPolicyName string
 
 param policy object = json(loadTextContent('./customVaultPolicy.json'))
 
@@ -16,8 +16,8 @@ param policy object = json(loadTextContent('./customVaultPolicy.json'))
 
 
 
-resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2020-09-01' = {
-  name: 'TESTBackupVaultDef' // Unique name for the policy definition
+resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+  name:'VaultPolicyDefinition'
   properties: {
     displayName: policy.properties.displayName
     policyType: policy.properties.policyType
@@ -28,14 +28,18 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2020-09-01'
 }
 
 
-resource policyAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
-  name: 'TESTBackupVault' // Unique name for the policy assignment
-  properties: {
-    displayName: 'AzMSP Test Backup Vault'
-    policyDefinitionId: policyDefinition.id
-    parameters: {
-      // If your policy definition has parameters, you can specify them here
+resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
+  name: customVaultPolicyName
+  location: location
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
     }
+  }
+  properties: {
+    policyDefinitionId: policyDefinition.id
+    displayName: 'AzMSP Test Backup Vault'
   }
 }
 
