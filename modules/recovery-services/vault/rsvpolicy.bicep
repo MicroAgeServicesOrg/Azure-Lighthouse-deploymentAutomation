@@ -24,6 +24,7 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
     description: policy.properties.description
     metadata: policy.properties.metadata
     policyRule: policy.properties.policyRule
+    parameters : policy.properties.parameters
   }
 }
 
