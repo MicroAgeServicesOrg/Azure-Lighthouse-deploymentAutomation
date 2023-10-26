@@ -1,7 +1,7 @@
 targetScope = 'subscription'
-param location string
+param location string = 'eastus2'
 
-param customVaultPolicyName string
+param customVaultPolicyName string = 'AzMSP Vault Policy'
 
 param policy object = json(loadTextContent('./customVaultPolicy.json'))
 
