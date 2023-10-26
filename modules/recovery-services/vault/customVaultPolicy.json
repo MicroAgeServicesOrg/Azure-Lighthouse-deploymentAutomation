@@ -445,7 +445,7 @@
                   "v2VmType": "Microsoft.Compute/virtualMachines",
                   "v2VmContainer": "iaasvmcontainer;iaasvmcontainerv2;",
                   "v2Vm": "vm;iaasvmcontainerv2;",
-                  "vaultName": "[take(concat('RSVault-', parameters('location'), '-'),50)]"
+                  "vaultName": "[take(concat('test','-centralVault'),50)]"
                 },
                 "resources": [
                   {
