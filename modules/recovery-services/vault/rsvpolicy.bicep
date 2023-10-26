@@ -31,6 +31,9 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
         type: 'String'
         defaultValue: clientCode
       }
+      vmName: policy.properties.parameters.vmName
+      vmRgName: policy.properties.parameters.vmRgName
+      location: policy.properties.parameters.location
     }
   }
 }
