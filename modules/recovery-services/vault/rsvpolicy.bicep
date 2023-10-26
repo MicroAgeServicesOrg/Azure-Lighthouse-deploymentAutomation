@@ -44,3 +44,18 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   }
 }
 
+resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
+  name: 'RecoveryServicesVaultRemediationTask'
+  properties: {
+    policyAssignmentId: policyAssignment.id
+    resourceDiscoveryMode: 'ExistingNonCompliant'
+    parallelDeployments: 10
+    failureThreshold: {
+      percentage: 1
+    }
+    filters: {
+      locations: []
+    }
+    resourceCount: 500
+}
+}
