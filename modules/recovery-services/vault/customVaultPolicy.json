@@ -1,6 +1,6 @@
 {
   "properties": {
-    "displayName": "Configure backup on virtual machines without a given tag to a new recovery services vault with a default policy",
+    "displayName": "Azure Recovery Services Vault - AzMSP_Baseline",
     "policyType": "Custom",
     "mode": "Indexed",
     "description": "Enforce backup for all virtual machines by deploying a recovery services vault in the same location as the virtual machine. You can optionally exclude virtual machines containing a specified tag to control the scope of assignment. See https://aka.ms/AzureVMAppCentricBackupExcludeTag.",
