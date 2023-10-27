@@ -24,7 +24,13 @@
           "Disabled"
         ],
         "defaultValue": "DeployIfNotExists"
-      }
+      },
+                  "clientCode": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Client Code for vault name"
+                    }
+                  }
     },
     "policyRule": {
       "if": {
@@ -444,12 +450,6 @@
                     "metadata": {
                       "description": "Name of Resource Group for VM"
                     }
-                  },
-                  "clientCode": {
-                    "type": "string",
-                    "metadata": {
-                      "description": "Client Code for vault name"
-                    }
                   }
                 },
                 "variables": {
@@ -502,10 +502,7 @@
                 },
                 "vmRgName": {
                   "value": "[field('resourceGroup')]"
-                },
-                "clientCode": {
-                  "value": "[field('clientCode')]"
-              }
+                }
             }
             }
           }
