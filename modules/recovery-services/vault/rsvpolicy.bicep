@@ -26,15 +26,12 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
     description: policy.properties.description
     metadata: policy.properties.metadata
     policyRule: policy.properties.policyRule
-    parameters: policy.properties.parameters
     parameters : {
       clientCode: {
         type: 'String'
         defaultValue: clientCode
       }
-      vmName: policy.properties.parameters.vmName
-      vmRgName: policy.properties.parameters.vmRgName
-      location: policy.properties.parameters.location
+      effect: policy.properties.parameters.effect
     }
   }
 }
