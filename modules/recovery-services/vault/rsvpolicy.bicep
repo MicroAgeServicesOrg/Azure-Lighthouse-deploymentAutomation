@@ -47,7 +47,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   }
   properties: {
     policyDefinitionId: policyDefinition.id
-    displayName: 'policyAssignmentRSV'
+    displayName: 'AzMSP Recovery Services Vault Assignment'
   }
 }
 
