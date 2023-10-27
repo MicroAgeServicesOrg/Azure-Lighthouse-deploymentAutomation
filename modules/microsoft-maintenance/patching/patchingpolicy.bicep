@@ -48,3 +48,5 @@ resource maintenanceConfig 'Microsoft.Maintenance/maintenanceConfigurations@2023
     visibility: 'Custom'
   }
 }
+
+output maintenanceConfigId string = maintenanceConfig.id
