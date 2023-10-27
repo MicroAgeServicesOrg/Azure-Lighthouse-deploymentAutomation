@@ -11,7 +11,7 @@ resource maintenanceConfig 'Microsoft.Maintenance/maintenanceConfigurations@2023
   }
   properties: {
     extensionProperties: {
-      InGuestPatchMode: 'User'
+      InGuestPatchMode: 'Platform'
     }
     installPatches: {
       linuxParameters: {
@@ -29,6 +29,7 @@ resource maintenanceConfig 'Microsoft.Maintenance/maintenanceConfigurations@2023
         kbNumbersToInclude: []
       }
     }
+    maintenanceScope: 'InGuestPatch'
     maintenanceWindow: {
       duration: '03:00'
       expirationDateTime: '9999-12-31 23:59:59'
