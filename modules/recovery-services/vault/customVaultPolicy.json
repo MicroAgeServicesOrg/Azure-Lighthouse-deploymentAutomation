@@ -25,12 +25,12 @@
         ],
         "defaultValue": "DeployIfNotExists"
       },
-                  "clientCode": {
-                    "type": "string",
-                    "metadata": {
-                      "description": "Client Code for vault name"
-                    }
-                  }
+      "clientCode": {
+        "type": "string",
+        "metadata": {
+          "description": "Client Code for vault name"
+        }
+      }             
     },
     "policyRule": {
       "if": {
