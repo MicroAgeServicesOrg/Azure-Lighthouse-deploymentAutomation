@@ -26,9 +26,9 @@
         "defaultValue": "DeployIfNotExists"
       },
       "clientCode": {
-        "type": "string",
+        "type": "String",
         "metadata": {
-          "description": "Client Code for vault name"
+          "description": "Client Code from bicep file"
         }
       }             
     },
@@ -501,7 +501,7 @@
                   "value": "[field('location')]"
                 },
                 "vmRgName": {
-                  "value": "[field('resourceGroup')]"
+                  "value": "[resourceGroup().name]"
                 }
             }
             }
