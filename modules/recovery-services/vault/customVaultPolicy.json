@@ -450,6 +450,12 @@
                     "metadata": {
                       "description": "Name of Resource Group for VM"
                     }
+                  },
+                  "clientCode": {
+                    "type": "string",
+                    "metadata": {
+                      "description": "Clients short code goes here, this helps name resources deployed by this template"
+                    }
                   }
                 },
                 "variables": {
@@ -502,6 +508,9 @@
                 },
                 "vmRgName": {
                   "value": "[resourceGroup().name]"
+                },
+                "clientCode": {
+                  "value": "[parameters('clientCode')]"
                 }
             }
             }
