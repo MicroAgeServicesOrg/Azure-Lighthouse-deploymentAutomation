@@ -12,7 +12,7 @@ param name string = 'MicroAge AzMSP Patching Schedule'
 param enableDefaultTelemetry bool = true
 
 @description('Optional. Gets or sets extensionProperties of the maintenanceConfiguration.')
-param extensionProperties object = {}
+param extensionProperties object = {InGuestPatchMode: 'Platform'}
 
 @description('Optional. Location for all Resources.')
 param location string
@@ -32,7 +32,13 @@ param lock lockType
 param maintenanceScope string = 'InGuestPatch'
 
 @description('Optional. Definition of a MaintenanceWindow.')
-param maintenanceWindow object = {}
+param maintenanceWindow object = {maintenanceWindow: {
+  duration: '03:00'
+  expirationDateTime: '9999-12-31 23:59:59'
+  recurEvery: 'Day'
+  startDateTime: '2022-12-31 13:00'
+  timeZone: 'W. Europe Standard Time'
+}}
 
 @description('Optional. Gets or sets namespace of the resource.')
 param namespace string = ''
@@ -52,7 +58,7 @@ param tags object = {MicroAge_AzMSP: 'enabled'}
 param visibility string = ''
 
 @description('Optional. Configuration settings for VM guest patching with Azure Update Manager.')
-param installPatches object = {}
+param installPatches object = {rebootSetting: 'IfRequired'}
 
 // =============== //
 //   Deployments   //
