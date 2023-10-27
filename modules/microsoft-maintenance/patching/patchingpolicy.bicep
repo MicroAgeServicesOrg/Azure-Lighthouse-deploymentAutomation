@@ -124,7 +124,7 @@ resource maintenanceConfiguration_roleAssignments 'Microsoft.Authorization/roleA
 output name string = maintenanceConfig.name
 
 @description('The resource ID of the Maintenance Configuration.')
-output resourceId string = maintenanceConfig.id
+output maintenanceConfigId string = maintenanceConfig.id
 
 @description('The location the Maintenance Configuration was created in.')
 output location string = maintenanceConfig.location
