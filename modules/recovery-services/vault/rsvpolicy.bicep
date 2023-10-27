@@ -1,5 +1,5 @@
 targetScope = 'subscription'
-param location string = 'eastus2'
+param location string = 'westus3'
 
 //declaring objects from json file for policy
 
