@@ -1,14 +1,20 @@
 targetScope = 'subscription'
 param location string = 'eastus2'
 
+//vault policy name to be passed into the policy assignment resource
+
 param customVaultPolicyName string = 'AzMSP Vault Policy'
 
+//policy definition json file to be passed into the policy definition resource
+
 param policy object = json(loadTextContent('./customVaultPolicy.json'))
+
+//client code to be passed into the policy definition
 
 param clientCode string = 'masvc'
 
 
-
+//policy definition for recovery services vault
 
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name:'VaultPolicyDefinition'
@@ -28,6 +34,7 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
   }
 }
 
+//policy assignment for recovery services vault
 
 resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
   name: customVaultPolicyName
@@ -43,6 +50,8 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
     displayName: 'AzMSP Backup Vault Assignment'
   }
 }
+
+//remediation task for recovery services vault
 
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   name: 'RecoveryServicesVaultRemediationTask'
