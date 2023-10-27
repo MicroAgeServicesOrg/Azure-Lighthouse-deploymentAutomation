@@ -19,7 +19,7 @@
                 ]
               },
               {
-                "field": "[concat('tags[MicroAge AzMSP]')]",
+                "field": "[concat('tags[MicroAge_AzMSP]')]",
                 "exists": "false"
               }
             ]
@@ -33,7 +33,7 @@
                 "operations": [
                     {
                         "operation": "add",
-                        "field": "tags['MicroAge AzMSP']",
+                        "field": "tags['MicroAge_AzMSP']",
                         "value": "enabled"
                     }
                 ]
