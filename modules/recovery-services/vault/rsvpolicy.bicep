@@ -1,10 +1,6 @@
 targetScope = 'subscription'
 param location string = 'eastus2'
 
-//vault policy name to be passed into the policy assignment resource
-
-param customVaultPolicyName string = 'policyAssignmentRSV'
-
 //declaring objects from json file for policy
 
 param policy object = json(loadTextContent('./customVaultPolicy.json'))
@@ -37,7 +33,7 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
 //policy assignment for recovery services vault
 
 resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
-  name: customVaultPolicyName
+  name: 'policyAssignmentRSV'
   location: location
   identity: {
     type: 'UserAssigned'
