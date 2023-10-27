@@ -13,38 +13,38 @@ resource maintenanceConfig 'Microsoft.Maintenance/maintenanceConfigurations@2023
     installPatches: {
       linuxParameters: {
         classificationsToInclude: [
-          'string'
+          ''
         ]
         packageNameMasksToExclude: [
-          'string'
+          ''
         ]
         packageNameMasksToInclude: [
-          'string'
+          ''
         ]
       }
       rebootSetting: 'ifRequired'
       windowsParameters: {
         classificationsToInclude: [
-          'string'
+          ''
         ]
         excludeKbsRequiringReboot: false
         kbNumbersToExclude: [
-          'string'
+          ''
         ]
         kbNumbersToInclude: [
-          'string'
+          ''
         ]
       }
     }
-    maintenanceScope: 'InGuestPatch'
+    maintenanceScope: 'Host'
     maintenanceWindow: {
       duration: '03:00'
-      expirationDateTime: 'string'
+      expirationDateTime: ''
       recurEvery: '1Week'
-      startDateTime: 'string'
+      startDateTime: ''
       timeZone: 'UTC'
     }
-    namespace: 'string'
+    namespace: ''
     visibility: 'Custom'
   }
 }
