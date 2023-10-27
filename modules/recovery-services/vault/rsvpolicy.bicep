@@ -5,7 +5,7 @@ param location string = 'eastus2'
 
 param customVaultPolicyName string = 'AzMSP Vault Policy'
 
-//policy definition json file to be passed into the policy definition resource
+//declaring objects from json file for policy
 
 param policy object = json(loadTextContent('./customVaultPolicy.json'))
 
@@ -17,7 +17,7 @@ param clientCode string = 'masvc'
 //policy definition for recovery services vault
 
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
-  name:'VaultPolicyDefinition'
+  name:'masvcRSVPolicyDefinition'
   properties: {
     displayName: policy.properties.displayName
     policyType: policy.properties.policyType
@@ -47,14 +47,14 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   }
   properties: {
     policyDefinitionId: policyDefinition.id
-    displayName: 'AzMSP Backup Vault Assignment'
+    displayName: 'policyAssignmentRSV'
   }
 }
 
 //remediation task for recovery services vault
 
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
-  name: 'RecoveryServicesVaultRemediationTask'
+  name: 'remediationTaskRSV'
   properties: {
     policyAssignmentId: policyAssignment.id
     resourceDiscoveryMode: 'ExistingNonCompliant'
