@@ -472,11 +472,7 @@
                     "type": "Microsoft.RecoveryServices/vaults",
                     "apiVersion": "2016-06-01",
                     "location": "[parameters('location')]",
-                    "properties": {
-                      "tags": {
-                        "MicroAge_AzMSP": "enabled"
-                      }
-                    },
+                    "properties": {},
                     "sku": {
                       "name": "Standard"
                     }
