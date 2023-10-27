@@ -3,7 +3,7 @@ param location string = 'eastus2'
 
 //vault policy name to be passed into the policy assignment resource
 
-param customVaultPolicyName string = 'AzMSP Vault Policy'
+param customVaultPolicyName string = 'policyAssignmentRSV'
 
 //declaring objects from json file for policy
 
