@@ -29,7 +29,7 @@ param lock lockType
   'SQLDB'
   'SQLManagedInstance'
 ])
-param maintenanceScope string = 'Host'
+param maintenanceScope string = 'InGuestPatch'
 
 @description('Optional. Definition of a MaintenanceWindow.')
 param maintenanceWindow object = {}
