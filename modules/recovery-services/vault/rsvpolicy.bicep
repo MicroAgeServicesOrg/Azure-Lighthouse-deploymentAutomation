@@ -5,14 +5,6 @@ param customVaultPolicyName string = 'AzMSP Vault Policy'
 
 param policy object = json(loadTextContent('./customVaultPolicy.json'))
 
-//@description('Optional. Location for all resources.')
-//param location string
-//@description('Optional. Client Identifier.')
-//param clientCode string
-
-//@description('Required. Name of the Azure Recovery Service Vault.')
-//param vaultName string = '${clientCode}-${location}-vmRSV'
-
 param clientCode string = 'masvc'
 
 
@@ -48,7 +40,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   }
   properties: {
     policyDefinitionId: policyDefinition.id
-    displayName: 'AzMSP Test Backup Vault'
+    displayName: 'AzMSP Backup Vault Assignment'
   }
 }
 
