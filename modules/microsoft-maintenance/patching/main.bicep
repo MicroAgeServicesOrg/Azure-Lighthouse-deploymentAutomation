@@ -40,8 +40,17 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
         type: 'String'
         defaultValue: maintenanceConfig.outputs.maintenanceConfigId
       }
+      resourceGroups: policy.properties.parameters.resourceGroups
+      operatingSystemTypes: policy.properties.parameters.operatingSystemTypes
+      locations: policy.properties.parameters.locations
+      tagValues: policy.properties.parameters.tagValues
+      tagOperator: policy.properties.parameters.tagOperator
+      effect: policy.properties.parameters.effect
     }
   }
+  dependsOn: [
+    maintenanceConfig
+  ]
 }
 
 //policy assignment for recovery services vault
