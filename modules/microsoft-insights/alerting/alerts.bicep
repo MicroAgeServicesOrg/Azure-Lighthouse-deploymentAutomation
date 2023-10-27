@@ -13,7 +13,7 @@ resource actionGroup 'Microsoft.Insights/actionGroups@2022-06-01' = {
   name: 'masvc-connectwise'
   location: 'global'
   tags:{
-    environment: 'MicroAge AzMSP'
+    MicroAge_AzMSP: 'enabled'
   }
   properties: {
     groupShortName: 'masvc-cw'
@@ -34,7 +34,7 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
   name: 'Azure Backup Job Failed'
   location: location
   tags:{
-    environment: 'MicroAge AzMSP'
+    MicroAge_AzMSP: 'enabled'
   }
   properties: {
     displayName: 'Azure Backup Job Failed'
@@ -86,7 +86,7 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
   name: 'Azure Site Recovery "Critical" Health'
   location: location
   tags:{
-    environment: 'MicroAge AzMSP'
+    MicroAge_AzMSP: 'enabled'
   }
   properties: {
     displayName: 'Azure Site Recovery "Critical" Health'
@@ -130,7 +130,7 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
   name: 'Azure Site Recovery \'RPO\' Exceeds 30 Minutes'
   location: location
   tags:{
-    environment: 'MicroAge AzMSP'
+    MicroAge_AzMSP: 'enabled'
   }
   properties: {
     displayName: 'Azure Site Recovery \'RPO\' Exceeds 30 Minutes'
@@ -176,8 +176,8 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
 resource VMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
   name: 'Windows Virtual Machine Running Out of Disk Space'
   location: location
-  tags: {
-    environment: 'MicroAge AzMSP'
+  tags:{
+    MicroAge_AzMSP: 'enabled'
   }
   properties: {
     displayName: 'Windows Virtual Machine Running Out of Disk Space'
@@ -233,8 +233,8 @@ resource VMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-prev
 resource VMMemUtilizationRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
   name: 'Azure Virtual Machine High Memory Utilization'
   location: location
-  tags: {
-    environment: 'MicroAge AzMSP'
+  tags:{
+    MicroAge_AzMSP: 'enabled'
   }
   properties: {
     description: 'This alert triggers when a machine is over 85 percent utilization for longer than 5 minutes'
@@ -288,8 +288,8 @@ resource VMMemUtilizationRule 'microsoft.insights/scheduledqueryrules@2023-03-15
 resource VMOffileRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
   name: 'Azure VM Is Offline'
   location: location
-  tags: {
-    environment: 'MicroAge AzMSP'
+  tags:{
+    MicroAge_AzMSP: 'enabled'
   }
   properties: {
     description: 'Alerts when a VM has been off longer than 15 mins'
@@ -343,8 +343,8 @@ resource VMOffileRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview
 resource metricVMCpuRule 'microsoft.insights/metricAlerts@2018-03-01' = {
   name: 'Azure VM CPU Percentage Over 75 Percent'
   location: 'global'
-  tags: {
-    environment: 'MicroAge AzMSP'
+  tags:{
+    MicroAge_AzMSP: 'enabled'
   }
   properties: {
     description: 'Azure VM CPU percentage is over 75%'
