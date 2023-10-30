@@ -142,7 +142,8 @@ module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' =
 module policyAssignmentMonitoringInit '../../modules/carml/policy-assignment/subscription/main.bicep' = {
   name: '${uniqueString(deployment().name)}-policyAssignmentAMA'
   params: {
-    name: 'policyAssignmentAMA'
+    name: 'policyAssignment_azmspMonitoring'
+    displayName: 'policyAssignment_azmspMonitoring'
     location: location
     enforcementMode: 'Default'
     policyDefinitionId: monitoringPolicyInitiativeCARML.outputs.resourceId
@@ -151,6 +152,8 @@ module policyAssignmentMonitoringInit '../../modules/carml/policy-assignment/sub
   }
 
 }
+
+/* commenting out remediation tasks for testing
 
 //deploy the remediaton task for the AMA policy.
 module remediationTaskAMA '../../modules/carml/policy-insights/remediation/subscription/main.bicep' = {
@@ -178,3 +181,5 @@ module remediationTaskDCR '../../modules/carml/policy-insights/remediation/subsc
     failureThresholdPercentage: '0.5'
   }
 }
+
+*/

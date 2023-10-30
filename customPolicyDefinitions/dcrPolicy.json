@@ -6,7 +6,7 @@
       "description": "Deploy Association to link Windows virtual machines to the specified Data Collection Rule or the specified Data Collection Endpoint. The list of locations and OS images are updated over time as support is increased.",
       "metadata": {
         "version": "1.0.0",
-        "category": "Monitoring"
+        "category": "azmsp_monitoring"
       },
       "version": "1.0.0",
       "parameters": {
