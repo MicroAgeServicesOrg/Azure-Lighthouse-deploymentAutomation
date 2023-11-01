@@ -31,17 +31,12 @@ function TurnOnVMs {
 # Call the function to execute the code
 
 
-#install Table Module
-Install-Module -Name AzTable -Scope CurrentUser -Force
-
 
 $ErrorActionPreference = "Stop"
 
-#Define path to the bicep artifacts (files)
-$bicepFile = ".\solutions\backupOnboarding\main.bicep"
 
-###localTesting - Leave disabled
-#$blueprintPath = "."
+#install Table Module
+Install-Module -Name AzTable -Scope CurrentUser -Force
 
 
 #region gather all subscription details from table storage
@@ -66,7 +61,7 @@ $currentSubscriptions = Get-AzTableRow `
     Write-Output "Subscriptions sepecified in CSV file. Deploying to selected subscriptions" -Verbose
     foreach ($subscription in $currentSubscriptions) {
         
-        $subscriptionId = $subscription.subscriptionID
+        $subscriptionId = $subscription.subscriptionId
         $clientCode = $subscription.clientCode
         Set-AzContext -SubscriptionId $subscriptionId
 
