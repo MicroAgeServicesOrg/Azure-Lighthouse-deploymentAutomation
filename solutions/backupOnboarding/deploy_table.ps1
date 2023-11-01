@@ -63,7 +63,7 @@ $currentSubscriptions = Get-AzTableRow `
         
         $subscriptionId = $subscription.subscriptionId
         $clientCode = $subscription.clientCode
-        Set-AzContext -SubscriptionId $subscriptionId
+        Set-AzContext -Subscription $subscriptionId
 
         if ($testDeploy) {
             New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -WhatIf -Verbose
