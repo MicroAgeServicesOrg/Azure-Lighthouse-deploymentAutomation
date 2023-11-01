@@ -31,7 +31,8 @@ function TurnOnVMs {
 # Call the function to execute the code
 
 
-
+#install Table Module
+Install-Module -Name AzTable -Scope CurrentUser -Force
 
 
 $ErrorActionPreference = "Stop"

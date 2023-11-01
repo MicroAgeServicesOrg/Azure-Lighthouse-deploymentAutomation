@@ -1,0 +1,20 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- none
+
+pool: 'masvc_adoRunners'
+
+jobs:
+  - job: remediatePolicy
+    displayName: 'Remediate Policy'
+    steps:
+    - task: AzurePowerShell@5
+      displayName: 'PowerShell script to run remediation Workflow'
+      inputs:
+        azurePowerShellVersion: LatestVersion
+        azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+        
