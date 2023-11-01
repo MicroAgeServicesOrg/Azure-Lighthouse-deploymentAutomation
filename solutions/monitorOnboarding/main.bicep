@@ -152,29 +152,5 @@ module policyAssignmentMonitoringInit '../../modules/carml/policy-assignment/sub
 
 }
 
-//deploy the remediaton task for the AMA policy.
-module remediationTaskAMA '../../modules/carml/policy-insights/remediation/subscription/main.bicep' = {
-  name: '${uniqueString(deployment().name)}-remediationTaskAMA'
-  params: {
-    name: 'remediationTaskAMA'
-    location: location
-    policyAssignmentId: policyAssignmentMonitoringInit.outputs.resourceId
-    policyDefinitionReferenceId: customAMAPolicyDefinitionCARML.outputs.resourceId
-    resourceDiscoveryMode: 'ReEvaluateCompliance'
-    failureThresholdPercentage: '0.5'
-  }
-}
 
 
-//deploy the remediaton task for the DCR policy.
-module remediationTaskDCR '../../modules/carml/policy-insights/remediation/subscription/main.bicep' = {
-  name: '${uniqueString(deployment().name)}-remediationTaskDCR'
-  params: {
-    name: 'remediationTaskDCR'
-    location: location
-    policyAssignmentId: policyAssignmentMonitoringInit.outputs.resourceId
-    policyDefinitionReferenceId: customDCRPolicyDefinitionCARML.outputs.resourceId
-    resourceDiscoveryMode: 'ReEvaluateCompliance'
-    failureThresholdPercentage: '0.5'
-  }
-}
