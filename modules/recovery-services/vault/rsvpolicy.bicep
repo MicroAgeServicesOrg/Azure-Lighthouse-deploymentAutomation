@@ -1,5 +1,5 @@
 targetScope = 'subscription'
-param location string = 'westus3'
+param location string = 'westus'
 
 //declaring objects from json file for policy
 
@@ -7,7 +7,7 @@ param policy object = json(loadTextContent('./customVaultPolicy.json'))
 
 //client code to be passed into the policy definition
 
-param clientCode string = 'masvc'
+param clientCode string = 'sto'
 
 
 //policy definition for recovery services vault
