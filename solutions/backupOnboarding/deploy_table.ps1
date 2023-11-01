@@ -61,9 +61,8 @@ $currentSubscriptions = Get-AzTableRow `
     Write-Output "Subscriptions sepecified in CSV file. Deploying to selected subscriptions" -Verbose
     foreach ($subscription in $currentSubscriptions) {
         
-        $subscriptionId = $subscription.subscriptionId
         $clientCode = $subscription.clientCode
-        Set-AzContext -Subscription $subscriptionId
+        Set-AzContext -Subscription $subscription.subscriptionId -Verbose
 
         if ($testDeploy) {
             New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -WhatIf -Verbose
