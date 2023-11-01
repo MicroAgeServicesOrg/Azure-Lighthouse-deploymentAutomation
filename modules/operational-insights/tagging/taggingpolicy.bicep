@@ -8,7 +8,7 @@ param customTagPolicyName string
 param policy object = json(loadTextContent('./customTagPolicy.json'))
 
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
-  name: 'ResourceTaggingDefinition'
+  name: 'masvcTaggingPolicyDefinition'
   properties:{
     displayName: policy.properties.displayName
     policyType: policy.properties.policyType
@@ -24,17 +24,18 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
-      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-lighthouseuami-RG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/microagelighthouseuami' :{}
+      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
     }
   }
   properties: {
     policyDefinitionId: policyDefinition.id
-    displayName: 'AzMSP Resource Tagging Assignment'
+    displayName: 'policyAssignmentTagging'
   }
 }
 
+
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
-  name: 'ResourceTaggingRemediationTask'
+  name: 'remediationTaskTagging'
   properties: {
     policyAssignmentId: policyAssignment.id
     resourceDiscoveryMode: 'ExistingNonCompliant'
