@@ -34,6 +34,9 @@ function TurnOnVMs {
 
 $ErrorActionPreference = "Stop"
 
+#Define path to the bicep artifacts (files)
+$bicepFile = ".\solutions\backupOnboarding\main.bicep"
+
 
 #install Table Module
 Install-Module -Name AzTable -Scope CurrentUser -Force
