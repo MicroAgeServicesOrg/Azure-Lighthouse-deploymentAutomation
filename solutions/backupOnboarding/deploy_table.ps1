@@ -37,6 +37,9 @@ $ErrorActionPreference = "Stop"
 #Define path to the bicep artifacts (files)
 $bicepFile = ".\solutions\backupOnboarding\main.bicep"
 
+#Define masvc tenant Id
+$tenantId = "53ea3245-f119-4661-b317-75e61431da1c"
+
 
 #install Table Module
 Install-Module -Name AzTable -Scope CurrentUser -Force
@@ -57,6 +60,12 @@ $currentSubscriptions = Get-AzTableRow `
 -CustomFilter "(onboarded eq true)"
 ##endregion
 
+#show table info
+Write-Output "Table info: $cloudTable"
+
+#show filtered subscriptions
+Write-Output "Filtered Subs: $currentSubscriptions"
+
 
 #run deployment in each subscription
 #converted to Bicep stack deployment on 10/11/2023
@@ -65,7 +74,7 @@ $currentSubscriptions = Get-AzTableRow `
     foreach ($subscription in $currentSubscriptions) {
         
         $clientCode = $subscription.clientCode
-        Set-AzContext -Subscription $subscription.subscriptionId -Verbose
+        Set-AzContext -SubscriptionId $subscription.subscriptionId -TenantId $tenantId -Verbose
 
         if ($testDeploy) {
             New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -WhatIf -Verbose
