@@ -63,7 +63,7 @@ $currentSubscriptions = Get-AzTableRow `
 #show table info
 Write-Output "Table info: $cloudTable"
 
-#show filtered subscriptions
+#show filtered subscriptions in table. 
 Write-Output "Filtered Subs: $currentSubscriptions"
 
 
