@@ -32,46 +32,53 @@ function TurnOnVMs {
 
 
 
-
-
 $ErrorActionPreference = "Stop"
 
 #Define path to the bicep artifacts (files)
-$bicepFile = ".\solutions\monitorOnboarding\main.bicep"
+$bicepFile = ".\solutions\backupOnboarding\main.bicep"
 
-###localTesting - Leave disabled
-#$blueprintPath = "."
-
-
-#Define path to file containing Subscription IDs
-$subscriptionFilePath = ".\subscriptionDeployList.csv"
-
-###localTesting - Leave disabled
-#$subscriptionFilePath = "..\..\subscriptionDeployList.csv"
+#Define masvc tenant Id
+$tenantId = "53ea3245-f119-4661-b317-75e61431da1c"
 
 
-#Read Subscription IDs from CSV file and store in an array
-$subscriptions = Import-Csv $subscriptionFilePath
+#install Table Module
+Install-Module -Name AzTable -Scope CurrentUser -Force
 
+
+#region gather all subscription details from table storage
+$resourceGroup = "masvc-lighthouseAutomation-rg" 
+$storageAccountName = "masvclighthousetables001"
+$tableName = "azMSPClients"
+$storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroup -Name $storageAccountName
+$ctx = $storageAccount.Context
+$cloudTable = (Get-AzStorageTable -Name $tableName -Context $ctx).CloudTable
+$partitionKey1 = "azMSPSubscriptions1"
+
+# Get current subscriptions stored in Table
+$currentSubscriptions = Get-AzTableRow -table $cloudTable -CustomFilter "(onboarded eq true)"
+##endregion
+
+#show table info
+Write-Output "Table info: $cloudTable"
+
+#show filtered subscriptions in table. 
+Write-Output "Filtered Subs: $currentSubscriptions"
 
 
 #run deployment in each subscription
 #converted to Bicep stack deployment on 10/11/2023
 
     Write-Output "Subscriptions sepecified in CSV file. Deploying to selected subscriptions" -Verbose
-    foreach ($subscription in $subscriptions) {
+    foreach ($subscription in $currentSubscriptions) {
         
-        $subscriptionId = $subscription.subscriptionID
         $clientCode = $subscription.clientCode
-        Set-AzContext -SubscriptionId $subscriptionId
+        Set-AzContext -SubscriptionId $subscription.subscriptionId -Verbose
 
         if ($testDeploy) {
             New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -WhatIf -Verbose
         }
         
         else {
-            TurnOnVMs 
-            Start-Sleep -Seconds 30
             New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -DenySettingsMode "None" -templateParameterObject @{clientCode = $clientCode} -Verbose -Force
 
         }

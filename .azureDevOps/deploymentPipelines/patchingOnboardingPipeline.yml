@@ -1,0 +1,30 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+      - feature/*
+  paths:
+    include:
+      - solutions/patchingOnboarding
+
+pool: 'masvc_adoRunners'
+
+stages:
+  - stage: Deploy
+    displayName: Deploy templates for patching
+    jobs:
+      - job: patchingDeploy
+        displayName: Deploy templates for patching
+        steps:
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            ScriptType: FilePath
+            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/patchingOnboarding/deploy_table.ps1'
+            ScriptArguments: -deploymentName "masvcAzMSP_PatchingDeploymentStack" -testDeploy $false -verbose
+            azurePowerShellVersion: 'LatestVersion'
+
