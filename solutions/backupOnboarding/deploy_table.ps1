@@ -55,9 +55,7 @@ $cloudTable = (Get-AzStorageTable -Name $tableName -Context $ctx).CloudTable
 $partitionKey1 = "azMSPSubscriptions1"
 
 # Get current subscriptions stored in Table
-$currentSubscriptions = Get-AzTableRow `
--table $cloudTable `
--CustomFilter "(onboarded eq true)"
+$currentSubscriptions = Get-AzTableRow -table $cloudTable -CustomFilter "(onboarded eq true)"
 ##endregion
 
 #show table info
@@ -74,7 +72,7 @@ Write-Output "Filtered Subs: $currentSubscriptions"
     foreach ($subscription in $currentSubscriptions) {
         
         $clientCode = $subscription.clientCode
-        Set-AzContext -SubscriptionId $subscription.subscriptionId -TenantId $tenantId -Verbose
+        Set-AzContext -SubscriptionId $subscription.subscriptionId -Verbose
 
         if ($testDeploy) {
             New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -WhatIf -Verbose
