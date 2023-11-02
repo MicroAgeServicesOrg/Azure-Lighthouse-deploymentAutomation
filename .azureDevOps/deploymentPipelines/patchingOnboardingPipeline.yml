@@ -17,7 +17,7 @@ stages:
   - stage: Deploy
     displayName: Deploy templates for patching
     jobs:
-      - job: backupDeploy
+      - job: patchingDeploy
         displayName: Deploy templates for patching
         steps:
         - task: AzurePowerShell@5
