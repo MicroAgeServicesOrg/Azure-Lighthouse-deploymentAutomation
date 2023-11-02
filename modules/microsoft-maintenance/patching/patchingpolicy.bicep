@@ -34,7 +34,7 @@ resource maintenanceConfig 'Microsoft.Maintenance/maintenanceConfigurations@2023
       duration: '03:00'
       expirationDateTime: '9999-12-31 23:59:59'
       recurEvery: 'Month Last Sunday'
-      startDateTime: '2022-12-31 13:00'
+      startDateTime: '2022-12-31 8:00'
       timeZone: 'UTC'
     }
     namespace: 'masvc'
