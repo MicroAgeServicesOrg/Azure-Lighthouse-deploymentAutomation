@@ -67,15 +67,14 @@ Write-Output "Filtered Subs: $currentSubscriptions"
     Write-Output "Subscriptions sepecified in CSV file. Deploying to selected subscriptions" -Verbose
     foreach ($subscription in $currentSubscriptions) {
         
-        $clientCode = $subscription.clientCode
         Set-AzContext -Subscription $subscription.subscriptionId -Verbose
 
         if ($testDeploy) {
-            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -clientCode $clientCode -WhatIf -Verbose
+            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -WhatIf -Verbose
         }
         
         else {
-            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -DenySettingsMode "None" -templateParameterObject @{clientCode = $clientCode} -Verbose -Force
+            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFile -DenySettingsMode "None" -Verbose -Force
 
         }
 
