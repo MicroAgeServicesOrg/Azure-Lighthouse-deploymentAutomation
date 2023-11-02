@@ -52,11 +52,14 @@ $cloudTable = (Get-AzStorageTable -Name $tableName -Context $ctx).CloudTable
 $partitionKey1 = "azMSPSubscriptions1"
 
 # Get current subscriptions stored in Table
-$currentSubscriptions = Get-AzTableRow `
--table $cloudTable `
--CustomFilter "(onboarded eq true)"
+$currentSubscriptions = Get-AzTableRow -table $cloudTable -CustomFilter "(onboarded eq true)"
 ##endregion
 
+#show table info
+Write-Output "Table info: $cloudTable"
+
+#show filtered subscriptions in table. 
+Write-Output "Filtered Subs: $currentSubscriptions"
 
 #run deployment in each subscription
 #converted to Bicep stack deployment on 10/11/2023
