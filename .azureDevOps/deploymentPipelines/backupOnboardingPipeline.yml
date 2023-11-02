@@ -4,7 +4,12 @@
 # https://aka.ms/yaml
 
 trigger:
-- none
+  branches:
+    include:
+      - feature/*
+  paths:
+    include:
+      - solutions/backupOnboarding
 
 pool: 'masvc_adoRunners'
 
