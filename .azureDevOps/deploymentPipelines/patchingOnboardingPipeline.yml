@@ -4,21 +4,27 @@
 # https://aka.ms/yaml
 
 trigger:
-- none
+  branches:
+    include:
+      - feature/*
+  paths:
+    include:
+      - solutions/patchingOnboarding
 
 pool: 'masvc_adoRunners'
 
 stages:
   - stage: Deploy
-    displayName: Deploy templates for azure update manager
+    displayName: Deploy templates for patching
     jobs:
-      - job: patchingDeploy
-        displayName: Deploy templates for azure update manager
+      - job: backupDeploy
+        displayName: Deploy templates for patching
         steps:
         - task: AzurePowerShell@5
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/patchingOnboarding/deploy_table.ps1'
-            ScriptArguments: -deploymentName "masvcAzMSP_BackupDeploymentStack" -testDeploy $false -verbose
+            ScriptArguments: -deploymentName "masvcAzMSP_PatchingDeploymentStack" -testDeploy $false -verbose
             azurePowerShellVersion: 'LatestVersion'
+
