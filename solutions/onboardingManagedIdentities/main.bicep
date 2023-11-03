@@ -22,7 +22,7 @@ module policyUAMIDeployment '../../modules/carml/managed-identity/user-assigned-
     location: location
     name: 'masvcpolicyuami'
     tags: {
-      owner: 'masvc'
+      MicroAge_AzMSP: 'enabled'
     }
   }
 
