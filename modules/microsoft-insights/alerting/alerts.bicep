@@ -1,6 +1,6 @@
 param location string
 param clientCode string
-param queries object = json(loadTextContent('./alerts.json'))
+param queries object = json(loadTextContent('./customAlerts.json'))
 
 
 //gets existing workspace via client code entered manually and inputs this into scope
