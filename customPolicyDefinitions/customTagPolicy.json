@@ -20,7 +20,6 @@
               },
               {
                 "field": "[concat('tags[MicroAge_AzMSP]')]",
-                "value": "enabled",
                 "exists": "false"
               }
             ]
