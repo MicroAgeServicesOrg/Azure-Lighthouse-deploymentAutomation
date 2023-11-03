@@ -1,0 +1,29 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+      - feature/*
+  paths:
+    include:
+      - solutions/taggingOnboarding
+
+pool: 'masvc_adoRunners'
+
+stages:
+  - stage: Deploy
+    displayName: Deploy templates for tagging policy
+    jobs:
+      - job: taggingDeploy
+        displayName: Deploy templates for tagging policy
+        steps:
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            ScriptType: FilePath
+            ScriptPath: '$(System.DefaultWorkingDirectory)/solutions/taggingOnboarding/deploy_table.ps1'
+            ScriptArguments: -deploymentName "masvcAzMSP_TaggingDeploymentStack" -testDeploy $false -verbose
+            azurePowerShellVersion: 'LatestVersion'

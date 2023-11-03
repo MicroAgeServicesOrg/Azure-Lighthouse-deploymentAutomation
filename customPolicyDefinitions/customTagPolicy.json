@@ -1,0 +1,44 @@
+{
+    "properties": {
+        "displayName": "Azure Resource Tagging - AzMSP_Baseline",
+        "policyType": "Custom",
+        "description": "Ensure that Virtual Machines, SQL Databases, and Recovery Services vaults have tags.",
+        "metadata": {
+            "category": "AzMSP_Baseline"
+        }
+    },
+    "policyRule":{
+        "if": {
+            "allOf": [
+              {
+                "field": "type",
+                "in": [
+                  "Microsoft.Compute/virtualMachines",
+                  "Microsoft.Sql/servers/databases",
+                  "Microsoft.RecoveryServices/vaults"
+                ]
+              },
+              {
+                "field": "[concat('tags[MicroAge_AzMSP]')]",
+                "value": "enabled",
+                "exists": "false"
+              }
+            ]
+          },
+          "then": {
+            "effect": "modify",
+            "details": {
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                ],
+                "operations": [
+                    {
+                        "operation": "add",
+                        "field": "tags['MicroAge_AzMSP']",
+                        "value": "enabled"
+                    }
+                ]
+            } 
+          }
+    }
+}
