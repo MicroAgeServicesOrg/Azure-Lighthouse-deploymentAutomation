@@ -11,6 +11,10 @@ param dataCollectionRuleName string = 'masvcMonitoringDCR'
 param policyInitiativeName string = 'AzMSP_Baseline - Azure Monitoring'
 
 
+//param to define the custom policy definition for the system assigned managed identity policy.
+
+param managedIdentityPolicy object = json(loadTextContent('../../customPolicyDefinitions/managedIdentityPolicy.json'))
+
 //param to define the custom policy definition for the DCR policy.
 param dcrPolicy object = json(loadTextContent('../../customPolicyDefinitions/dcrPolicy.json'))
 
@@ -19,7 +23,6 @@ param amaPolicy object = json(loadTextContent('../../customPolicyDefinitions/ama
 
 //param for user assigned identity for policy assignment.
 param userAssignedIdentityId string = '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami'
-
 
 
 
@@ -52,6 +55,56 @@ module dataCollectionRule '../../modules/operational-insights/monitoring/dcr.bic
     deployLogAnalytics
   ]
 }
+
+
+//Deploy the system assigned identity for the policy assignment.
+
+resource managedIdentityDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+  name: 'masvcManagedIdentityPolicyDefinition'
+  properties: {
+    displayName: managedIdentityPolicy.properties.displayName
+    description: managedIdentityPolicy.properties.description
+    metadata: managedIdentityPolicy.properties.metadata
+    parameters: managedIdentityPolicy.properties.parameters
+    policyRule: managedIdentityPolicy.properties.policyRule
+  }
+}
+
+//deploy the policy assignment for the system assigned identity.
+
+resource managedIdentityAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
+  name: 'AzMSP System-Assigned Managed Identity Assignment'
+  location: location
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
+    }
+  }
+  properties: {
+    policyDefinitionId: managedIdentityDefinition.id
+    displayName: 'AzMSP System-Assigned Managed Identity Assignment'
+  }
+}
+
+//deploy the remediation task for the system assigned managed identity policy.
+
+resource managedIdentityRemediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
+  name: 'remediationTaskTagging'
+  properties: {
+    policyAssignmentId: managedIdentityAssignment.id
+    resourceDiscoveryMode: 'ExistingNonCompliant'
+    parallelDeployments: 10
+    failureThreshold: {
+      percentage: 1
+    }
+    filters: {
+      locations: []
+    }
+    resourceCount: 500
+}
+}
+
 
 //CARML Module for the DCR Policy. This policy is custom, hence we need to create it first. It will be added to the initiative below. 
 module customDCRPolicyDefinitionCARML '../../modules/carml/policy-definition/subscription/main.bicep' = {
