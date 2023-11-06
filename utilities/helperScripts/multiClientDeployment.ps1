@@ -7,8 +7,13 @@ param (
     [bool]$testDeploy,
 
     [Parameter(Mandatory=$false)]
-    [array]$clientSubscriptions
+    [array]$clientSubscriptions,
 
+    [Parameter(Mandatory=$true)]
+    [string]$bicepFilePath,
+
+    [Parameter(Mandatory=$false)]
+    [hashtable]$templateParams = $null
 )
 
 function TurnOnVMs {
@@ -38,9 +43,8 @@ function TurnOnVMs {
 
 $ErrorActionPreference = "Stop"
 
-#Define path to the bicep artifacts (files)
-$bicepFile = ".\solutions\onboardingManagedIdentities\main.bicep"
-$bicepFileLOCAL = "..\..\solutions\onboardingManagedIdentities\main.bicep"
+#Define path to the bicep artifacts (files) TESTING
+#$bicepFileLOCAL = "..\..\solutions\monitorOnboarding\main.bicep"
 
 
 
@@ -48,20 +52,18 @@ $bicepFileLOCAL = "..\..\solutions\onboardingManagedIdentities\main.bicep"
 #run deployment in each subscription
 #converted to Bicep stack deployment on 10/11/2023
 
-    Write-Output "Subscriptions sepecified in CSV file. Deploying to selected subscriptions" -Verbose
+    Write-Output "Subscriptions sepecified in azTableStorage. Deploying to selected subscriptions" -Verbose
     foreach ($subscription in $clientSubscriptions) {
         
         $subscriptionId = $subscription.subscriptionID
-        $clientCode = $subscription.clientCode
         Set-AzContext -SubscriptionId $subscriptionId
 
         if ($testDeploy) {
-            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFileLOCAL -clientCode $clientCode -WhatIf -Verbose
+            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject $templateParams -WhatIf -Verbose
         }
         
         else {
-            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFileLOCAL -WhatIf -Verbose
-
+            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject $templateParams -DenySettingsMode "None" -WhatIf -Verbose
         }
 
     }
