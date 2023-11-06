@@ -196,7 +196,7 @@ module policyAssignmentMonitoringInit '../../modules/carml/policy-assignment/sub
   name: '${uniqueString(deployment().name)}-policyAssignmentAMA'
   params: {
     name: 'policyAssignment_azmspMonitoring'
-    displayName: 'policyAssignment_azmspMonitoring'
+    displayName: 'AzMSP Monitoring Policy Assignment'
     location: location
     enforcementMode: 'Default'
     policyDefinitionId: monitoringPolicyInitiativeCARML.outputs.resourceId
