@@ -101,19 +101,18 @@ $cloudTable = (Get-AzStorageTable -Name $tableName -Context $ctx).CloudTable
 $partitionKey1 = "azMSPSubscriptions1"
 
 # Get current subscriptions stored in Table
-$global:currentSubscriptions = Get-AzTableRow `
+$script:currentSubscriptions = Get-AzTableRow `
 -table $cloudTable `
 -CustomFilter "$policyRemediationFilter"
+
+Write-Output "Here are the Current Subscriptions approved for onboarding:" $currentSubscriptions
 
 }
 ##endregion
 
-Write-Host "Getting current subscriptions from AzTableStorage"
-getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName
-
-
-Write-Host "Here are the Current Subscriptions approved for onboarding: $currentSubscriptions"
+Write-Output "Getting current subscriptions from AzTableStorage"
+getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName -Verbose
 
 
 #Writing variable to DevOps Pipeline
-Write-Host "##vso[task.setvariable variable=currentSubscriptions;]$currentSubscriptions"
+Write-Host "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]$currentSubscriptions"
