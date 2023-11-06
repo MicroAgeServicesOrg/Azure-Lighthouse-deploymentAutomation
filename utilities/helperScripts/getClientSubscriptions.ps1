@@ -1,7 +1,34 @@
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true, HelpMessage="The resource group where the AzTableStorage is located.")]
+    [string] $tableResourceGroup,
+
+    [Parameter(Mandatory=$true, HelpMessage="The name of the AzTableStorage account.")]
+    [string] $tableStorageAccount,
+
+    [Parameter(Mandatory=$true, HelpMessage="The name of the table within the storage account to pull the current client list/filters from.")]
+    [string] $tableName
+)
+
+
 $ErrorActionPreference = 'Stop'
 
-###Powershell script to gather current client subscriptions from AzTableStorage. 
+<#Powershell script to gather current client subscriptions from AzTableStorage. 
 
+        .SYNOPSIS
+            A helper script to check for AzTable module and gather current client subscriptions from AzTableStorage.
+            Note this script must be Dot Sourced in order to run correctly. The script will output info into a varaible called $currentSubscriptions.
+
+        .PARAMETER tableResourceGroup
+            The resource group where the AzTableStorage is located.
+        .PARAMETER tableStorageAccount
+            The name of the AzTableStorage account.
+        .PARAMETER tableName
+            The name of the table within the storage account to pull the current clint list/filters from.
+        .EXAMPLE 
+            getClientSubscriptionsFromTableStorage -tableResourceGroup 'masvc-lighthouseAutomation-rg' -tableStorageAccount 'masvclighthousetables001' -tableName 'azMSPClients'
+
+#>
 #region
 #Function to check for AzTable Module and find it if it's not installed. 
 function Load-Module ($module = "AzTable") {
@@ -52,7 +79,6 @@ function getClientSubscriptionsFromTableStorage {
         [switch] $onboardedParamOverride
     )
 
-
 #Switch to override table column for onboarded.
 if ($onboardedParamOverride) {
     $onboardedFilter = "(onboarded eq false)"
@@ -79,8 +105,15 @@ $global:currentSubscriptions = Get-AzTableRow `
 -table $cloudTable `
 -CustomFilter "$policyRemediationFilter"
 
-
-return $currentSubscriptions
 }
 ##endregion
 
+Write-Host "Getting current subscriptions from AzTableStorage"
+getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName
+
+
+Write-Host "Here are the Current Subscriptions approved for onboarding: $currentSubscriptions"
+
+
+#Writing variable to DevOps Pipeline
+Write-Host "##vso[task.setvariable variable=currentSubscriptions;]$currentSubscriptions"
