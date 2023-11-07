@@ -36,7 +36,7 @@ stages:
                inputs:
                 azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
                 ScriptType: FilePath
-                ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
+                ScriptPath: '$(Pipeline.Workspace)/utilities/helperScripts/multiClientDeployment.ps1'
                 ScriptArguments: -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -testDeploy $true -verbose -clientSubscriptions '$(currentSubscriptions)' -bicepFilePath ".\solutions\monitorOnboarding\main.bicep"
                 azurePowerShellVersion: 'LatestVersion'
     - deployment: monitoringStack
@@ -50,6 +50,6 @@ stages:
                inputs:
                 azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
                 ScriptType: FilePath
-                ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
+                ScriptPath: '$(Pipeline.Workspace)/utilities/helperScripts/multiClientDeployment.ps1'
                 ScriptArguments: -deploymentName "masvcAzMSP_MonitoringDeploymentStack" -testDeploy $true -verbose -clientSubscriptions '$(currentSubscriptions)' -bicepFilePath ".\solutions\monitorOnboarding\main.bicep"
                 azurePowerShellVersion: 'LatestVersion'
