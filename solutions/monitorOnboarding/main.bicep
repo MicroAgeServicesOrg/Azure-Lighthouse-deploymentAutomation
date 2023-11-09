@@ -154,19 +154,12 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
           resourceType: {
             value: 'Microsoft.Insights/dataCollectionRules'
           }
-          scopeToSupportedImages: {
-            value: bool('false')
-          }
         }
       }
       {
         policyDefinitionId: amaLinuxPolicyDefinition.id
         policyDefinitionReferenceId: amaLinuxPolicyDefinition.id
-        parameters: {
-          scopeToSupportedImages:{
-            value: bool('false')
-          }
-        }
+        parameters: {}
       }
     ]
   }
