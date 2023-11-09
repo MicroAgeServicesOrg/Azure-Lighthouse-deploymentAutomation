@@ -159,7 +159,14 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
       {
         policyDefinitionId: amaLinuxPolicyDefinition.id
         policyDefinitionReferenceId: amaLinuxPolicyDefinition.id
-        parameters: {}
+        parameters: {
+          bringYourOwnUserAssignedManagedIdentity: {
+            value: bool('true')
+          }
+          userAssignedManagedIdentityName: {
+            value: 'masvcpolicyuami'
+          }
+        }
       }
     ]
   }
