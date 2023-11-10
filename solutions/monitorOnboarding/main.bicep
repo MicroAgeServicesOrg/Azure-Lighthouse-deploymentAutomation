@@ -172,6 +172,8 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
   }
 }
 
+
+//resource for assigning the linux monitoring initiative
 resource linuxMonitoringInitiativeAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
   name: 'AzMSP Linux Monitoring Policy Initiative Assignment'
   location: location
