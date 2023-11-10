@@ -8,7 +8,7 @@ param clientCode string
 param dataCollectionRuleName string = 'masvcMonitoringDCR'
 
 //monitoringPolicyParams
-param policyInitiativeName string = 'AzMSP_Baseline - Azure Monitoring'
+param policyInitiativeName string = 'AzMSP_Baseline - Azure Windows VM Monitoring'
 
 
 //param to define the custom policy definition for the system assigned managed identity policy.
@@ -20,6 +20,12 @@ param dcrPolicy object = json(loadTextContent('../../customPolicyDefinitions/dcr
 
 //param to define the custom policy definition for the MMA policy.
 param amaPolicy object = json(loadTextContent('../../customPolicyDefinitions/amaWindowsPolicy.json'))
+
+//param to define the custom policy for the DCR Linux policy
+param dcrLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxDCRPolicy.json'))
+
+//param to define the custom policy for the AMA Linux policy
+param amaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxAMAPolicy.json'))
 
 //param for user assigned identity for policy assignment.
 param userAssignedIdentityId string = '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami'
@@ -41,6 +47,7 @@ module deployLogAnalytics '../../modules/operational-insights/workspaces/loganal
     clientcode: clientCode
 }
 }
+
 //deploy the data collection rule for the monitoring agent.
 module dataCollectionRule '../../modules/operational-insights/monitoring/dcr.bicep' = {
   name: 'deployDCR'
@@ -103,6 +110,84 @@ resource managedIdentityRemediatonTask 'Microsoft.PolicyInsights/remediations@20
     }
     resourceCount: 500
 }
+}
+
+//resource for the DCR Linux policy definition
+resource dcrLinuxPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+  name: 'masvcDCRLinuxPolicyDefinition'
+  properties: {
+    displayName: dcrLinuxPolicy.properties.displayName
+    description: dcrLinuxPolicy.properties.description
+    metadata: dcrLinuxPolicy.properties.metadata
+    parameters: dcrLinuxPolicy.properties.parameters
+    policyRule: dcrLinuxPolicy.properties.policyRule
+  }
+}
+
+//resource for the AMA Linux policy definition
+resource amaLinuxPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+  name: 'masvcAMALinuxPolicyDefinition'
+  properties: {
+    displayName: amaLinuxPolicy.properties.displayName
+    description: amaLinuxPolicy.properties.description
+    metadata: amaLinuxPolicy.properties.metadata
+    parameters: amaLinuxPolicy.properties.parameters
+    policyRule: amaLinuxPolicy.properties.policyRule
+  }
+}
+
+//resource for creating initiative for dcr and ama linux policys
+resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-01' = {
+  name: 'masvcLinuxMonitoringPolicyInitiative'
+  properties: {
+    displayName: 'AzMSP_Baseline - Azure Linux VM Monitoring'
+    description: 'AzMSP Linux Monitoring Policy Initiative'
+    metadata: {}
+    policyDefinitions: [
+      {
+        policyDefinitionId: dcrLinuxPolicyDefinition.id
+        policyDefinitionReferenceId: dcrLinuxPolicyDefinition.id
+        parameters: {
+          dcrResourceId: {
+            value:dataCollectionRule.outputs.resourceId
+          }
+          resourceType: {
+            value: 'Microsoft.Insights/dataCollectionRules'
+          }
+        }
+      }
+      {
+        policyDefinitionId: amaLinuxPolicyDefinition.id
+        policyDefinitionReferenceId: amaLinuxPolicyDefinition.id
+        parameters: {
+          bringYourOwnUserAssignedManagedIdentity: {
+            value: bool('true')
+          }
+          userAssignedManagedIdentityName: {
+            value: 'masvcpolicyuami'
+          }
+        }
+      }
+    ]
+  }
+}
+
+
+//resource for assigning the linux monitoring initiative
+resource linuxMonitoringInitiativeAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
+  name: 'AzMSP Linux Monitoring Policy Initiative Assignment'
+  location: location
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
+    }
+  }
+  properties: {
+    policyDefinitionId: linuxMonitoringPolicyInitiative.id
+    displayName: 'AzMSP Linux Monitoring Policy Initiative Assignment'
+    enforcementMode: 'Default'
+  }
 }
 
 
@@ -196,7 +281,7 @@ module policyAssignmentMonitoringInit '../../modules/carml/policy-assignment/sub
   name: '${uniqueString(deployment().name)}-policyAssignmentAMA'
   params: {
     name: 'policyAssignment_azmspMonitoring'
-    displayName: 'policyAssignment_azmspMonitoring'
+    displayName: 'AzMSP Windows Monitoring Policy Initiative Assignment'
     location: location
     enforcementMode: 'Default'
     policyDefinitionId: monitoringPolicyInitiativeCARML.outputs.resourceId
