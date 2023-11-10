@@ -172,6 +172,22 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
   }
 }
 
+resource linuxMonitoringInitiativeAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
+  name: 'AzMSP Linux Monitoring Policy Initiative Assignment'
+  location: location
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
+    }
+  }
+  properties: {
+    policyDefinitionId: linuxMonitoringPolicyInitiative.id
+    displayName: 'AzMSP Linux Monitoring Policy Initiative Assignment'
+    enforcementMode: 'Default'
+  }
+}
+
 
 //CARML Module for the DCR Policy. This policy is custom, hence we need to create it first. It will be added to the initiative below. 
 module customDCRPolicyDefinitionCARML '../../modules/carml/policy-definition/subscription/main.bicep' = {
