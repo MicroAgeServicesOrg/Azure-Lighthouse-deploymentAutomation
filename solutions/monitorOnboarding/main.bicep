@@ -140,7 +140,7 @@ resource amaLinuxPolicyDefinition 'Microsoft.Authorization/policyDefinitions@202
 resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-01' = {
   name: 'masvcLinuxMonitoringPolicyInitiative'
   properties: {
-    displayName: 'AzMSP Linux Monitoring Policy Initiative'
+    displayName: 'AzMSP_Baseline - Azure Linux VM Monitoring'
     description: 'AzMSP Linux Monitoring Policy Initiative'
     metadata: {}
     policyDefinitions: [
@@ -279,7 +279,7 @@ module policyAssignmentMonitoringInit '../../modules/carml/policy-assignment/sub
   name: '${uniqueString(deployment().name)}-policyAssignmentAMA'
   params: {
     name: 'policyAssignment_azmspMonitoring'
-    displayName: 'AzMSP Monitoring Policy Assignment'
+    displayName: 'AzMSP Windows Monitoring Policy Initiative Assignment'
     location: location
     enforcementMode: 'Default'
     policyDefinitionId: monitoringPolicyInitiativeCARML.outputs.resourceId
