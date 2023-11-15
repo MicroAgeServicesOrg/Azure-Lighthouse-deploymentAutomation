@@ -4,13 +4,6 @@ targetScope = 'subscription'
 param location string = 'westus3'
 param clientCode string
 
-//dcrParams
-param dataCollectionRuleName string = 'masvcMonitoringDCR'
-
-//monitoringPolicyParams
-param policyInitiativeName string = 'AzMSP_Baseline - Azure Windows VM Monitoring'
-
-
 //param to define the custom policy definition for the system assigned managed identity policy.
 
 param managedIdentityPolicy object = json(loadTextContent('../../customPolicyDefinitions/managedIdentityPolicy.json'))
@@ -55,7 +48,7 @@ module dataCollectionRule '../../modules/operational-insights/monitoring/dcr.bic
   params: {
     clientCode: clientCode
     location: location
-    dataCollectionRuleName: dataCollectionRuleName
+    dataCollectionRuleName: 'masvcMonitoringDCR'
 
   }
   dependsOn: [
@@ -140,8 +133,9 @@ resource amaLinuxPolicyDefinition 'Microsoft.Authorization/policyDefinitions@202
 resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-01' = {
   name: 'masvcLinuxMonitoringPolicyInitiative'
   properties: {
-    displayName: 'AzMSP_Baseline - Azure Linux VM Monitoring'
+    displayName: 'Azure Linux VM Monitoring - AzMSP_Baseline'
     description: 'AzMSP Linux Monitoring Policy Initiative'
+    parameters: {category: {type: 'AzMSP_Baseline'}}
     metadata: {}
     policyDefinitions: [
       {
@@ -225,8 +219,9 @@ module customAMAPolicyDefinitionCARML '../../modules/carml/policy-definition/sub
 module monitoringPolicyInitiativeCARML '../../modules/carml/policy-set-definition/subscription/main.bicep' = {
   name: 'deployMonitoringInitiativeCARML'
   params: {
-    name: policyInitiativeName
+    name: 'Azure Windows VM Monitoring - AzMSP_Baseline'
     location: location
+    parameters: {category: {type: 'AzMSP_Baseline'}}
     policyDefinitions: [
       {
         policyDefinitionId: customDCRPolicyDefinitionCARML.outputs.resourceId
