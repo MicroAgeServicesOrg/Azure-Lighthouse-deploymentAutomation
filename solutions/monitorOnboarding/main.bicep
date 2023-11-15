@@ -149,20 +149,20 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
           resourceType: {
             value: 'Microsoft.Insights/dataCollectionRules'
           }
+          scopeToSupportedImages: {
+            value: bool('false')
+          }
         }
       }
       {
         policyDefinitionId: amaLinuxPolicyDefinition.id
         policyDefinitionReferenceId: amaLinuxPolicyDefinition.id
         parameters: {
-          bringYourOwnUserAssignedManagedIdentity: {
-            value: bool('true')
+          scopeToSupportedImages:{
+            value: bool('false')
           }
-          userAssignedManagedIdentityName: {
-            value: 'masvcpolicyuami'
           }
         }
-      }
     ]
   }
 }
