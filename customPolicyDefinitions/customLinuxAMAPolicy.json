@@ -1,12 +1,12 @@
 {
     "properties": {
-      "displayName": "Configure Linux virtual machines to run Azure Monitor Agent with user-assigned managed identity-based authentication",
-      "policyType": "BuiltIn",
+      "displayName": "Configure Linux virtual machines to run Azure Monitor Agent with user-assigned managed identity-based authentication - AzMSP_Basline",
+      "policyType": "Custom",
       "mode": "Indexed",
       "description": "Automate the deployment of Azure Monitor Agent extension on your Linux virtual machines for collecting telemetry data from the guest OS. This policy will install the extension and configure it to use the specified user-assigned managed identity if the OS and region are supported, and skip install otherwise. Learn more: https://aka.ms/AMAOverview.",
       "metadata": {
         "version": "3.4.0",
-        "category": "Monitoring"
+        "category": "AzMSP_Basline"
       },
       "parameters": {
         "effect": {

@@ -1,12 +1,12 @@
 {
     "properties": {
-      "displayName": "azMSP Baseline - Configure Windows Virtual Machines to be associated with a Data Collection Rule or a Data Collection Endpoint",
+      "displayName": "Configure Windows Virtual Machines to be associated with a Data Collection Rule or a Data Collection Endpoint - AzMSP Baseline",
       "policyType": "Custom",
       "mode": "Indexed",
       "description": "Deploy Association to link Windows virtual machines to the specified Data Collection Rule or the specified Data Collection Endpoint. The list of locations and OS images are updated over time as support is increased.",
       "metadata": {
         "version": "1.0.0",
-        "category": "azmsp_monitoring"
+        "category": "AzMSP_Baseline"
       },
       "version": "1.0.0",
       "parameters": {

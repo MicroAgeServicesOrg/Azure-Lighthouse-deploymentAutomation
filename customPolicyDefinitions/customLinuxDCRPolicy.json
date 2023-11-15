@@ -1,12 +1,12 @@
 {
     "properties": {
-      "displayName": "Configure Linux Machines to be associated with a Data Collection Rule or a Data Collection Endpoint",
-      "policyType": "BuiltIn",
+      "displayName": "Configure Linux Machines to be associated with a Data Collection Rule or a Data Collection Endpoint - AzMSP_Baseline",
+      "policyType": "Custom",
       "mode": "Indexed",
       "description": "Deploy Association to link Linux virtual machines, virtual machine scale sets, and Arc machines to the specified Data Collection Rule or the specified Data Collection Endpoint. The list of locations and OS images are updated over time as support is increased.",
       "metadata": {
         "version": "6.1.0",
-        "category": "Monitoring"
+        "category": "AzMSP_Baseline"
       },
       "parameters": {
         "effect": {
