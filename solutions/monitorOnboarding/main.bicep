@@ -149,9 +149,6 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
           resourceType: {
             value: 'Microsoft.Insights/dataCollectionRules'
           }
-          scopeToSupportedImages: {
-            value: bool('false')
-          }
         }
       }
       {
