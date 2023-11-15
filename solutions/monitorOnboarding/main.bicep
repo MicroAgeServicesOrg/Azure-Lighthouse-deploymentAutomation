@@ -135,8 +135,9 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
   properties: {
     displayName: 'Azure Linux VM Monitoring - AzMSP_Baseline'
     description: 'AzMSP Linux Monitoring Policy Initiative'
-    parameters: {category: {type: 'AzMSP_Baseline'}}
-    metadata: {}
+    metadata: {
+      category: 'AzMSP_Baseline'
+    }
     policyDefinitions: [
       {
         policyDefinitionId: dcrLinuxPolicyDefinition.id
@@ -221,7 +222,9 @@ module monitoringPolicyInitiativeCARML '../../modules/carml/policy-set-definitio
   params: {
     name: 'Azure Windows VM Monitoring - AzMSP_Baseline'
     location: location
-    parameters: {category: {type: 'AzMSP_Baseline'}}
+    metadata: {
+      category: 'AzMSP_Baseline'
+    }
     policyDefinitions: [
       {
         policyDefinitionId: customDCRPolicyDefinitionCARML.outputs.resourceId
