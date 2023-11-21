@@ -115,4 +115,5 @@ getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -
 
 
 #Writing variable to DevOps Pipeline
-Write-Host "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]$currentSubscriptions"
+Write-Output "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]$currentSubscriptions"
+
