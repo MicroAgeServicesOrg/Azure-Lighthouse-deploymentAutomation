@@ -41,6 +41,7 @@ stages:
                 ScriptArguments: -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -testDeploy $true -verbose -clientSubscriptions '$(currentSubscriptions)' -bicepFilePath ".\solutions\monitorOnboarding\main.bicep"
                 azurePowerShellVersion: 'LatestVersion'
     - deployment: monitoringStack
+      dependsOn: uamiStack
       displayName: deploy bicep templates for MicroAge Monitoring Stack
       environment: 'azMSPLighthouseProd'
       strategy:
