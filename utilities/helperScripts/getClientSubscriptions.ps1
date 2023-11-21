@@ -113,7 +113,7 @@ Write-Output "Here are the Current Subscriptions approved for onboarding:" $curr
 Write-Output "Getting current subscriptions from AzTableStorage"
 getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName -Verbose
 
-
+$testVariable = "ThisisATest"
 #Writing variable to DevOps Pipeline
-Write-Output "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]$currentSubscriptions"
+Write-Output "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]$testVariable"
 
