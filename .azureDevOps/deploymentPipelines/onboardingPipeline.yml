@@ -22,6 +22,14 @@ stages:
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/getClientSubscriptions.ps1'
             ScriptArguments: -tableResourceGroup "masvc-lighthouseAutomation-rg" -tableStorageAccount "masvclighthousetables001" -tableName "azMSPClients"
             azurePowerShellVersion: 'LatestVersion'
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            ScriptType: InlineScript
+            Inline: |
+              #Testing to see if we can read the output variable from the previous step
+              Write-Host "Trying to Read $env:currentSubscriptions"
+            azurePowerShellVersion: 'LatestVersion'
   - stage: Deploy
     displayName: Deploy templates to tenants
     jobs:
