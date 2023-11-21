@@ -32,6 +32,7 @@ stages:
         runOnce:
           deploy:
             steps:
+             - checkout: self
              - task: AzurePowerShell@5
                inputs:
                 azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
@@ -46,6 +47,7 @@ stages:
         runOnce:
           deploy:
             steps:
+             - checkout: self
              - task: AzurePowerShell@5
                inputs:
                 azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
