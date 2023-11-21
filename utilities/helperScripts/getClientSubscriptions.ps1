@@ -105,15 +105,16 @@ $script:currentSubscriptions = Get-AzTableRow `
 -table $cloudTable `
 -CustomFilter "$policyRemediationFilter"
 
-Write-Output "Here are the Current Subscriptions approved for onboarding:" $currentSubscriptions
+$testVariable = "ThisisATest"
 
+Write-Output "Here are the Current Subscriptions approved for onboarding:" $currentSubscriptions
+Write-Output "Setting VSO Variable"
+Write-Output "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]$testVariable"
 }
 ##endregion
+
 
 Write-Output "Getting current subscriptions from AzTableStorage"
 getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName -Verbose
 
-$testVariable = "ThisisATest"
-#Writing variable to DevOps Pipeline
-Write-Output "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]$testVariable"
 
