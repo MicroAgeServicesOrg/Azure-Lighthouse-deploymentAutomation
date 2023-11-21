@@ -28,7 +28,7 @@ stages:
             ScriptType: InlineScript
             Inline: |
               #Testing to see if we can read the output variable from the previous step
-              Write-Host "Trying to Read $(currentSubscriptions)"
+              Write-Host "Trying to Read" $(currentSubscriptions)
             azurePowerShellVersion: 'LatestVersion'
   - stage: Deploy
     displayName: Deploy templates to tenants
