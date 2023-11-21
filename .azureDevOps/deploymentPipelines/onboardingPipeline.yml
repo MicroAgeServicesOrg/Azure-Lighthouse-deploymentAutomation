@@ -30,5 +30,5 @@ stages:
             ScriptType: InlineScript
             Inline: |
               #Testing to see if we can read the output variable from the previous step
-              Write-Host "Trying to Read: $(getSubscriptions.currentSubscriptions)"
+              Write-Host "Trying to Read: $(getSubscriptions.currentSubscriptionsArray)"
             azurePowerShellVersion: 'LatestVersion'

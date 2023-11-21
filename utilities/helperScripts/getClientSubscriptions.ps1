@@ -110,7 +110,7 @@ $currentSubscriptionsJson = ($currentSubscriptions | ConvertTo-Json -Compress)
 
 Write-Output "Here are the Current Subscriptions approved for onboarding:" $currentSubscriptions
 Write-Output "Setting VSO Variable"
-Write-Output "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]$currentSubscriptionsJson"
+Write-Output "##vso[task.setvariable variable=currentSubscriptionsArray;isOutput=true]$currentSubscriptionsJson"
 }
 ##endregion
 
