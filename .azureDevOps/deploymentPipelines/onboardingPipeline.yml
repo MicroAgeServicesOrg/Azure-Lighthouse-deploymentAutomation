@@ -16,6 +16,7 @@ stages:
         displayName: Get client list from AzTableStorage
         steps:
         - task: AzurePowerShell@5
+          name: getSubscriptions
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
@@ -23,12 +24,13 @@ stages:
             ScriptArguments: -tableResourceGroup "masvc-lighthouseAutomation-rg" -tableStorageAccount "masvclighthousetables001" -tableName "azMSPClients"
             azurePowerShellVersion: 'LatestVersion'
         - task: AzurePowerShell@5
+          name: showOutput
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: InlineScript
             Inline: |
               #Testing to see if we can read the output variable from the previous step
-              Write-Host "Trying to Read: $(currentSubscriptions)"
+              Write-Host "Trying to Read: $(getSubscriptions.currentSubscriptions)"
             azurePowerShellVersion: 'LatestVersion'
   - stage: Deploy
     displayName: Deploy templates to tenants
