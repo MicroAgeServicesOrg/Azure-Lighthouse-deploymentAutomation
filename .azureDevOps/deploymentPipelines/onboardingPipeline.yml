@@ -32,37 +32,3 @@ stages:
               #Testing to see if we can read the output variable from the previous step
               Write-Host "Trying to Read: $(getSubscriptions.currentSubscriptions)"
             azurePowerShellVersion: 'LatestVersion'
-  - stage: Deploy
-    displayName: Deploy templates to tenants
-    jobs:
-    - deployment: uamiStack
-      displayName: deploy bicep templates for MicroAge User Assigned Managed Identities Stack
-      environment: 'azMSPLighthouseProd'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-             - checkout: self
-             - task: AzurePowerShell@5
-               inputs:
-                azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
-                ScriptType: FilePath
-                ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
-                ScriptArguments: -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -testDeploy $true -verbose -clientSubscriptions '$(currentSubscriptions)' -bicepFilePath ".\solutions\monitorOnboarding\main.bicep"
-                azurePowerShellVersion: 'LatestVersion'
-    - deployment: monitoringStack
-      dependsOn: uamiStack
-      displayName: deploy bicep templates for MicroAge Monitoring Stack
-      environment: 'azMSPLighthouseProd'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-             - checkout: self
-             - task: AzurePowerShell@5
-               inputs:
-                azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
-                ScriptType: FilePath
-                ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
-                ScriptArguments: -deploymentName "masvcAzMSP_MonitoringDeploymentStack" -testDeploy $true -verbose -clientSubscriptions '$(currentSubscriptions)' -bicepFilePath ".\solutions\monitorOnboarding\main.bicep"
-                azurePowerShellVersion: 'LatestVersion'
