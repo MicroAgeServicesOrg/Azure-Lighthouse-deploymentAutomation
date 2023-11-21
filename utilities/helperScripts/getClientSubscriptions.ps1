@@ -105,11 +105,10 @@ $script:currentSubscriptions = Get-AzTableRow `
 -table $cloudTable `
 -CustomFilter "$policyRemediationFilter"
 
-$testVariable = "ThisisATest"
 
 Write-Output "Here are the Current Subscriptions approved for onboarding:" $currentSubscriptions
 Write-Output "Setting VSO Variable"
-Write-Output "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]$testVariable"
+Write-Output "##vso[task.setvariable variable=currentSubscriptions;isOutput=true]abc"
 }
 ##endregion
 
