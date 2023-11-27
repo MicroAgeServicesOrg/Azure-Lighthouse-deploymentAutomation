@@ -23,5 +23,15 @@ stages:
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
             ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -getClientListOnly
             azurePowerShellVersion: 'LatestVersion'
-
+      - job: deployManagedIdentityStackTest
+        displayName: Deploy Managed Identity Stack Test Deploy
+        steps:
+        - task: AzurePowerShell@5
+          name: deployManagedIdentityStackTest
+          inputs:
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            ScriptType: FilePath
+            ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
+            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -bicepFilePath ".\solutions\monitorOnboarding\main.bicep" -testDeploy $true
+            azurePowerShellVersion: 'LatestVersion'
             
