@@ -1,12 +1,15 @@
 [CmdletBinding()]
 param (
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
+    [switch]$getClientListOnly,
+
+    [Parameter(Mandatory=$false)]
     [string]$deploymentName,
 
     [Parameter(Mandatory=$false)]
     [bool]$testDeploy,
 
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$bicepFilePath,
 
     [Parameter(Mandatory=$false)]
@@ -21,7 +24,6 @@ param (
     [Parameter(Mandatory=$true, HelpMessage="The name of the table within the storage account to pull the current client list/filters from.")]
     [string] $tableName
 )
-
 
 $ErrorActionPreference = 'Stop'
 
@@ -41,6 +43,7 @@ $ErrorActionPreference = 'Stop'
             getClientSubscriptionsFromTableStorage -tableResourceGroup 'masvc-lighthouseAutomation-rg' -tableStorageAccount 'masvclighthousetables001' -tableName 'azMSPClients'
 
 #>
+
 
 #######################################################################################################################
 #######################################################################################################################
@@ -146,39 +149,47 @@ $script:currentSubscriptions = Get-AzTableRow `
 #######################################################################################################################
 #######################################################################################################################
 #Start Script#
+#region 
+if ($getClientListOnly) {
+    Write-Output "Checking for AzTable Module"
+    Load-Module
 
+    Write-Output "Getting current subscriptions from AzTableStorage"
+    getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName -Verbose
+    
+    Write-Output "Here are the Current Subscriptions approved for onboarding:" $currentSubscriptions
+    exit
+}
+else {
+    Write-Output "Checking for AzTable Module"
+    Load-Module
+    
 
-Write-Output "Checking for AzTable Module"
-Load-Module
-
-Write-Output "Here are the Current Subscriptions approved for onboarding:" $currentSubscriptions
-
-Write-Output "Getting current subscriptions from AzTableStorage"
-getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName -Verbose
-
-
-#Define path to the bicep artifacts (files) TESTING
-#$bicepFileLOCAL = "..\..\solutions\monitorOnboarding\main.bicep"
-
-
-
+    Write-Output "Getting current subscriptions from AzTableStorage"
+    getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName -Verbose
 
 #run deployment in each subscription
 #converted to Bicep stack deployment on 10/11/2023
 
-    Write-Output "Subscriptions sepecified in azTableStorage. Deploying to selected subscriptions" -Verbose
-    foreach ($subscription in $clientSubscriptions) {
-        
-        $subscriptionId = $subscription.subscriptionID
-        Set-AzContext -SubscriptionId $subscriptionId
+Write-Output "Subscriptions sepecified in azTableStorage. Deploying to selected subscriptions" -Verbose
+foreach ($subscription in $currentSubscriptions) {
+    
+    $subscriptionId = $subscription.subscriptionID
+    Set-AzContext -SubscriptionId $subscriptionId
 
-        if ($testDeploy) {
-            New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject $templateParams -WhatIf -Verbose
-        }
-        
-        else {
-            New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject $templateParams -DenySettingsMode "None" -WhatIf -Verbose
-        }
-
+    if ($testDeploy) {
+        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject $templateParams -WhatIf -Verbose
     }
+    
+    else {
+        New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject $templateParams -DenySettingsMode "None" -WhatIf -Verbose
+    }
+
+}
+}
+#endregion
+
+#End Script Section#
+
+
 
