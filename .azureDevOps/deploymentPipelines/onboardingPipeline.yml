@@ -8,6 +8,19 @@ trigger:
 
 pool: 'masvc_adoRunners'
 
+parameters:
+- name : 'tableResourceGroup'
+  type: string
+  value: 'masvc-lighthouseAutomation-rg'
+
+- name : 'tableStorageAccount'
+  type: string
+  value: 'masvclighthousetables001'
+
+- name : 'tableName'
+  type: string
+  value: 'azMSPClients'
+
 stages:
   - stage: getClientList
     displayName: Gather current client list from AzTableStorage
@@ -20,24 +33,7 @@ stages:
           inputs:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
-            ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/getClientSubscriptions.ps1'
-            ScriptArguments: -tableResourceGroup "masvc-lighthouseAutomation-rg" -tableStorageAccount "masvclighthousetables001" -tableName "azMSPClients"
-            azurePowerShellVersion: 'LatestVersion'
-        - task: AzurePowerShell@5
-          name: showOutput
-          inputs:
-            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
-            ScriptType: InlineScript
-            Inline: |
-              #Testing to see if we can read the output variable from the previous step
-              Write-Host "Trying to Read: $(getSubscriptions.currentSubscriptionsArray)"
-            azurePowerShellVersion: 'LatestVersion'
-        - task: AzurePowerShell@5
-          name: ManagedIdentitiesStack
-          inputs:
-            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
-            ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
-            ScriptArguments: -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -testDeploy $true -bicepFilePath ".\solutions\monitorOnboarding\main.bicep"
+            ScriptArguments: -tableResourceGroup ${{parameters.tableResourceGroup}} -tableStorageAccount ${{parameters.tableStorageAccount}} -tableName ${{parameters.tableName}} -getClientListOnly
             azurePowerShellVersion: 'LatestVersion'
             
