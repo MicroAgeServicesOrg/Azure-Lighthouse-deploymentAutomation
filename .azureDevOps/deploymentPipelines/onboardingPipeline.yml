@@ -9,17 +9,17 @@ trigger:
 pool: 'masvc_adoRunners'
 
 parameters:
-- name : 'tableResourceGroup'
-  type: string
-  value: 'masvc-lighthouseAutomation-rg'
+  - name: 'tableResourceGroup'
+    type: string
+    value: 'masvc-lighthouseAutomation-rg'
 
-- name : 'tableStorageAccount'
-  type: string
-  value: 'masvclighthousetables001'
+  - name: 'tableStorageAccount'
+    type: string
+    value: 'masvclighthousetables001'
 
-- name : 'tableName'
-  type: string
-  value: 'azMSPClients'
+  - name: 'tableName'
+    type: string
+    value: 'azMSPClients'
 
 stages:
   - stage: getClientList
@@ -36,4 +36,5 @@ stages:
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
             ScriptArguments: -tableResourceGroup ${{parameters.tableResourceGroup}} -tableStorageAccount ${{parameters.tableStorageAccount}} -tableName ${{parameters.tableName}} -getClientListOnly
             azurePowerShellVersion: 'LatestVersion'
+
             
