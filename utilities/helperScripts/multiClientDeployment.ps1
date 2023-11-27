@@ -175,10 +175,11 @@ Write-Output "Subscriptions sepecified in azTableStorage. Deploying to selected 
 foreach ($subscription in $currentSubscriptions) {
     
     $subscriptionId = $subscription.subscriptionID
+    $clientCode = $subscription.clientCode
     Set-AzContext -SubscriptionId $subscriptionId
 
     if ($testDeploy) {
-        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -WhatIf -Verbose
+        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -clientCode $clientCode -WhatIf -Verbose
     }
     
     else {
