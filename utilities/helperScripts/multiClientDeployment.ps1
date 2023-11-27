@@ -39,7 +39,7 @@ function TurnOnVMs {
 }
 # Call the function to execute the code
 
-$clientSubscriptions = ($clientSubscriptionsJSON | ConvertFrom-Json)
+$clientSubscriptions = ($clientSubscriptionsJSON | ConvertFrom-Json -AsHashtable)
 
 $ErrorActionPreference = "Stop"
 
