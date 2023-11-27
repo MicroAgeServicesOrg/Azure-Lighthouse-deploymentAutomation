@@ -5,9 +5,9 @@ param (
 
     [Parameter(Mandatory=$false)]
     [bool]$testDeploy,
-
+    
     [Parameter(Mandatory=$false)]
-    [array]$clientSubscriptions,
+    [string]$clientSubscriptionsJSON,
 
     [Parameter(Mandatory=$true)]
     [string]$bicepFilePath,
@@ -39,7 +39,7 @@ function TurnOnVMs {
 }
 # Call the function to execute the code
 
-
+$clientSubscriptions = ($clientSubscriptionsJSON | ConvertFrom-Json)
 
 $ErrorActionPreference = "Stop"
 

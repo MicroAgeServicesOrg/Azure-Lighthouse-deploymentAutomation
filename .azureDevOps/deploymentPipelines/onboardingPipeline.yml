@@ -32,3 +32,12 @@ stages:
               #Testing to see if we can read the output variable from the previous step
               Write-Host "Trying to Read: $(getSubscriptions.currentSubscriptionsArray)"
             azurePowerShellVersion: 'LatestVersion'
+        - task: AzurePowerShell@5
+          name: ManagedIdentitiesStack
+          inputs:
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            ScriptType: FilePath
+            ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
+            ScriptArguments: -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -testDeploy $true -verbose -clientSubscriptions '$(getSubscriptions.currentSubscriptionsArray)' -bicepFilePath ".\solutions\monitorOnboarding\main.bicep"
+            azurePowerShellVersion: 'LatestVersion'
+            

@@ -105,7 +105,7 @@ $script:currentSubscriptions = Get-AzTableRow `
 -table $cloudTable `
 -CustomFilter "$policyRemediationFilter"
 
-$currentSubscriptionsJson = ($currentSubscriptions | ConvertTo-Json -Compress)
+$script:currentSubscriptionsJson = ($currentSubscriptions | ConvertTo-Json -Compress)
 
 
 Write-Output "Here are the Current Subscriptions approved for onboarding:" $currentSubscriptions
@@ -119,3 +119,6 @@ Write-Output "Getting current subscriptions from AzTableStorage"
 getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName -Verbose
 
 
+$tableResourceGroup = "masvc-lighthouseAutomation-rg" 
+$tableStorageAccount = "masvclighthousetables001" 
+$tableName = "azMSPClients"
