@@ -4,8 +4,9 @@ This project contains all internal automation resources and code for lighthouse 
 
 
 
-![Automation Flowchart](AzMSP%20Flow.drawio.svg)
+## ![Automation Flowchart](AzMSP%20Flow.drawio.svg)
 
+![Automation Flowchart](<e:/AzMSP Flow.svg>)
 
 
 
