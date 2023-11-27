@@ -25,6 +25,7 @@ stages:
             azurePowerShellVersion: 'LatestVersion'
       - job: deployManagedIdentityStackTest
         displayName: Deploy Managed Identity Stack Test Deploy
+        dependsOn: getClientList
         steps:
         - task: AzurePowerShell@5
           name: deployManagedIdentityStackTest
