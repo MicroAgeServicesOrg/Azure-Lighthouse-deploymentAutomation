@@ -13,7 +13,7 @@ param (
     [string]$bicepFilePath,
 
     [Parameter(Mandatory=$false)]
-    [hashtable]$templateParams = $null
+    [hashtable]$templateParams
 )
 
 function TurnOnVMs {
@@ -39,7 +39,7 @@ function TurnOnVMs {
 }
 # Call the function to execute the code
 
-$clientSubscriptions = ($clientSubscriptionsJSON | ConvertFrom-Json -AsHashtable)
+$clientSubscriptions = $clientSubscriptionsJSON | ConvertFrom-Json -AsHashtable
 
 $ErrorActionPreference = "Stop"
 
