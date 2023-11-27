@@ -178,7 +178,7 @@ foreach ($subscription in $currentSubscriptions) {
     Set-AzContext -SubscriptionId $subscriptionId
 
     if ($testDeploy) {
-        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject $templateParams -WhatIf -Verbose
+        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -WhatIf -Verbose
     }
     
     else {
