@@ -25,7 +25,7 @@ stages:
             azurePowerShellVersion: 'LatestVersion'
       - job: clientListApproval
         displayName: Approve client list
-        dependsOn: getSubscriptions
+        dependsOn: getClientList
         condition: succeeded()
         steps:
         - task: ManualValidation@0
@@ -40,7 +40,7 @@ stages:
             onTimeout: 'reject'
       - job: deployManagedIdentityStackTest
         displayName: Deploy Managed Identity Stack Test Deploy
-        dependsOn: getClientList
+        dependsOn: clientListApproval
         steps:
         - task: AzurePowerShell@5
           name: deployManagedIdentityStackTest
