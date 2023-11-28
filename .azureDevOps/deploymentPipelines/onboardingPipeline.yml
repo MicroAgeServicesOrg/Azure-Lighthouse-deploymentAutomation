@@ -23,9 +23,21 @@ stages:
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
             ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -getClientListOnly
             azurePowerShellVersion: 'LatestVersion'
+      - job: deployManagedIdentityStackTest
+        displayName: Deploy Managed Identity Stack Test Deploy
+        dependsOn: getClientList
+        steps:
+        - task: AzurePowerShell@5
+          name: deployManagedIdentityStackTest
+          inputs:
+            azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+            ScriptType: FilePath
+            ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
+            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -bicepFilePath ".\solutions\monitorOnboarding\main.bicep" -testDeploy $true
+            azurePowerShellVersion: 'LatestVersion'
       - job: clientListApproval
         displayName: Approve client list
-        dependsOn: getClientList
+        dependsOn: deployManagedIdentityStackTest
         pool: server
         condition: succeeded()
         steps:
@@ -39,9 +51,8 @@ stages:
               tyler.sherrod@microage.com
             instructions: 'Please review the list of clients to be deployed to and approve or reject the deployment.'
             onTimeout: 'reject'
-      - job: deployManagedIdentityStackTest
-        displayName: Deploy Managed Identity Stack Test Deploy
-        dependsOn: clientListApproval
+      - job: deployManagedIdentityStackProd
+        displayName: Deploy Managed Identity Stack Production Deployment
         steps:
         - task: AzurePowerShell@5
           name: deployManagedIdentityStackTest
@@ -49,6 +60,6 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
-            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -bicepFilePath ".\solutions\monitorOnboarding\main.bicep" -testDeploy $true
+            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -bicepFilePath ".\solutions\monitorOnboarding\main.bicep" -testDeploy $false
             azurePowerShellVersion: 'LatestVersion'
             
