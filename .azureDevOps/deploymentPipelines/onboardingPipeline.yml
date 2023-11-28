@@ -29,6 +29,7 @@ stages:
         condition: succeeded()
         steps:
         - task: ManualValidation@0
+          timeoutInMinutes: 1440 # task times out in 1 day
           name: clientListApproval
           displayName: Approve client list
           inputs:
