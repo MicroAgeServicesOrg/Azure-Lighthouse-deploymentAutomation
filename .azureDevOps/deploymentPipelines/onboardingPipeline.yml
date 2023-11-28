@@ -26,6 +26,7 @@ stages:
       - job: clientListApproval
         displayName: Approve client list
         dependsOn: getClientList
+        pool: server
         condition: succeeded()
         steps:
         - task: ManualValidation@0
