@@ -47,8 +47,7 @@ stages:
           displayName: Approve client list
           inputs:
             notifyUsers: |
-              david.mejak@microage.com
-              tyler.sherrod@microage.com
+              itsecops@microageservices.com
             instructions: 'Please review the list of clients to be deployed to and approve or reject the deployment.'
             onTimeout: 'reject'
       - job: deployManagedIdentityStackProd
