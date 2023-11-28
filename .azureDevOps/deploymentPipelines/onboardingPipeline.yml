@@ -23,6 +23,20 @@ stages:
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
             ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -getClientListOnly
             azurePowerShellVersion: 'LatestVersion'
+      - job: clientListApproval
+        displayName: Approve client list
+        dependsOn: getSubscriptions
+        condition: succeeded()
+        steps:
+        - task: ManualValidation@0
+          name: clientListApproval
+          displayName: Approve client list
+          inputs:
+            notifyUsers: |
+              david.mejak@microage.com
+              tyler.sherrod@microage.com
+            instructions: 'Please review the list of clients to be deployed to and approve or reject the deployment.'
+            onTimeout: 'reject'
       - job: deployManagedIdentityStackTest
         displayName: Deploy Managed Identity Stack Test Deploy
         dependsOn: getClientList
