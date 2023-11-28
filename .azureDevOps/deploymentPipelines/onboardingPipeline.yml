@@ -53,6 +53,7 @@ stages:
             onTimeout: 'reject'
       - job: deployManagedIdentityStackProd
         displayName: Deploy Managed Identity Stack Production Deployment
+        dependsOn: clientListApproval
         steps:
         - task: AzurePowerShell@5
           name: deployManagedIdentityStackTest
