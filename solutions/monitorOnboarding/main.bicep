@@ -21,7 +21,7 @@ param dcrLinuxPolicy object = json(loadTextContent('../../customPolicyDefinition
 param amaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxAMAPolicy.json'))
 
 //param for user assigned identity for policy assignment.
-param userAssignedIdentityId string = '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami'
+//param userAssignedIdentityId string = '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami'
 
 
 
@@ -55,6 +55,12 @@ module dataCollectionRule '../../modules/operational-insights/monitoring/dcr.bic
     deployLogAnalytics
   ]
 }
+
+
+//
+// System Assigned Managed Identity Policy Templates
+//
+
 
 
 //Deploy the system assigned identity for the policy assignment.
@@ -104,6 +110,13 @@ resource managedIdentityRemediatonTask 'Microsoft.PolicyInsights/remediations@20
     resourceCount: 500
 }
 }
+
+
+//
+// Linux DCR and AMA Policy templates
+//
+
+
 
 //resource for the DCR Linux policy definition
 resource dcrLinuxPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
@@ -164,7 +177,6 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
   }
 }
 
-
 //resource for assigning the linux monitoring initiative
 resource linuxMonitoringInitiativeAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
   name: 'AzMSP Linux Monitoring Policy Initiative Assignment'
@@ -182,6 +194,109 @@ resource linuxMonitoringInitiativeAssignment 'Microsoft.Authorization/policyAssi
   }
 }
 
+
+
+//
+// Windows DCR and AMA Policy template
+//
+
+
+
+//resource for the DCR Windows policy definition
+resource dcrWindowsPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+  name: 'masvcDCRWindowsPolicyDefinition'
+  properties: {
+    displayName: dcrPolicy.properties.displayName
+    description: dcrPolicy.properties.description
+    metadata: dcrPolicy.properties.metadata
+    parameters: dcrPolicy.properties.parameters
+    policyRule: dcrPolicy.properties.policyRule
+  }
+}
+
+//resource for the AMA Windows policy definition
+resource amaWindowsPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+  name: 'masvcAMAWindowsPolicyDefinition'
+  properties: {
+    displayName: amaPolicy.properties.displayName
+    description: amaPolicy.properties.description
+    metadata: amaPolicy.properties.metadata
+    parameters: amaPolicy.properties.parameters
+    policyRule: amaPolicy.properties.policyRule
+  }
+}
+
+//resource for creating initiative for windows dcr and ama linux policys
+resource windowsMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-01' = {
+  name: 'masvcWindowsMonitoringPolicyInitiative'
+  properties: {
+    displayName: 'Azure Windows VM Monitoring - AzMSP_Baseline'
+    description: 'AzMSP Windows Monitoring Policy Initiative'
+    metadata: {
+      category: 'AzMSP_Baseline'
+    }
+    policyDefinitions: [
+      {
+        policyDefinitionId: dcrWindowsPolicyDefinition.id
+        policyDefinitionReferenceId: dcrWindowsPolicyDefinition.id
+        parameters: {
+          dcrResourceId: {
+            value:dataCollectionRule.outputs.resourceId
+          }
+          resourceType: {
+            value: 'Microsoft.Insights/dataCollectionRules'
+          }
+          scopeToSupportedImages: {
+            value: bool('false')
+          }
+        }
+      }
+      {
+        policyDefinitionId: amaWindowsPolicyDefinition.id
+        policyDefinitionReferenceId: amaWindowsPolicyDefinition.id
+        parameters: {
+          scopeToSupportedImages:{
+            value: bool('false')
+          }
+        }
+        }
+    ]
+  }
+}
+
+
+//deploy custom alerts from the alerts folder. 
+module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' = {
+  name: 'deployAlerts'
+  scope: monitoringRG
+  params:{
+    clientCode: clientCode
+    location: location
+  }
+  dependsOn: [
+    deployLogAnalytics
+    dataCollectionRule
+  ]
+}
+
+//resource for assigning the windows monitoring initiative
+resource windowsMonitoringInitiativeAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
+  name: 'AzMSP Windows Monitoring Policy Initiative Assignment'
+  location: location
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami' :{}
+    }
+  }
+  properties: {
+    policyDefinitionId: windowsMonitoringPolicyInitiative.id
+    displayName: 'AzMSP Windows Monitoring Policy Initiative Assignment'
+    enforcementMode: 'Default'
+  }
+}
+
+/*
 
 //CARML Module for the DCR Policy. This policy is custom, hence we need to create it first. It will be added to the initiative below. 
 module customDCRPolicyDefinitionCARML '../../modules/carml/policy-definition/subscription/main.bicep' = {
@@ -254,36 +369,6 @@ module monitoringPolicyInitiativeCARML '../../modules/carml/policy-set-definitio
     customAMAPolicyDefinitionCARML
     customDCRPolicyDefinitionCARML
   ]
-}
-
-
-//deploy custom alerts from the alerts folder. 
-module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' = {
-  name: 'deployAlerts'
-  scope: monitoringRG
-  params:{
-    clientCode: clientCode
-    location: location
-  }
-  dependsOn: [
-    deployLogAnalytics
-    dataCollectionRule
-  ]
-}
-
-//policy Assignment for AMA
-module policyAssignmentMonitoringInit '../../modules/carml/policy-assignment/subscription/main.bicep' = {
-  name: '${uniqueString(deployment().name)}-policyAssignmentAMA'
-  params: {
-    name: 'policyAssignment_azmspMonitoring'
-    displayName: 'AzMSP Windows Monitoring Policy Initiative Assignment'
-    location: location
-    enforcementMode: 'Default'
-    policyDefinitionId: monitoringPolicyInitiativeCARML.outputs.resourceId
-    identity: 'UserAssigned'
-    userAssignedIdentityId: userAssignedIdentityId
-  }
-
 }
 
 /* commenting out remediation tasks for testing
