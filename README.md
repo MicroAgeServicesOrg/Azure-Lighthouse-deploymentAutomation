@@ -3,9 +3,7 @@
 This project contains all internal automation resources and code for lighthouse management, deployments, and more.
 
 
-
-![Automation Flowchart](AzMSP%20Flow.drawio.svg)
-
+![Automation Flowchart](AzMSP_Flow.svg)
 
 
 
@@ -19,7 +17,7 @@ For support, email dmejak@microage.com
 
 - [@David Mejak](https://www.github.com/mejdm5)
 - [@Cory Smith]
-- [@Tyler Sherrod](https://www.github.com/CoolPrius)
+- [@Tyler Sherrod](https://www.github.com/t-sherrod)
 
 
 

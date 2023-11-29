@@ -1,12 +1,12 @@
 {
     "properties": {
-      "displayName": "azMSP Baseline - Configure Windows virtual machines to run Azure Monitor Agent using system-assigned managed identity",
+      "displayName": "Configure Windows virtual machines to run Azure Monitor Agent using system-assigned managed identity - AzMSP_Baseline",
       "policyType": "Custom",
       "mode": "Indexed",
       "description": "Automate the deployment of Azure Monitor Agent extension on your Windows virtual machines for collecting telemetry data from the guest OS. This policy will install the extension if the OS and region are supported and system-assigned managed identity is enabled, and skip install otherwise. Learn more: https://aka.ms/AMAOverview.",
       "metadata": {
         "version": "4.3.0",
-        "category": "azmsp_monitoring"
+        "category": "AzMSP_Baseline"
       },
       "version": "4.3.0",
       "parameters": {

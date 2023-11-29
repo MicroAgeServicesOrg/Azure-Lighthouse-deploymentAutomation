@@ -228,6 +228,61 @@ resource VMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-prev
   }
 }
 
+resource LinuxVMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
+  name: 'Linux Virtual Machine Running Out of Disk Space'
+  location: location
+  tags:{
+    MicroAge_AzMSP: 'enabled'
+  }
+  properties: {
+    displayName: 'Linux Virtual Machine Running Out of Disk Space'
+    description: 'Alerts when disk space is below 15 GB.'
+    severity: 2
+    enabled: true
+    evaluationFrequency: 'PT15M'
+    scopes: [
+      existingWorkspace.id
+    ]
+    targetResourceTypes: [
+      'Microsoft.OperationalInsights/workspaces'
+    ]
+    windowSize: 'PT15M'
+    overrideQueryTimeRange: 'P2D'
+    criteria: {
+      allOf: [
+        {
+          query: queries.LinuxVMFreeSpaceQuery
+          timeAggregation: 'Average'
+          metricMeasureColumn: 'FreeGB'
+          dimensions: [
+            {
+              name: 'Computer'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+          ]
+          resourceIdColumn: '_ResourceId'
+          operator: 'LessThanOrEqual'
+          threshold: 15
+          failingPeriods: {
+            numberOfEvaluationPeriods: 1
+            minFailingPeriodsToAlert: 1
+          }
+        }
+      ]
+    }
+    autoMitigate: true
+    actions: {
+      actionGroups: [
+        actionGroup.id
+      ]
+      customProperties: {}
+    }
+  }
+}
+
 
   //creates memory utilization rule
 resource VMMemUtilizationRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview' = {
