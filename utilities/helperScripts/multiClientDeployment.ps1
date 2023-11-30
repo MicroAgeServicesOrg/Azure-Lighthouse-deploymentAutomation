@@ -4,6 +4,9 @@ param (
     [switch]$getClientListOnly,
 
     [Parameter(Mandatory=$false)]
+    [switch]$noClientCode,
+
+    [Parameter(Mandatory=$false)]
     [string]$deploymentName,
 
     [Parameter(Mandatory=$false)]
@@ -173,15 +176,17 @@ else {
 
 Write-Output "Subscriptions sepecified in azTableStorage. Deploying to selected subscriptions" -Verbose
 foreach ($subscription in $currentSubscriptions) {
-    
-    $subscriptionId = $subscription.subscriptionID
+
     $clientCode = $subscription.clientCode
+    $subscriptionId = $subscription.subscriptionID
     Set-AzContext -SubscriptionId $subscriptionId
 
     if ($testDeploy) {
         New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -clientCode $clientCode -WhatIf -Verbose
     }
-    
+    if ($noClientCode) {
+        New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -DenySettingsMode "None" -Force -Verbose
+    }
     else {
         New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject @{clientCode = $clientCode} -DenySettingsMode "None" -Force -Verbose
     }
