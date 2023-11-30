@@ -74,11 +74,13 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
-            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -bicepFilePath ".\solutions\managedIdentityOnboarding\main.bicep" -testDeploy $false
+            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_ManagedIdentitiesDeploymentStack" -bicepFilePath ".\solutions\managedIdentityOnboarding\main.bicep" -testDeploy $false -noClientCode
             azurePowerShellVersion: 'LatestVersion'
       - job: deployMonitoringProd
         displayName: Deploy Monitoring Stack Production Deployment
-        dependsOn: clientListApproval
+        dependsOn:
+          - clientListApproval
+          - deployManagedIdentityStackProd
         steps:
         - task: AzurePowerShell@5
           name: deployMonitoringStackProd
