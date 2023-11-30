@@ -3,6 +3,9 @@ trigger:
 
 pool: 'masvc_adoRunners'
 
+variables: 
+  - group: prodTableStorageVariables
+
 stages:
   - stage: getClientList
     displayName: Gather current client list from AzTableStorage
