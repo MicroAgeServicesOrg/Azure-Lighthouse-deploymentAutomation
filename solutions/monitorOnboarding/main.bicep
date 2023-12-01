@@ -6,13 +6,13 @@ param clientCode string
 
 //param to define the custom policy definition for the system assigned managed identity policy.
 
-param managedIdentityPolicy object = json(loadTextContent('../../customPolicyDefinitions/managedIdentityPolicy.json'))
+param managedIdentityPolicy object = json(loadTextContent('../../customPolicyDefinitions/customManagedIdentityPolicy.json'))
 
 //param to define the custom policy definition for the DCR policy.
-param dcrPolicy object = json(loadTextContent('../../customPolicyDefinitions/dcrPolicy.json'))
+param dcrPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsDCRPolicy.json'))
 
 //param to define the custom policy definition for the MMA policy.
-param amaPolicy object = json(loadTextContent('../../customPolicyDefinitions/amaWindowsPolicy.json'))
+param amaPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsAMAPolicy.json'))
 
 //param to define the custom policy for the DCR Linux policy
 param dcrLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxDCRPolicy.json'))
