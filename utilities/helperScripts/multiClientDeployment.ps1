@@ -184,6 +184,9 @@ foreach ($subscription in $currentSubscriptions) {
     if ($testDeploy) {
         New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -clientCode $clientCode -WhatIf -Verbose
     }
+    elseif ($testDeploy -and $noClientCode) {
+        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -WhatIf -Verbose
+    }
     elseif ($noClientCode) {
         New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -DenySettingsMode "None" -Force -Verbose
     }
