@@ -10,7 +10,7 @@ param (
     [string]$deploymentName,
 
     [Parameter(Mandatory=$false)]
-    [bool]$testDeploy,
+    [switch]$testDeploy,
 
     [Parameter(Mandatory=$false)]
     [string]$bicepFilePath,
@@ -181,7 +181,10 @@ foreach ($subscription in $currentSubscriptions) {
     $subscriptionId = $subscription.subscriptionID
     Set-AzContext -SubscriptionId $subscriptionId
 
-    if ($testDeploy) {
+    if ($testDeploy -and $noClientCode) {
+        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -WhatIf -Verbose
+    }
+    elseif ($testDeploy) {
         New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -clientCode $clientCode -WhatIf -Verbose
     }
     elseif ($noClientCode) {

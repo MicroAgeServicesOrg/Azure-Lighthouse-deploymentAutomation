@@ -6,6 +6,15 @@
 trigger:
 - none
 
+resources:
+  pipelines:
+    - pipeline: onboardingPipeline #Name of the pipeline resource
+      source: lighthouseOnboard - monitoring #Name of the pipeline referenced by this pipeline resource
+      trigger:
+        branches:
+          include:
+          - main
+
 pool: 'masvc_adoRunners'
 
 jobs:
@@ -15,6 +24,9 @@ jobs:
     - task: AzurePowerShell@5
       displayName: 'PowerShell script to run remediation Workflow'
       inputs:
-        azurePowerShellVersion: LatestVersion
         azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
+        ScriptType: FilePath
+        ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/remediatePolicies.ps1'
+        ScriptArguments: -policyName "$(policyName)"
+        azurePowerShellVersion: 'LatestVersion'
         
