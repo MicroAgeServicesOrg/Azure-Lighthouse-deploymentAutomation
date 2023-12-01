@@ -36,7 +36,7 @@ stages:
       - job: clientListApproval
         displayName: Approve client list
         dependsOn:
-          - deployBackupStackTest
+          - deployPatchingStackTest
         pool: server
         condition: succeeded()
         steps:
