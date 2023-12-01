@@ -11,7 +11,8 @@ $createWorkItem = $false
 
 $policyFilterScriptBlock = {
     $_.ComplianceState -eq 'NonCompliant' -and
-    $_.PolicySetDefinitionName -eq $policyName
+    $_.PolicySetDefinitionName -eq $policyName -or
+    $_.PolicyDefinitionName -eq $policyName
   }
 #endregion
 
