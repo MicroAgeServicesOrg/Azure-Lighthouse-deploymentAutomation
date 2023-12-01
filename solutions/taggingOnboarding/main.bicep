@@ -17,7 +17,7 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
 }
 
 resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
-  name: 'AzMSP Resource Tagging Assignment'
+  name: 'masvcTaggingPolicyAssignment'
   location: location
   identity: {
     type: 'UserAssigned'
@@ -33,7 +33,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
 
 
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
-  name: 'remediationTaskTagging'
+  name: 'masvcTaggingRemediationTask'
   properties: {
     policyAssignmentId: policyAssignment.id
     resourceDiscoveryMode: 'ExistingNonCompliant'

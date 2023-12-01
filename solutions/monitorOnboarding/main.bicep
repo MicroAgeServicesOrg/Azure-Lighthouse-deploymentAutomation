@@ -6,13 +6,13 @@ param clientCode string
 
 //param to define the custom policy definition for the system assigned managed identity policy.
 
-param managedIdentityPolicy object = json(loadTextContent('../../customPolicyDefinitions/managedIdentityPolicy.json'))
+param managedIdentityPolicy object = json(loadTextContent('../../customPolicyDefinitions/customManagedIdentityPolicy.json'))
 
 //param to define the custom policy definition for the DCR policy.
-param dcrPolicy object = json(loadTextContent('../../customPolicyDefinitions/dcrPolicy.json'))
+param dcrPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsDCRPolicy.json'))
 
 //param to define the custom policy definition for the MMA policy.
-param amaPolicy object = json(loadTextContent('../../customPolicyDefinitions/amaWindowsPolicy.json'))
+param amaPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsAMAPolicy.json'))
 
 //param to define the custom policy for the DCR Linux policy
 param dcrLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxDCRPolicy.json'))
@@ -79,7 +79,7 @@ resource managedIdentityDefinition 'Microsoft.Authorization/policyDefinitions@20
 //deploy the policy assignment for the system assigned identity.
 
 resource managedIdentityAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
-  name: 'AzMSP System-Assigned Managed Identity Assignment'
+  name: 'masvcSystemAssignedManagedIdentityAssignment'
   location: location
   identity: {
     type: 'UserAssigned'
@@ -179,7 +179,7 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
 
 //resource for assigning the linux monitoring initiative
 resource linuxMonitoringInitiativeAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
-  name: 'AzMSP Linux Monitoring Policy Initiative Assignment'
+  name: 'masvcLinuxMonitoringInitiativeAssignment'
   location: location
   identity: {
     type: 'UserAssigned'
@@ -281,7 +281,7 @@ module deployAlerting '../../modules/microsoft-insights/alerting/alerts.bicep' =
 
 //resource for assigning the windows monitoring initiative
 resource windowsMonitoringInitiativeAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
-  name: 'AzMSP Windows Monitoring Policy Initiative Assignment'
+  name: 'masvcWindowsMonitoringInitiativeAssignment'
   location: location
   identity: {
     type: 'UserAssigned'
