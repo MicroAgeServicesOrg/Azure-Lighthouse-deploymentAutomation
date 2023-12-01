@@ -56,7 +56,7 @@ resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01'
 //policy assignment for recovery services vault
 
 resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01' = {
-  name: 'policyAssignmentPatching'
+  name: 'masvcPatchingPolicyAssignment'
   location: location
   identity: {
     type: 'UserAssigned'
@@ -73,7 +73,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
 //remediation task for recovery services vault
 
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
-  name: 'remediationTaskPatching'
+  name: 'masvcPatchingRemediationTask'
   properties: {
     policyAssignmentId: policyAssignment.id
     resourceDiscoveryMode: 'ExistingNonCompliant'
