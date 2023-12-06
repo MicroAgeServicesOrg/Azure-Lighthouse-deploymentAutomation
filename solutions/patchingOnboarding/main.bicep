@@ -71,7 +71,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
 }
 
 //remediation task for recovery services vault
-
+/*
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   name: 'masvcPatchingRemediationTask'
   properties: {
@@ -87,3 +87,4 @@ resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
     resourceCount: 500
 }
 }
+*/

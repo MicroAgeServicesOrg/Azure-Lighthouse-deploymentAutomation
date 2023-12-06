@@ -94,9 +94,9 @@ resource managedIdentityAssignment 'Microsoft.Authorization/policyAssignments@20
 }
 
 //deploy the remediation task for the system assigned managed identity policy.
-
+/*
 resource managedIdentityRemediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
-  name: 'remediationTaskTagging'
+  name: 'remediationTaskManagedIdentity'
   properties: {
     policyAssignmentId: managedIdentityAssignment.id
     resourceDiscoveryMode: 'ExistingNonCompliant'
@@ -110,7 +110,7 @@ resource managedIdentityRemediatonTask 'Microsoft.PolicyInsights/remediations@20
     resourceCount: 500
 }
 }
-
+*/
 
 //
 // Linux DCR and AMA Policy templates

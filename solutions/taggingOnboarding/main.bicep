@@ -31,7 +31,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   }
 }
 
-
+/*
 resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
   name: 'masvcTaggingRemediationTask'
   properties: {
@@ -47,3 +47,4 @@ resource remediatonTask 'Microsoft.PolicyInsights/remediations@2021-10-01' = {
     resourceCount: 500
 }
 }
+*/
