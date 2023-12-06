@@ -42,6 +42,7 @@ pool: 'masvc_adoRunners'
 jobs:
   - job: remediatePolicy
     displayName: 'Remediate Policy'
+    timeoutInMinutes: 720
     steps:
     - task: AzurePowerShell@5
       displayName: 'PowerShell script to run remediation Workflow'
