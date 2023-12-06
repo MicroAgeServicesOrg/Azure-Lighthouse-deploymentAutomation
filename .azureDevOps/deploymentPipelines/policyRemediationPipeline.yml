@@ -13,6 +13,28 @@ resources:
       trigger:
         branches:
           include:
+          - releases/*
+          - main
+    - pipeline: backupPipeline #Name of the pipeline resource
+      source: lighthouseOnboard - backups
+      trigger:
+        branches:
+          include:
+          - releases/*
+          - main
+    - pipeline: patchingPipeline
+      source: lighthouseOnboard - patching
+      trigger:
+        branches:
+          include:
+          - releases/*
+          - main
+    - pipeline: taggingPipeline
+      source: lighthouseOnboard - tagging
+      trigger:
+        branches:
+          include:
+          - releases/*
           - main
 
 pool: 'masvc_adoRunners'
