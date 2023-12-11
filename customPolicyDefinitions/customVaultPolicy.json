@@ -228,30 +228,6 @@
                   "allOf": [
                     {
                       "field": "Microsoft.Compute/imagePublisher",
-                      "equals": "MicrosoftWindowsDesktop"
-                    },
-                    {
-                      "field": "Microsoft.Compute/imageOffer",
-                      "equals": "Windows-10"
-                    }
-                  ]
-                },
-                {
-                  "allOf": [
-                    {
-                      "field": "Microsoft.Compute/imagePublisher",
-                      "equals": "MicrosoftWindowsDesktop"
-                    },
-                    {
-                      "field": "Microsoft.Compute/imageOffer",
-                      "equals": "Windows-11"
-                    }
-                  ]
-                },
-                {
-                  "allOf": [
-                    {
-                      "field": "Microsoft.Compute/imagePublisher",
                       "equals": "RedHat"
                     },
                     {
@@ -460,7 +436,7 @@
                   },
                   "variables": {
                     "backupFabric": "Azure",
-                    "backupPolicy": "DefaultPolicy",
+                    "backupPolicy": "EnhancedPolicy",
                     "v2VmType": "Microsoft.Compute/virtualMachines",
                     "v2VmContainer": "iaasvmcontainer;iaasvmcontainerv2;",
                     "v2Vm": "vm;iaasvmcontainerv2;",
