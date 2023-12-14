@@ -1,6 +1,6 @@
 {
     "properties": {
-      "displayName": "Deploy Dependency agent for Linux virtual machines with Azure Monitoring Agent settings",
+      "displayName": "Deploy Dependency agent for Linux virtual machines with Azure Monitoring Agent settings - AzMSP_Baseline",
       "policyType": "Custom",
       "mode": "Indexed",
       "description": "Deploy Dependency agent for Linux virtual machines with Azure Monitoring Agent settings if the VM Image (OS) is in the list defined and the agent is not installed.",
