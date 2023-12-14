@@ -14,15 +14,23 @@ param dcrPolicy object = json(loadTextContent('../../customPolicyDefinitions/cus
 //param to define the custom policy definition for the MMA policy.
 param amaPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsAMAPolicy.json'))
 
+//param to define the custom policy for the DAA Windows policy
+param daaPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsDAAPolicy.json'))
+
 //param to define the custom policy for the DCR Linux policy
 param dcrLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxDCRPolicy.json'))
 
 //param to define the custom policy for the AMA Linux policy
 param amaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxAMAPolicy.json'))
 
-//param for user assigned identity for policy assignment.
-//param userAssignedIdentityId string = '/subscriptions/${subscription().subscriptionId}/resourceGroups/masvc-uami-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/masvcpolicyuami'
+//param to define the custom policy for the DAA Linux policy
+param daaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxDAAPolicy.json'))
 
+
+
+//
+//Deploy Resource Group and log analytic workspace for monitoring services. Additionally deploys teh DCR.
+//
 
 
 // Deploy the base resource group for all resources within this deployment. 
@@ -112,8 +120,10 @@ resource managedIdentityRemediatonTask 'Microsoft.PolicyInsights/remediations@20
 }
 */
 
+
+
 //
-// Linux DCR and AMA Policy templates
+// Linux DCR, DAA, and AMA Policy templates
 //
 
 
@@ -139,6 +149,18 @@ resource amaLinuxPolicyDefinition 'Microsoft.Authorization/policyDefinitions@202
     metadata: amaLinuxPolicy.properties.metadata
     parameters: amaLinuxPolicy.properties.parameters
     policyRule: amaLinuxPolicy.properties.policyRule
+  }
+}
+
+//resource for the DAA Linux policy definition
+resource daaLinuxPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+  name: 'masvcDAALinuxPolicyDefinition'
+  properties: {
+    displayName: daaLinuxPolicy.properties.displayName
+    description: daaLinuxPolicy.properties.description
+    metadata: daaLinuxPolicy.properties.metadata
+    parameters: daaLinuxPolicy.properties.parameters
+    policyRule: daaLinuxPolicy.properties.policyRule
   }
 }
 
@@ -171,6 +193,15 @@ resource linuxMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefin
           scopeToSupportedImages:{
             value: bool('false')
           }
+          }
+        }
+        {
+          policyDefinitionId: daaLinuxPolicyDefinition.id
+          policyDefinitionReferenceId: daaLinuxPolicyDefinition.id
+          parameters: {
+            scopeToSupportedImages:{
+              value: bool('false')
+            }
           }
         }
     ]
@@ -226,6 +257,18 @@ resource amaWindowsPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2
   }
 }
 
+//resource for the DAA Windows policy definition
+resource daaWindowsPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+  name: 'masvcDAAWindowsPolicyDefinition'
+  properties: {
+    displayName: daaPolicy.properties.displayName
+    description: daaPolicy.properties.description
+    metadata: daaPolicy.properties.metadata
+    parameters: daaPolicy.properties.parameters
+    policyRule: daaPolicy.properties.policyRule
+  }
+}
+
 //resource for creating initiative for windows dcr and ama linux policys
 resource windowsMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDefinitions@2021-06-01' = {
   name: 'masvcWindowsMonitoringPolicyInitiative'
@@ -259,6 +302,15 @@ resource windowsMonitoringPolicyInitiative 'Microsoft.Authorization/policySetDef
             value: bool('false')
           }
         }
+        }
+        {
+          policyDefinitionId: daaWindowsPolicyDefinition.id
+          policyDefinitionReferenceId: daaWindowsPolicyDefinition.id
+          parameters: {
+            scopeToSupportedImages:{
+              value: bool('false')
+            }
+          }
         }
     ]
   }
