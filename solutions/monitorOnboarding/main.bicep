@@ -9,13 +9,13 @@ param clientCode string
 param managedIdentityPolicy object = json(loadTextContent('../../customPolicyDefinitions/customManagedIdentityPolicy.json'))
 
 //param to define the custom policy definition for the DCR policy.
-param dcrPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsDCRPolicy.json'))
+param dcrWindowsPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsDCRPolicy.json'))
 
 //param to define the custom policy definition for the MMA policy.
-param amaPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsAMAPolicy.json'))
+param amaWindowsPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsAMAPolicy.json'))
 
 //param to define the custom policy for the DAA Windows policy
-param daaPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsDAAPolicy.json'))
+param daaWindowsPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsdaaPolicy.json'))
 
 //param to define the custom policy for the DCR Linux policy
 param dcrLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxDCRPolicy.json'))
@@ -24,7 +24,7 @@ param dcrLinuxPolicy object = json(loadTextContent('../../customPolicyDefinition
 param amaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxAMAPolicy.json'))
 
 //param to define the custom policy for the DAA Linux policy
-param daaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxDAAPolicy.json'))
+param daaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxdaaPolicy.json'))
 
 
 
@@ -237,11 +237,11 @@ resource linuxMonitoringInitiativeAssignment 'Microsoft.Authorization/policyAssi
 resource dcrWindowsPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: 'masvcDCRWindowsPolicyDefinition'
   properties: {
-    displayName: dcrPolicy.properties.displayName
-    description: dcrPolicy.properties.description
-    metadata: dcrPolicy.properties.metadata
-    parameters: dcrPolicy.properties.parameters
-    policyRule: dcrPolicy.properties.policyRule
+    displayName: dcrWindowsPolicy.properties.displayName
+    description: dcrWindowsPolicy.properties.description
+    metadata: dcrWindowsPolicy.properties.metadata
+    parameters: dcrWindowsPolicy.properties.parameters
+    policyRule: dcrWindowsPolicy.properties.policyRule
   }
 }
 
@@ -249,11 +249,11 @@ resource dcrWindowsPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2
 resource amaWindowsPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: 'masvcAMAWindowsPolicyDefinition'
   properties: {
-    displayName: amaPolicy.properties.displayName
-    description: amaPolicy.properties.description
-    metadata: amaPolicy.properties.metadata
-    parameters: amaPolicy.properties.parameters
-    policyRule: amaPolicy.properties.policyRule
+    displayName: amaWindowsPolicy.properties.displayName
+    description: amaWindowsPolicy.properties.description
+    metadata: amaWindowsPolicy.properties.metadata
+    parameters: amaWindowsPolicy.properties.parameters
+    policyRule: amaWindowsPolicy.properties.policyRule
   }
 }
 
@@ -261,11 +261,11 @@ resource amaWindowsPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2
 resource daaWindowsPolicyDefinition 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: 'masvcDAAWindowsPolicyDefinition'
   properties: {
-    displayName: daaPolicy.properties.displayName
-    description: daaPolicy.properties.description
-    metadata: daaPolicy.properties.metadata
-    parameters: daaPolicy.properties.parameters
-    policyRule: daaPolicy.properties.policyRule
+    displayName: daaWindowsPolicy.properties.displayName
+    description: daaWindowsPolicy.properties.description
+    metadata: daaWindowsPolicy.properties.metadata
+    parameters: daaWindowsPolicy.properties.parameters
+    policyRule: daaWindowsPolicy.properties.policyRule
   }
 }
 
