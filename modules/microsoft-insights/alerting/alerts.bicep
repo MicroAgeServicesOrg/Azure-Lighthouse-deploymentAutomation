@@ -102,6 +102,9 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
     scopes: [
       existingWorkspace.id
     ]
+    targetResourceTypes: [
+      'Microsoft.OperationalInsights/workspaces'
+    ]
     windowSize: 'PT30M'
     criteria: {
       allOf: [
@@ -148,6 +151,9 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
     evaluationFrequency: 'PT30M'
     scopes: [
       existingWorkspace.id
+    ]
+    targetResourceTypes: [
+      'Microsoft.OperationalInsights/workspaces'
     ]
     windowSize: 'PT30M'
     criteria: {
