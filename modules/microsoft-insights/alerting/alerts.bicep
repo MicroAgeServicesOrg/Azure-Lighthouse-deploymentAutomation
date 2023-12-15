@@ -36,6 +36,9 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
   tags:{
     MicroAge_AzMSP: 'enabled'
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     displayName: 'Azure Backup Job Failed'
     severity: 2
@@ -82,11 +85,15 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
 }
 
 //adds ASR Critical health rule
+/*note* these rules are not currently working as expected
  resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = {
   name: 'Azure Site Recovery "Critical" Health'
   location: location
   tags:{
     MicroAge_AzMSP: 'enabled'
+  }
+  identity: {
+    type: 'SystemAssigned'
   }
   properties: {
     displayName: 'Azure Site Recovery "Critical" Health'
@@ -95,6 +102,9 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
     evaluationFrequency: 'PT30M'
     scopes: [
       existingWorkspace.id
+    ]
+    targetResourceTypes: [
+      'Microsoft.OperationalInsights/workspaces'
     ]
     windowSize: 'PT30M'
     criteria: {
@@ -132,6 +142,9 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
   tags:{
     MicroAge_AzMSP: 'enabled'
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     displayName: 'Azure Site Recovery \'RPO\' Exceeds 30 Minutes'
     severity: 2
@@ -139,6 +152,9 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
     evaluationFrequency: 'PT30M'
     scopes: [
       existingWorkspace.id
+    ]
+    targetResourceTypes: [
+      'Microsoft.OperationalInsights/workspaces'
     ]
     windowSize: 'PT30M'
     criteria: {
@@ -170,6 +186,7 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
     }
   }
 }
+*/
 
 //adds free space metric rule
 
@@ -178,6 +195,9 @@ resource VMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-prev
   location: location
   tags:{
     MicroAge_AzMSP: 'enabled'
+  }
+  identity: {
+    type: 'SystemAssigned'
   }
   properties: {
     displayName: 'Windows Virtual Machine Running Out of Disk Space'
@@ -233,6 +253,9 @@ resource LinuxVMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15
   location: location
   tags:{
     MicroAge_AzMSP: 'enabled'
+  }
+  identity: {
+    type: 'SystemAssigned'
   }
   properties: {
     displayName: 'Linux Virtual Machine Running Out of Disk Space'
@@ -291,6 +314,9 @@ resource VMMemUtilizationRule 'microsoft.insights/scheduledqueryrules@2023-03-15
   tags:{
     MicroAge_AzMSP: 'enabled'
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     description: 'This alert triggers when a machine is over 85 percent utilization for longer than 5 minutes'
     severity: 2
@@ -345,6 +371,9 @@ resource VMOffileRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview
   location: location
   tags:{
     MicroAge_AzMSP: 'enabled'
+  }
+  identity: {
+    type: 'SystemAssigned'
   }
   properties: {
     description: 'Alerts when a VM has been off longer than 15 mins'

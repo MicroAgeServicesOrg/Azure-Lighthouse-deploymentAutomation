@@ -15,7 +15,7 @@ param dcrWindowsPolicy object = json(loadTextContent('../../customPolicyDefiniti
 param amaWindowsPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsAMAPolicy.json'))
 
 //param to define the custom policy for the DAA Windows policy
-param daaWindowsPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsdaaPolicy.json'))
+param daaWindowsPolicy object = json(loadTextContent('../../customPolicyDefinitions/customWindowsDAAPolicy.json'))
 
 //param to define the custom policy for the DCR Linux policy
 param dcrLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxDCRPolicy.json'))
@@ -24,7 +24,7 @@ param dcrLinuxPolicy object = json(loadTextContent('../../customPolicyDefinition
 param amaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxAMAPolicy.json'))
 
 //param to define the custom policy for the DAA Linux policy
-param daaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxdaaPolicy.json'))
+param daaLinuxPolicy object = json(loadTextContent('../../customPolicyDefinitions/customLinuxDAAPolicy.json'))
 
 
 
