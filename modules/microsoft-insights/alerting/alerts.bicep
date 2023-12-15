@@ -36,6 +36,9 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
   tags:{
     MicroAge_AzMSP: 'enabled'
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     displayName: 'Azure Backup Job Failed'
     severity: 2
@@ -88,6 +91,9 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
   tags:{
     MicroAge_AzMSP: 'enabled'
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     displayName: 'Azure Site Recovery "Critical" Health'
     severity: 1
@@ -131,6 +137,9 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
   location: location
   tags:{
     MicroAge_AzMSP: 'enabled'
+  }
+  identity: {
+    type: 'SystemAssigned'
   }
   properties: {
     displayName: 'Azure Site Recovery \'RPO\' Exceeds 30 Minutes'
@@ -178,6 +187,9 @@ resource VMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15-prev
   location: location
   tags:{
     MicroAge_AzMSP: 'enabled'
+  }
+  identity: {
+    type: 'SystemAssigned'
   }
   properties: {
     displayName: 'Windows Virtual Machine Running Out of Disk Space'
@@ -233,6 +245,9 @@ resource LinuxVMFreeSpaceRule 'microsoft.insights/scheduledqueryrules@2023-03-15
   location: location
   tags:{
     MicroAge_AzMSP: 'enabled'
+  }
+  identity: {
+    type: 'SystemAssigned'
   }
   properties: {
     displayName: 'Linux Virtual Machine Running Out of Disk Space'
@@ -291,6 +306,9 @@ resource VMMemUtilizationRule 'microsoft.insights/scheduledqueryrules@2023-03-15
   tags:{
     MicroAge_AzMSP: 'enabled'
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     description: 'This alert triggers when a machine is over 85 percent utilization for longer than 5 minutes'
     severity: 2
@@ -345,6 +363,9 @@ resource VMOffileRule 'microsoft.insights/scheduledqueryrules@2023-03-15-preview
   location: location
   tags:{
     MicroAge_AzMSP: 'enabled'
+  }
+  identity: {
+    type: 'SystemAssigned'
   }
   properties: {
     description: 'Alerts when a VM has been off longer than 15 mins'
