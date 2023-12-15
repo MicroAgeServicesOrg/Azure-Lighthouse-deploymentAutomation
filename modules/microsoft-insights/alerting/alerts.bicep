@@ -85,6 +85,7 @@ resource azbackupJobFailedRule 'Microsoft.Insights/scheduledQueryRules@2023-03-1
 }
 
 //adds ASR Critical health rule
+/*note* these rules are not currently working as expected
  resource asrCriticalRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = {
   name: 'Azure Site Recovery "Critical" Health'
   location: location
@@ -185,6 +186,7 @@ resource asrRPORule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' 
     }
   }
 }
+*/
 
 //adds free space metric rule
 
