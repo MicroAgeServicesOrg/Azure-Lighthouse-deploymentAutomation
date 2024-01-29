@@ -419,6 +419,12 @@
                         "description": "Location for VM and Backup vault"
                       }
                     },
+                    "vmName": {
+                      "type": "string",
+                      "metadata": {
+                        "description": "Name of VM to be backed up"
+                      }
+                    },
                     "vmRgName": {
                       "type": "string",
                       "metadata": {
