@@ -8,6 +8,12 @@
           "description": "Location for VM and Backup vault"
         }
       },
+        "vmName": {
+            "type": "string",
+            "metadata": {
+            "description": "Name of VM to be backed up"
+            }
+        },
       "vmRgName": {
         "type": "string",
         "metadata": {
@@ -35,49 +41,54 @@
         "type": "Microsoft.RecoveryServices/vaults",
         "apiVersion": "2023-01-01",
         "location": "[parameters('location')]",
-        "properties": {},
+        "properties": {
+            "publicNetworkAccess": "Enabled"
+        },
         "sku": {
           "name": "Standard"
-        }
-      },
-      {
-        "name": "[concat(variables('vaultName'), '/backupPolicies/', variables('backupPolicy'))]",
-        "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
-        "apiVersion": "2023-01-01",
-        "location": "[parameters('location')]",
-        "dependsOn": [
-          "[resourceId('Microsoft.RecoveryServices/vaults/', variables('vaultName'))]"
-        ],
-        "properties": {
-          "backupManagementType": "AzureIaasVM",
-          "instantRpRetentionRangeInDays": 2,
-          "scheduledRpRetentionRanges": [
+        },
+        "resources": [
             {
-              "dailyRetentionDuration": {
-                "count": 14,
-                "durationType": "Days"
-              }
-            },
-            {
-              "weeklyRetentionDuration": {
-                "count": 4,
-                "durationType": "Weeks"
-              }
-            },
-            {
-              "monthlyRetentionDuration": {
-                "count": 12,
-                "durationType": "Months"
-              }
-            },
-            {
-              "yearlyRetentionDuration": {
-                "count": 3,
-                "durationType": "Years"
-              }
+                "name": "[variables('backupPolicy')]",
+                "type": "backupPolicies",
+                "apiVersion": "2023-01-01",
+                "location": "[parameters('location')]",
+                "dependsOn": [
+                "[resourceId('Microsoft.RecoveryServices/vaults/', variables('vaultName'))]"
+                ],
+                "properties": {
+                "backupManagementType": "AzureIaasVM",
+                "workLoadType": "VM",
+                "instantRpRetentionRangeInDays": 2,
+                "scheduledRpRetentionRanges": [
+                    {
+                    "dailyRetentionDuration": {
+                        "count": 14,
+                        "durationType": "Days"
+                    }
+                    },
+                    {
+                    "weeklyRetentionDuration": {
+                        "count": 4,
+                        "durationType": "Weeks"
+                    }
+                    },
+                    {
+                    "monthlyRetentionDuration": {
+                        "count": 12,
+                        "durationType": "Months"
+                    }
+                    },
+                    {
+                    "yearlyRetentionDuration": {
+                        "count": 3,
+                        "durationType": "Years"
+                    }
+                    }
+                ]
+                }
             }
-          ]
-        }
+        ]
       },
       {
         "name": "[concat(variables('vaultName'), '/', variables('backupFabric'), '/', variables('v2VmContainer'), concat(parameters('vmRgName'),';',parameters('vmName')), '/', variables('v2Vm'), concat(parameters('vmRGName'),';',parameters('vmName')))]",
