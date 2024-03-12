@@ -5,7 +5,7 @@
       "mode": "Indexed",
       "description": "Enforce backup for all virtual machines by deploying a recovery services vault in the same location as the virtual machine. You can optionally exclude virtual machines containing a specified tag to control the scope of assignment. See https://aka.ms/AzureVMAppCentricBackupExcludeTag.",
       "metadata": {
-        "version": "1.3.0",
+        "version": "1.4.0",
         "category": "AzMSP_Baseline"
       },
       "parameters": {
