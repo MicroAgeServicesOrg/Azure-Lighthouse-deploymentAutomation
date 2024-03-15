@@ -406,15 +406,9 @@
               "properties": {
                 "mode": "incremental",
                 "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
                   "contentVersion": "1.0.0.0",
                   "parameters": {
-                    "vmName": {
-                      "type": "string",
-                      "metadata": {
-                        "description": "Name of Azure Virtual Machines"
-                      }
-                    },
                     "location": {
                       "type": "string",
                       "metadata": {
@@ -454,12 +448,52 @@
                       }
                     },
                     {
-                      "name": "[concat(variables('vaultName'), '/', variables('backupFabric'), '/', variables('v2VmContainer'), concat(parameters('vmRgName'),';',parameters('vmName')), '/', variables('v2Vm'), concat(parameters('vmRgName'),';',parameters('vmName')))]",
+                      "name": "[concat(variables('vaultName'), '/backupPolicies/', variables('backupPolicy'))]",
+                      "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
+                      "apiVersion": "2021-05-01",
+                      "location": "[parameters('location')]",
+                      "dependsOn": [
+                        "[resourceId('Microsoft.RecoveryServices/vaults/', variables('vaultName'))]"
+                      ],
+                      "properties": {
+                        "backupManagementType": "AzureIaasVM",
+                        "instantRpRetentionRangeInDays": 2,
+                        "scheduledRpRetentionRanges": [
+                          {
+                            "dailyRetentionDuration": {
+                              "count": 14,
+                              "durationType": "Days"
+                            }
+                          },
+                          {
+                            "weeklyRetentionDuration": {
+                              "count": 4,
+                              "durationType": "Weeks"
+                            }
+                          },
+                          {
+                            "monthlyRetentionDuration": {
+                              "count": 12,
+                              "durationType": "Months"
+                            }
+                          },
+                          {
+                            "yearlyRetentionDuration": {
+                              "count": 3,
+                              "durationType": "Years"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "[concat(variables('vaultName'), '/', variables('backupFabric'), '/', variables('v2VmContainer'), concat(parameters('vmRgName'),';',parameters('vmName')), '/', variables('v2Vm'), concat(parameters('vmRGName'),';',parameters('vmName')))]",
                       "apiVersion": "2016-12-01",
                       "location": "[parameters('location')]",
                       "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
                       "dependsOn": [
-                        "[resourceId('Microsoft.RecoveryServices/vaults/', variables('vaultName'))]"
+                        "[resourceId('Microsoft.RecoveryServices/vaults/', variables('vaultName'))]",
+                        "[resourceId('Microsoft.RecoveryServices/vaults/backupPolicies', variables('vaultName'),variables('backupPolicy'))]"
                       ],
                       "properties": {
                         "protectedItemType": "[variables('v2VmType')]",
