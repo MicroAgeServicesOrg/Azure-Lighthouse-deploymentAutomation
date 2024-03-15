@@ -1,7 +1,3 @@
-param(
-    [Parameter(Mandatory = $true)] [string] $policyName
-)
-
 #region
 # Set the variables that are used in the rest of the PowerShell script
 Write-Verbose "`nSet the variables that are used in the rest of the PowerShell script"
@@ -10,9 +6,10 @@ $yesterday = $today.AddDays(-1)
 $createWorkItem = $false
 
 $policyFilterScriptBlock = {
-    $_.ComplianceState -eq 'NonCompliant' -and
-    $_.PolicySetDefinitionName -eq $policyName -or
-    $_.PolicyDefinitionName -eq $policyName
+    $_.PolicySetDefinitionName -like '*masvc*' -or
+    $_.PolicyDefinitionName -like '*masvc*' -and
+    $_.ComplianceState -eq 'NonCompliant'
+
   }
 #endregion
 
