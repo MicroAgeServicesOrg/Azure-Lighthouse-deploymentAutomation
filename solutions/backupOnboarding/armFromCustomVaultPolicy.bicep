@@ -1,3 +1,6 @@
+targetScope = 'subscription'
+
+
 @description('Location for VM and Backup vault')
 param location string
 
@@ -12,6 +15,7 @@ param vmRgName string
 )
 param clientCode string
 
+var rgLocation = 'westus3'
 var backupFabric = 'Azure'
 var backupPolicy = 'azMSPVMBackupPolicy'
 var v2VmType = 'Microsoft.Compute/virtualMachines'
@@ -19,9 +23,16 @@ var v2VmContainer = 'iaasvmcontainer;iaasvmcontainerv2;'
 var v2Vm = 'vm;iaasvmcontainerv2;'
 var vaultName = take('${clientCode}-${location}-centralVault', 50)
 
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2023-07-01' = {
+  name: 'masvc-recoveryresources-rg'
+  location: rgLocation
+}
+
+
 resource vault 'Microsoft.RecoveryServices/vaults@2023-06-01' = {
   name: vaultName
   location: location
+  scope: resourceGroup
   sku: {
     name: 'Standard'
   }

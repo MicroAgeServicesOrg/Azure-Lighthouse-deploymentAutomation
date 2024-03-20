@@ -3,7 +3,7 @@ targetScope = 'subscription'
 //global params
 param location string = 'westus3'
 param clientCode string
-param isAVDClient bool
+param isAVDClient bool = false
 
 //variables
 var uniqueAVDlogworkspacename = '${clientCode}-centralWorkspaceAVD'
