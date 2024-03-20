@@ -164,7 +164,7 @@ if ($getClientListOnly) {
     getClientSubscriptionsFromTableStorage -tableResourceGroup $tableResourceGroup -tableStorageAccount $tableStorageAccount -tableName $tableName -Verbose
     
     Write-Output "Here are the Current Subscriptions approved for onboarding:" $currentSubscriptions
-    exita
+    exit
 }
 else {
     Write-Output "Checking for AzTable Module"
