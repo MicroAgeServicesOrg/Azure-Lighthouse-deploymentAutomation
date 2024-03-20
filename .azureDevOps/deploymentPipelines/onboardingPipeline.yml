@@ -45,7 +45,7 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
-            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_MonitoringDeploymentStack" -bicepFilePath ".\solutions\monitorOnboarding\main.bicep" -testDeploy -AVDSettingsRequired
+            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_MonitoringDeploymentStack" -bicepFilePath ".\solutions\monitorOnboarding\main.bicep" -testDeploy
             azurePowerShellVersion: 'LatestVersion'
       - job: clientListApproval
         displayName: Approve client list
@@ -88,6 +88,6 @@ stages:
             azureSubscription: 'Azure DevOps Connection - Multi Tenant Deployment'
             ScriptType: FilePath
             ScriptPath: '$(System.DefaultWorkingDirectory)/utilities/helperScripts/multiClientDeployment.ps1'
-            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_MonitoringDeploymentStack" -bicepFilePath ".\solutions\monitorOnboarding\main.bicep" -AVDSettingsRequired
+            ScriptArguments: -tableResourceGroup $(tableResourceGroup) -tableStorageAccount $(tableStorageAccount) -tableName $(tableName) -deploymentName "masvcAzMSP_MonitoringDeploymentStack" -bicepFilePath ".\solutions\monitorOnboarding\main.bicep"
             azurePowerShellVersion: 'LatestVersion'
             
