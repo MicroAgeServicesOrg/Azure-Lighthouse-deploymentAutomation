@@ -7,9 +7,6 @@ param (
     [switch]$noClientCode,
 
     [Parameter(Mandatory=$false)]
-    [switch]$AVDSettingsRequired,
-
-    [Parameter(Mandatory=$false)]
     [string]$deploymentName,
 
     [Parameter(Mandatory=$false)]
@@ -182,7 +179,6 @@ foreach ($subscription in $currentSubscriptions) {
 
     $clientCode = $subscription.clientCode
     $subscriptionId = $subscription.subscriptionID
-    $isAVDClient = $subscription.isAVDClient
     Set-AzContext -SubscriptionId $subscriptionId
 
     if ($testDeploy -and $noClientCode) {
@@ -194,16 +190,9 @@ foreach ($subscription in $currentSubscriptions) {
     elseif ($noClientCode) {
         New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -DenySettingsMode "None" -Force -Verbose
     }
-    elseif ($testDeploy -and $AVDSettingsRequired -and $isAVDClient) {
-        New-AzSubscriptionDeployment -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -clientCode $clientCode -isAVDClient $isAVDClient -WhatIf -Verbose
-    }
-    elseif ($isAVDClient -and $AVDSettingsRequired){
-        New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject @{clientCode = $clientCode; isAVDClient = $isAVDClient} -DenySettingsMode "None" -Force -Verbose
-    }
     else {
         New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject @{clientCode = $clientCode} -DenySettingsMode "None" -Force -Verbose
     }
-
 }
 }
 #endregion
