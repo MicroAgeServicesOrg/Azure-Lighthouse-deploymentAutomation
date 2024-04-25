@@ -11,7 +11,7 @@ var backupPolicy = 'azMSPVMBackupPolicy'
 var v2VmType = 'Microsoft.Compute/virtualMachines'
 var v2VmContainer = 'iaasvmcontainer;iaasvmcontainerv2;'
 var v2Vm = 'vm;iaasvmcontainerv2;'
-var vaultName = take('${clientCode}-${location}-centralVault', 50)
+var vaultName = take('${clientCode}-${location}-centralVaultTEST', 50)
 
 
 
