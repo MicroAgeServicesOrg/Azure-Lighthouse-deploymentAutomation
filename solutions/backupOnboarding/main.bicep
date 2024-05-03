@@ -43,7 +43,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2022-06-01'
   }
   properties: {
     policyDefinitionId: policyDefinition.id
-    displayName: 'AzMSP Azure Recovery Vault per Region Assignment'
+    displayName: 'AzMSP_Backup - Recovery Policy Assignment'
   }
 }
 

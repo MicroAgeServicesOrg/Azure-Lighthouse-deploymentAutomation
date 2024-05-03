@@ -1,12 +1,12 @@
 {
     "properties": {
-      "displayName": "Azure Recovery Vault per Region - AzMSP_Baseline",
+      "displayName": "AzMSP_Recovery - Central Vault Policy",
       "policyType": "Custom",
       "mode": "All",
       "description": "Enforce backup for all virtual machines by deploying a recovery services vault in the same location as the virtual machine. You can optionally exclude virtual machines containing a specified tag to control the scope of assignment. See https://aka.ms/AzureVMAppCentricBackupExcludeTag.",
       "metadata": {
         "version": "2.0.0",
-        "category": "AzMSP_Baseline"
+        "category": "azmsp_recovery"
       },
       "parameters": {
         "effect": {
