@@ -682,7 +682,7 @@
                     {
                       "type": "Microsoft.Resources/deployments",
                       "apiVersion": "2022-09-01",
-                      "name": "deploy-RSV",
+                      "name": "[concat('deployRSVandPolicies-', uniqueString(deployment().name))]",
                       "resourceGroup": "[variables('masvcBackupRGName')]",
                       "properties": {
                         "expressionEvaluationOptions": {
