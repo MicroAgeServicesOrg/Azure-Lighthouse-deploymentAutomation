@@ -1,6 +1,13 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.26.170.59819",
+      "templateHash": "11432363287282088529"
+    }
+  },
   "parameters": {
     "location": {
       "type": "string"
@@ -99,7 +106,9 @@
             },
             "tieringPolicy": {
               "ArchivedRP": {
-                "tieringMode": "TierRecommended"
+                "tieringMode": "TierRecommended",
+                "duration": 0,
+                "durationType": "Invalid"
               }
             },
             "timeZone": "Pacific Standard Time"
@@ -296,6 +305,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.26.170.59819",
+              "templateHash": "12296631624941076100"
+            }
+          },
           "parameters": {
             "location": {
               "type": "string",

@@ -512,7 +512,9 @@
                             },
                             "tieringPolicy": {
                               "ArchivedRP": {
-                                "tieringMode": "TierRecommended"
+                                "tieringMode": "TierRecommended",
+                                "duration": 0,
+                                "durationType": "Invalid"
                               }
                             },
                             "timeZone": "Pacific Standard Time"

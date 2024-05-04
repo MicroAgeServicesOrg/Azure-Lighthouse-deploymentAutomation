@@ -94,6 +94,8 @@ param backupPolicies array = [
       tieringPolicy: {
         ArchivedRP: {
           tieringMode: 'TierRecommended'
+          duration: 0
+          durationType: 'Invalid'
         }
       }
       timeZone: 'Pacific Standard Time'
