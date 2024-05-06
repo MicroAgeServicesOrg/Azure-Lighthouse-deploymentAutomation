@@ -5,7 +5,7 @@
       "mode": "All",
       "description": "Enforce backup for all virtual machines by deploying a recovery services vault in the same location as the virtual machine. You can optionally exclude virtual machines containing a specified tag to control the scope of assignment. See https://aka.ms/AzureVMAppCentricBackupExcludeTag.",
       "metadata": {
-        "version": "2.0.0",
+        "version": "2.1.0",
         "category": "azmsp_recovery"
       },
       "parameters": {
@@ -414,6 +414,13 @@
                 "template": {
                   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
                   "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.26.170.59819",
+                      "templateHash": "3073344344179830036"
+                    }
+                  },
                   "parameters": {
                     "location": {
                       "type": "string"
@@ -711,6 +718,13 @@
                         "template": {
                           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
                           "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.26.170.59819",
+                              "templateHash": "5439874329183067513"
+                            }
+                          },
                           "parameters": {
                             "location": {
                               "type": "string",
@@ -741,6 +755,15 @@
                               "defaultValue": [],
                               "metadata": {
                                 "description": "Required. properties of the backup policy"
+                              }
+                            },
+                            "alertProcessingRuleScope": {
+                              "type": "array",
+                              "defaultValue": [
+                                "[resourceGroup().id]"
+                              ],
+                              "metadata": {
+                                "description": "The scope of resources for which the alert processing rule will apply. You can leave this field unchanged if you wish to apply the rule for all Recovery Services vault within the subscription. If you wish to apply the rule on smaller scopes, you can specify an array of ARM URLs representing the scopes, eg. ['/subscriptions/<sub-id>/resourceGroups/RG1', '/subscriptions/<sub-id>/resourceGroups/RG2']"
                               }
                             }
                           },
@@ -801,6 +824,58 @@
                               },
                               "dependsOn": [
                                 "[resourceId('Microsoft.RecoveryServices/vaults/backupPolicies', parameters('vaultName'), parameters('backupPolicies')[0].name)]"
+                              ]
+                            },
+                            {
+                              "type": "Microsoft.Insights/actionGroups",
+                              "apiVersion": "2023-01-01",
+                              "name": "masvc-connectwise-backups",
+                              "location": "global",
+                              "tags": {
+                                "MicroAge_AzMSP": "enabled"
+                              },
+                              "properties": {
+                                "groupShortName": "masvc-cw",
+                                "enabled": true,
+                                "webhookReceivers": [
+                                  {
+                                    "name": "masvc-cwlogicapp",
+                                    "serviceUri": "https://prod-83.eastus.logic.azure.com:443/workflows/c199cd5f60f042d9b9692f5e77e181bf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hjJlQPSFduj8GeVmJfFpyZjdo9X8e4RjpbGm4Cx4Ra4",
+                                    "useAadAuth": false,
+                                    "useCommonAlertSchema": true
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "Microsoft.AlertsManagement/actionRules",
+                              "apiVersion": "2021-08-08",
+                              "name": "[format('AlertProcessingRule-{0}', resourceGroup().name)]",
+                              "location": "global",
+                              "properties": {
+                                "scopes": "[parameters('alertProcessingRuleScope')]",
+                                "conditions": [
+                                  {
+                                    "field": "TargetResourceType",
+                                    "operator": "Equals",
+                                    "values": [
+                                      "microsoft.recoveryservices/vaults"
+                                    ]
+                                  }
+                                ],
+                                "description": "Recovery Services Alert Processing Rule",
+                                "enabled": true,
+                                "actions": [
+                                  {
+                                    "actionGroupIds": [
+                                      "[resourceId('Microsoft.Insights/actionGroups', 'masvc-connectwise-backups')]"
+                                    ],
+                                    "actionType": "AddActionGroups"
+                                  }
+                                ]
+                              },
+                              "dependsOn": [
+                                "[resourceId('Microsoft.Insights/actionGroups', 'masvc-connectwise-backups')]"
                               ]
                             }
                           ]
