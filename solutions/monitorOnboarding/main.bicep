@@ -4,6 +4,12 @@ targetScope = 'subscription'
 param location string = 'westus3'
 param clientCode string
 
+//switch for avd specific workspace
+param isAVDClient bool = true
+
+//variables
+var uniqueAVDlogworkspacename = '${clientCode}-centralWorkspaceAVD'
+
 //param to define the custom policy definition for the system assigned managed identity policy.
 
 param managedIdentityPolicy object = json(loadTextContent('../../customPolicyDefinitions/customManagedIdentityPolicy.json'))
@@ -47,6 +53,16 @@ module deployLogAnalytics '../../modules/operational-insights/workspaces/loganal
     location: location
     clientcode: clientCode
 }
+}
+
+//deploy the AVD insights workspace if AVD client is true ##USING AZURE VERIFIED MODULES PUBLIC REPO##
+module deployLogAnalyticsAVD 'br/public:avm/res/operational-insights/workspace:0.3.4' = if (isAVDClient) {
+  name: 'deployLogAnalyticsAVD'
+  scope: monitoringRG
+  params: {
+    name: uniqueAVDlogworkspacename
+    location: location
+  }
 }
 
 //deploy the data collection rule for the monitoring agent.

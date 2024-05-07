@@ -193,7 +193,6 @@ foreach ($subscription in $currentSubscriptions) {
     else {
         New-AzSubscriptionDeploymentStack -Name $deploymentName -Location "WestUS3" -TemplateFile $bicepFilePath -templateParameterObject @{clientCode = $clientCode} -DenySettingsMode "None" -Force -Verbose
     }
-
 }
 }
 #endregion
