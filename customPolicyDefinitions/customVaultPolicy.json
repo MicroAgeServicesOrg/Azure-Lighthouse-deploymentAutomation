@@ -418,7 +418,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.26.170.59819",
-                      "templateHash": "3073344344179830036"
+                      "templateHash": "10799714523635786991"
                     }
                   },
                   "parameters": {
@@ -691,7 +691,7 @@
                     {
                       "type": "Microsoft.Resources/deployments",
                       "apiVersion": "2022-09-01",
-                      "name": "[concat('deployRSVandPolicies-', uniqueString(deployment().name))]",
+                      "name": "deploy-RSV",
                       "resourceGroup": "[variables('masvcBackupRGName')]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -722,7 +722,7 @@
                             "_generator": {
                               "name": "bicep",
                               "version": "0.26.170.59819",
-                              "templateHash": "5439874329183067513"
+                              "templateHash": "1058856192353865073"
                             }
                           },
                           "parameters": {
@@ -784,7 +784,15 @@
                                 "tier": "Standard"
                               },
                               "properties": {
-                                "publicNetworkAccess": "Enabled"
+                                "publicNetworkAccess": "Enabled",
+                                "monitoringSettings": {
+                                  "azureMonitorAlertSettings": {
+                                    "alertsForAllJobFailures": "Enabled"
+                                  },
+                                  "classicAlertSettings": {
+                                    "alertsForCriticalOperations": "Disabled"
+                                  }
+                                }
                               }
                             },
                             {
