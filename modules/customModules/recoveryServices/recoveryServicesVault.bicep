@@ -39,6 +39,14 @@ resource rsv 'Microsoft.RecoveryServices/vaults@2023-01-01' = {
   }
   properties: {
     publicNetworkAccess: 'Enabled'
+    monitoringSettings: {
+      azureMonitorAlertSettings: {
+        alertsForAllJobFailures: 'Enabled'
+      }
+      classicAlertSettings: {
+        alertsForCriticalOperations: 'Disabled'
+      }
+    }
   }
 }
 
