@@ -1,0 +1,917 @@
+{
+    "name": "cto_custom_deploy-centralized-recovery-services-vault",
+    "properties": {
+      "displayName": "Deploy Centralized Recovery Services Vault",
+      "policyType": "Custom",
+      "mode": "All",
+      "description": "Enforce backup for all virtual machines by deploying a recovery services vault in the same location as the virtual machine. You can optionally exclude virtual machines containing a specified tag to control the scope of assignment. See https://aka.ms/AzureVMAppCentricBackupExcludeTag.",
+      "metadata": {
+        "version": "2.0.0",
+        "category": "azmsp_recovery"
+      },
+      "version":"2.0.0",
+      "parameters": {
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "auditIfNotExists",
+            "AuditIfNotExists",
+            "deployIfNotExists",
+            "DeployIfNotExists",
+            "disabled",
+            "Disabled"
+          ],
+          "defaultValue": "DeployIfNotExists"
+        }      
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Compute/virtualMachines"
+            },
+            {
+              "field": "id",
+              "notContains": "/resourceGroups/databricks-rg-"
+            },
+            {
+              "field": "Microsoft.Compute/imagePublisher",
+              "notEquals": "azureopenshift"
+            },
+            {
+              "field": "Microsoft.Compute/imagePublisher",
+              "notEquals": "AzureDatabricks"
+            },
+            {
+              "anyOf": [
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "MicrosoftWindowsServer"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "equals": "WindowsServer"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageSKU",
+                      "in": [
+                        "2008-R2-SP1",
+                        "2008-R2-SP1-smalldisk",
+                        "2012-Datacenter",
+                        "2012-Datacenter-smalldisk",
+                        "2012-R2-Datacenter",
+                        "2012-R2-Datacenter-smalldisk",
+                        "2016-Datacenter",
+                        "2016-datacenter-gensecond",
+                        "2016-Datacenter-Server-Core",
+                        "2016-Datacenter-Server-Core-smalldisk",
+                        "2016-Datacenter-smalldisk",
+                        "2016-Datacenter-with-Containers",
+                        "2016-Datacenter-with-RDSH",
+                        "2019-Datacenter",
+                        "2019-Datacenter-Core",
+                        "2019-Datacenter-Core-smalldisk",
+                        "2019-Datacenter-Core-with-Containers",
+                        "2019-Datacenter-Core-with-Containers-smalldisk",
+                        "2019-Datacenter-smalldisk",
+                        "2019-Datacenter-with-Containers",
+                        "2019-Datacenter-with-Containers-smalldisk",
+                        "2019-Datacenter-zhcn",
+                        "2019-datacenter-gensecond",
+                        "2022-datacenter-g2",
+                        "2022-datacenter",
+                        "2022-datacenter-azure-edition",
+                        "2022-datacenter-azure-edition-smalldisk",
+                        "2022-datacenter-azure-edition-core",
+                        "2022-datacenter-azure-edition-core-smalldisk",
+                        "2022-datacenter-smalldisk-g2",
+                        "2022-datacenter-smalldisk",
+                        "2022-datacenter-core-g2",
+                        "2022-datacenter-core",
+                        "2022-datacenter-core-smalldisk-g2",
+                        "2022-datacenter-core-smalldisk"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "MicrosoftWindowsServer"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "equals": "WindowsServerSemiAnnual"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageSKU",
+                      "in": [
+                        "Datacenter-Core-1709-smalldisk",
+                        "Datacenter-Core-1709-with-Containers-smalldisk",
+                        "Datacenter-Core-1803-with-Containers-smalldisk"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "MicrosoftWindowsServerHPCPack"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "equals": "WindowsServerHPCPack"
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "MicrosoftSQLServer"
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/imageOffer",
+                          "like":"*-WS2022"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageOffer",
+                          "like": "*-WS2019"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageOffer",
+                          "like": "*-WS2016"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageOffer",
+                          "like": "*-WS2016-BYOL"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageOffer",
+                          "like": "*-WS2012R2"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageOffer",
+                          "like": "*-WS2012R2-BYOL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "MicrosoftRServer"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "equals": "MLServer-WS2016"
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "MicrosoftVisualStudio"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "in": [
+                        "VisualStudio",
+                        "Windows"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "MicrosoftDynamicsAX"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "equals": "Dynamics"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageSKU",
+                      "equals": "Pre-Req-AX7-Onebox-U8"
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "microsoft-ads"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "equals": "windows-data-science-vm"
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "RedHat"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "in": [
+                        "RHEL",
+                        "RHEL-SAP-HANA"
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "6.*"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "7*"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "8*"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "SUSE"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "in": [
+                        "SLES",
+                        "SLES-HPC",
+                        "SLES-HPC-Priority",
+                        "SLES-SAP",
+                        "SLES-SAP-BYOS",
+                        "SLES-Priority",
+                        "SLES-BYOS",
+                        "SLES-SAPCAL",
+                        "SLES-Standard"
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "12*"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "Canonical"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "contains": "ubuntu"
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "14.04*LTS"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "16.04*LTS"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "18.04*LTS"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "*20_04-lts"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "20_04-lts*"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "Oracle"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "equals": "Oracle-Linux"
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "6.*"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "7.*"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "OpenLogic"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "in": [
+                        "CentOS",
+                        "Centos-LVM",
+                        "CentOS-SRIOV"
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "6.*"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "like": "7*"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/imagePublisher",
+                      "equals": "cloudera"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageOffer",
+                      "equals": "cloudera-centos-os"
+                    },
+                    {
+                      "field": "Microsoft.Compute/imageSKU",
+                      "like": "7*"
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                      "like": "Windows*"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effect')]",
+          "details": {
+            "type": "Microsoft.RecoveryServices/backupprotecteditems",
+            "roleDefinitionIds": [
+              "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c",
+              "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+              "/providers/Microsoft.Authorization/roleDefinitions/5e467623-bb1f-42f4-a55d-6e525e11384b"
+            ],
+            "deploymentScope": "Subscription",
+            "deployment": {
+              "location": "westus3",
+              "properties": {
+                "mode": "incremental",
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.29.47.4906",
+                      "templateHash": "13547189808956011879"
+                    }
+                  },
+                  "parameters": {
+                    "location": {
+                      "type": "string"
+                    },
+                    "vmName": {
+                      "type": "string"
+                    },
+                    "vmRgName": {
+                      "type": "string"
+                    },
+                    "backupPolicies": {
+                      "type": "array",
+                      "defaultValue": [
+                        {
+                          "name": "azmspBackupPolicyVM",
+                          "properties": {
+                            "backupManagementType": "AzureIaasVM",
+                            "policyType": "V2",
+                            "instantRPDetails": {},
+                            "instantRpRetentionRangeInDays": 2,
+                            "protectedItemsCount": 0,
+                            "retentionPolicy": {
+                              "dailySchedule": {
+                                "retentionDuration": {
+                                  "count": 14,
+                                  "durationType": "Days"
+                                },
+                                "retentionTimes": [
+                                  "2019-11-07T22:00:00Z"
+                                ]
+                              },
+                              "monthlySchedule": {
+                                "retentionDuration": {
+                                  "count": 12,
+                                  "durationType": "Months"
+                                },
+                                "retentionScheduleFormatType": "Weekly",
+                                "retentionScheduleWeekly": {
+                                  "daysOfTheWeek": [
+                                    "Sunday"
+                                  ],
+                                  "weeksOfTheMonth": [
+                                    "First"
+                                  ]
+                                },
+                                "retentionTimes": [
+                                  "2019-11-07T22:00:00Z"
+                                ]
+                              },
+                              "retentionPolicyType": "LongTermRetentionPolicy",
+                              "weeklySchedule": {
+                                "daysOfTheWeek": [
+                                  "Sunday"
+                                ],
+                                "retentionDuration": {
+                                  "count": 4,
+                                  "durationType": "Weeks"
+                                },
+                                "retentionTimes": [
+                                  "2019-11-07T22:00:00Z"
+                                ]
+                              },
+                              "yearlySchedule": {
+                                "monthsOfYear": [
+                                  "January"
+                                ],
+                                "retentionDuration": {
+                                  "count": 3,
+                                  "durationType": "Years"
+                                },
+                                "retentionScheduleFormatType": "Weekly",
+                                "retentionScheduleWeekly": {
+                                  "daysOfTheWeek": [
+                                    "Sunday"
+                                  ],
+                                  "weeksOfTheMonth": [
+                                    "First"
+                                  ]
+                                },
+                                "retentionTimes": [
+                                  "2019-11-07T22:00:00Z"
+                                ]
+                              }
+                            },
+                            "schedulePolicy": {
+                              "schedulePolicyType": "SimpleSchedulePolicyV2",
+                              "dailySchedule": {
+                                "scheduleRunTimes": [
+                                  "2019-11-07T22:00:00Z"
+                                ]
+                              },
+                              "scheduleRunFrequency": "Daily"
+                            },
+                            "tieringPolicy": {
+                              "ArchivedRP": {
+                                "tieringMode": "TierRecommended",
+                                "duration": 0,
+                                "durationType": "Invalid"
+                              }
+                            },
+                            "timeZone": "Pacific Standard Time"
+                          }
+                        },
+                        {
+                          "name": "azmspBackupPolicySQL",
+                          "properties": {
+                            "backupManagementType": "AzureWorkload",
+                            "protectedItemsCount": 0,
+                            "settings": {
+                              "isCompression": true,
+                              "issqlcompression": true,
+                              "timeZone": "Pacific Standard Time"
+                            },
+                            "subProtectionPolicy": [
+                              {
+                                "policyType": "Full",
+                                "retentionPolicy": {
+                                  "monthlySchedule": {
+                                    "retentionDuration": {
+                                      "count": 60,
+                                      "durationType": "Months"
+                                    },
+                                    "retentionScheduleFormatType": "Weekly",
+                                    "retentionScheduleWeekly": {
+                                      "daysOfTheWeek": [
+                                        "Sunday"
+                                      ],
+                                      "weeksOfTheMonth": [
+                                        "First"
+                                      ]
+                                    },
+                                    "retentionTimes": [
+                                      "2019-11-07T22:00:00Z"
+                                    ]
+                                  },
+                                  "retentionPolicyType": "LongTermRetentionPolicy",
+                                  "weeklySchedule": {
+                                    "daysOfTheWeek": [
+                                      "Sunday"
+                                    ],
+                                    "retentionDuration": {
+                                      "count": 104,
+                                      "durationType": "Weeks"
+                                    },
+                                    "retentionTimes": [
+                                      "2019-11-07T22:00:00Z"
+                                    ]
+                                  },
+                                  "yearlySchedule": {
+                                    "monthsOfYear": [
+                                      "January"
+                                    ],
+                                    "retentionDuration": {
+                                      "count": 10,
+                                      "durationType": "Years"
+                                    },
+                                    "retentionScheduleFormatType": "Weekly",
+                                    "retentionScheduleWeekly": {
+                                      "daysOfTheWeek": [
+                                        "Sunday"
+                                      ],
+                                      "weeksOfTheMonth": [
+                                        "First"
+                                      ]
+                                    },
+                                    "retentionTimes": [
+                                      "2019-11-07T22:00:00Z"
+                                    ]
+                                  }
+                                },
+                                "schedulePolicy": {
+                                  "schedulePolicyType": "SimpleSchedulePolicy",
+                                  "scheduleRunDays": [
+                                    "Sunday"
+                                  ],
+                                  "scheduleRunFrequency": "Weekly",
+                                  "scheduleRunTimes": [
+                                    "2019-11-07T22:00:00Z"
+                                  ],
+                                  "scheduleWeeklyFrequency": 0
+                                }
+                              },
+                              {
+                                "policyType": "Differential",
+                                "retentionPolicy": {
+                                  "retentionDuration": {
+                                    "count": 30,
+                                    "durationType": "Days"
+                                  },
+                                  "retentionPolicyType": "SimpleRetentionPolicy"
+                                },
+                                "schedulePolicy": {
+                                  "schedulePolicyType": "SimpleSchedulePolicy",
+                                  "scheduleRunDays": [
+                                    "Monday"
+                                  ],
+                                  "scheduleRunFrequency": "Weekly",
+                                  "scheduleRunTimes": [
+                                    "2017-03-07T02:00:00Z"
+                                  ],
+                                  "scheduleWeeklyFrequency": 0
+                                }
+                              },
+                              {
+                                "policyType": "Log",
+                                "retentionPolicy": {
+                                  "retentionDuration": {
+                                    "count": 15,
+                                    "durationType": "Days"
+                                  },
+                                  "retentionPolicyType": "SimpleRetentionPolicy"
+                                },
+                                "schedulePolicy": {
+                                  "scheduleFrequencyInMins": 120,
+                                  "schedulePolicyType": "LogSchedulePolicy"
+                                }
+                              }
+                            ],
+                            "workLoadType": "SQLDataBase"
+                          }
+                        },
+                        {
+                          "name": "azmspBackupPolicyFiles",
+                          "properties": {
+                            "backupManagementType": "AzureStorage",
+                            "protectedItemsCount": 0,
+                            "retentionPolicy": {
+                              "dailySchedule": {
+                                "retentionDuration": {
+                                  "count": 30,
+                                  "durationType": "Days"
+                                },
+                                "retentionTimes": [
+                                  "2019-11-07T04:30:00Z"
+                                ]
+                              },
+                              "retentionPolicyType": "LongTermRetentionPolicy"
+                            },
+                            "schedulePolicy": {
+                              "schedulePolicyType": "SimpleSchedulePolicy",
+                              "scheduleRunFrequency": "Daily",
+                              "scheduleRunTimes": [
+                                "2019-11-07T04:30:00Z"
+                              ],
+                              "scheduleWeeklyFrequency": 0
+                            },
+                            "timeZone": "Pacific Standard Time",
+                            "workloadType": "AzureFileShare"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "variables": {
+                    "vaultName": "[format('{0}-RSVault', parameters('location'))]",
+                    "BackupRGName": "[format('{0}-{1}-backupresources-rg', parameters('location'), subscription().subscriptionId)]"
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Resources/resourceGroups",
+                      "apiVersion": "2023-07-01",
+                      "name": "[variables('BackupRGName')]",
+                      "location": "[parameters('location')]"
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "deploy-RSV",
+                      "resourceGroup": "[variables('BackupRGName')]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "location": {
+                            "value": "[parameters('location')]"
+                          },
+                          "vaultName": {
+                            "value": "[variables('vaultName')]"
+                          },
+                          "backupPolicies": {
+                            "value": "[parameters('backupPolicies')]"
+                          },
+                          "vmName": {
+                            "value": "[parameters('vmName')]"
+                          },
+                          "vmRgName": {
+                            "value": "[parameters('vmRgName')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.29.47.4906",
+                              "templateHash": "15880582369709936019"
+                            }
+                          },
+                          "parameters": {
+                            "location": {
+                              "type": "string",
+                              "metadata": {
+                                "description": "location for resource deployment"
+                              }
+                            },
+                            "vaultName": {
+                              "type": "string",
+                              "metadata": {
+                                "description": "Required. Name of resovery services vault"
+                              }
+                            },
+                            "vmRgName": {
+                              "type": "string",
+                              "metadata": {
+                                "description": "Required. Name of resource group that the VM resides in"
+                              }
+                            },
+                            "vmName": {
+                              "type": "string",
+                              "metadata": {
+                                "description": "Name of the VM being backed up"
+                              }
+                            },
+                            "backupPolicies": {
+                              "type": "array",
+                              "defaultValue": [],
+                              "metadata": {
+                                "description": "Required. properties of the backup policy"
+                              }
+                            },
+                            "alertProcessingRuleScope": {
+                              "type": "array",
+                              "defaultValue": [
+                                "[resourceGroup().id]"
+                              ],
+                              "metadata": {
+                                "description": "The scope of resources for which the alert processing rule will apply. You can leave this field unchanged if you wish to apply the rule for all Recovery Services vault within the subscription. If you wish to apply the rule on smaller scopes, you can specify an array of ARM URLs representing the scopes, eg. ['/subscriptions/<sub-id>/resourceGroups/RG1', '/subscriptions/<sub-id>/resourceGroups/RG2']"
+                              }
+                            }
+                          },
+                          "variables": {
+                            "backupFabric": "Azure",
+                            "v2VmType": "Microsoft.Compute/virtualMachines",
+                            "v2VmContainer": "iaasvmcontainer;iaasvmcontainerv2;",
+                            "v2Vm": "vm;iaasvmcontainerv2;"
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.RecoveryServices/vaults",
+                              "apiVersion": "2023-01-01",
+                              "name": "[parameters('vaultName')]",
+                              "location": "[parameters('location')]",
+                              "sku": {
+                                "name": "RS0",
+                                "tier": "Standard"
+                              },
+                              "properties": {
+                                "publicNetworkAccess": "Enabled",
+                                "monitoringSettings": {
+                                  "azureMonitorAlertSettings": {
+                                    "alertsForAllJobFailures": "Enabled"
+                                  },
+                                  "classicAlertSettings": {
+                                    "alertsForCriticalOperations": "Disabled"
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "type": "Microsoft.RecoveryServices/vaults/backupstorageconfig",
+                              "apiVersion": "2023-01-01",
+                              "name": "[format('{0}/{1}', parameters('vaultName'), 'vaultstorageconfig')]",
+                              "properties": {
+                                "crossRegionRestoreFlag": false,
+                                "storageModelType": "GeoRedundant"
+                              },
+                              "dependsOn": [
+                                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaultName'))]"
+                              ]
+                            },
+                            {
+                              "copy": {
+                                "name": "rsvBackupPolicyConfig",
+                                "count": "[length(parameters('backupPolicies'))]"
+                              },
+                              "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
+                              "apiVersion": "2023-01-01",
+                              "name": "[format('{0}/{1}', parameters('vaultName'), parameters('backupPolicies')[copyIndex()].name)]",
+                              "properties": "[parameters('backupPolicies')[copyIndex()].properties]",
+                              "dependsOn": [
+                                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaultName'))]"
+                              ]
+                            },
+                            {
+                              "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
+                              "apiVersion": "2024-01-01",
+                              "name": "[format('{0}/{1}/{2}{3};{4}/{5}{6};{7}', parameters('vaultName'), variables('backupFabric'), variables('v2VmContainer'), parameters('vmRgName'), parameters('vmName'), variables('v2Vm'), parameters('vmRgName'), parameters('vmName'))]",
+                              "location": "[parameters('location')]",
+                              "properties": {
+                                "protectedItemType": "[variables('v2VmType')]",
+                                "policyId": "[resourceId('Microsoft.RecoveryServices/vaults/backupPolicies', parameters('vaultName'), parameters('backupPolicies')[0].name)]",
+                                "sourceResourceId": "[resourceId(subscription().subscriptionId, parameters('vmRgName'), 'Microsoft.Compute/virtualMachines', format('{0}', parameters('vmName')))]"
+                              },
+                              "dependsOn": [
+                                "[resourceId('Microsoft.RecoveryServices/vaults/backupPolicies', parameters('vaultName'), parameters('backupPolicies')[0].name)]"
+                              ]
+                            },
+                            {
+                              "type": "Microsoft.Insights/actionGroups",
+                              "apiVersion": "2023-01-01",
+                              "name": "masvc-connectwise-backups",
+                              "location": "global",
+                              "tags": {
+                                "MicroAge_AzMSP": "enabled"
+                              },
+                              "properties": {
+                                "groupShortName": "masvc-cw",
+                                "enabled": true,
+                                "webhookReceivers": [
+                                  {
+                                    "name": "masvc-cwlogicapp",
+                                    "serviceUri": "https://prod-83.eastus.logic.azure.com:443/workflows/c199cd5f60f042d9b9692f5e77e181bf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hjJlQPSFduj8GeVmJfFpyZjdo9X8e4RjpbGm4Cx4Ra4",
+                                    "useAadAuth": false,
+                                    "useCommonAlertSchema": true
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "Microsoft.AlertsManagement/actionRules",
+                              "apiVersion": "2021-08-08",
+                              "name": "[format('AlertProcessingRule-{0}', resourceGroup().name)]",
+                              "location": "global",
+                              "properties": {
+                                "scopes": "[parameters('alertProcessingRuleScope')]",
+                                "conditions": [
+                                  {
+                                    "field": "TargetResourceType",
+                                    "operator": "Equals",
+                                    "values": [
+                                      "microsoft.recoveryservices/vaults"
+                                    ]
+                                  }
+                                ],
+                                "description": "Recovery Services Alert Processing Rule",
+                                "enabled": true,
+                                "actions": [
+                                  {
+                                    "actionGroupIds": [
+                                      "[resourceId('Microsoft.Insights/actionGroups', 'masvc-connectwise-backups')]"
+                                    ],
+                                    "actionType": "AddActionGroups"
+                                  }
+                                ]
+                              },
+                              "dependsOn": [
+                                "[resourceId('Microsoft.Insights/actionGroups', 'masvc-connectwise-backups')]"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "dependsOn": [
+                        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('BackupRGName'))]"
+                      ]
+                    }
+                  ]
+                },
+                "parameters": {
+                  "vmName": {
+                    "value": "[field('name')]"
+                  },
+                  "location": {
+                    "value": "[field('location')]"
+                  },
+                  "vmRgName": {
+                    "value": "[resourceGroup().name]"
+                  }
+              }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
